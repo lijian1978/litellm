@@ -1,6 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useUpdateBudget } from "@/app/(dashboard)/hooks/budgets/useBudgets";
 import { budgetItem } from "@/app/(dashboard)/hooks/budgets/useBudgets";
 import { applyBudgetPrecision } from "./budgetPrecision";
@@ -26,19 +27,19 @@ const toFormValues = (budget: budgetItem): EditBudgetFormValues => ({
   budget_duration: budget.budget_duration,
 });
 
-const BUDGET_DURATION_OPTIONS = [
-  { value: "24h", label: "daily" },
-  { value: "7d", label: "weekly" },
-  { value: "30d", label: "monthly" },
-];
-
 interface EditBudgetModalProps {
   isModalVisible: boolean;
   setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   existingBudget: budgetItem;
 }
 const EditBudgetModal: React.FC<EditBudgetModalProps> = ({ isModalVisible, setIsModalVisible, existingBudget }) => {
+  const { t } = useTranslation();
   const [optionalSettingsOpen, setOptionalSettingsOpen] = React.useState(false);
+  const BUDGET_DURATION_OPTIONS = [
+    { value: "24h", label: t("budgets:form.duration.24h") },
+    { value: "7d", label: t("budgets:form.duration.7d") },
+    { value: "30d", label: t("budgets:form.duration.30d") },
+  ];
   const form = useForm<EditBudgetFormValues>({ defaultValues: toFormValues(existingBudget) });
   const updateBudget = useUpdateBudget();
 
@@ -53,18 +54,18 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({ isModalVisible, setIs
 
   const handleUpdate = async (formValues: EditBudgetFormValues) => {
     try {
-      toast.info("Making API Call");
+      toast.info(t("budgets:toast.makingApiCall"));
       await updateBudget.mutateAsync(
         applyBudgetPrecision(
           optionalSettingsOpen ? formValues : { ...formValues, max_budget: undefined, budget_duration: undefined },
         ),
       );
-      toast.success("Budget Updated");
+      toast.success(t("budgets:toast.updated"));
       form.reset();
       setIsModalVisible(false);
     } catch (error) {
       console.error("Error updating the budget:", error);
-      toast.fromError(`Error updating the budget: ${error}`);
+      toast.fromError(t("budgets:toast.updateFailed", { error: String(error) }));
     }
   };
 
@@ -72,23 +73,23 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({ isModalVisible, setIs
     <Dialog open={isModalVisible} onOpenChange={(open) => !open && handleCancel()}>
       <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-[800px]">
         <DialogHeader>
-          <DialogTitle>Edit Budget</DialogTitle>
+          <DialogTitle>{t("budgets:modal.editTitle")}</DialogTitle>
         </DialogHeader>
         <form onSubmit={form.handleSubmit(handleUpdate)} noValidate>
           <FieldGroup>
             <FormField
               control={form.control}
               name="budget_id"
-              label="Budget ID"
-              description="Budget ID cannot be changed after creation"
+              label={t("budgets:form.budgetId.label")}
+              description={t("budgets:form.budgetId.editDescription")}
             >
               {({ ref, ...field }) => <Input {...field} ref={ref} value={field.value ?? ""} disabled />}
             </FormField>
             <FormField
               control={form.control}
               name="tpm_limit"
-              label="Max Tokens per minute"
-              description="Default is model limit."
+              label={t("budgets:form.tpm.label")}
+              description={t("budgets:form.defaultModelLimit")}
             >
               {({ ref, value, onChange, ...field }) => (
                 <Input
@@ -104,8 +105,8 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({ isModalVisible, setIs
             <FormField
               control={form.control}
               name="rpm_limit"
-              label="Max Requests per minute"
-              description="Default is model limit."
+              label={t("budgets:form.rpm.label")}
+              description={t("budgets:form.defaultModelLimit")}
             >
               {({ ref, value, onChange, ...field }) => (
                 <Input
@@ -121,11 +122,11 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({ isModalVisible, setIs
 
             <Collapsible open={optionalSettingsOpen} onOpenChange={setOptionalSettingsOpen} className="mt-20 mb-8">
               <CollapsibleTrigger className="group flex w-full items-center justify-between py-2 text-left">
-                <b>Optional Settings</b>
+                <b>{t("budgets:form.optionalSettings")}</b>
                 <ChevronRight className="size-4 text-muted-foreground transition-transform group-data-panel-open:rotate-90" />
               </CollapsibleTrigger>
               <CollapsibleContent>
-                <FormField control={form.control} name="max_budget" label="Max Budget (USD)">
+                <FormField control={form.control} name="max_budget" label={t("budgets:form.maxBudget.label")}>
                   {({ ref, value, onChange, ...field }) => (
                     <Input
                       {...field}
@@ -137,11 +138,11 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({ isModalVisible, setIs
                     />
                   )}
                 </FormField>
-                <FormField className="mt-8" control={form.control} name="budget_duration" label="Reset Budget">
+                <FormField className="mt-8" control={form.control} name="budget_duration" label={t("budgets:form.resetBudget.label")}>
                   {({ id, value, onChange, "aria-invalid": ariaInvalid, "aria-describedby": ariaDescribedBy }) => (
                     <Select items={BUDGET_DURATION_OPTIONS} value={value ?? null} onValueChange={onChange}>
                       <SelectTrigger id={id} aria-invalid={ariaInvalid} aria-describedby={ariaDescribedBy}>
-                        <SelectValue placeholder="n/a" />
+                        <SelectValue placeholder={t("budgets:form.na")} />
                       </SelectTrigger>
                       <SelectContent>
                         {BUDGET_DURATION_OPTIONS.map((option) => (
@@ -158,7 +159,7 @@ const EditBudgetModal: React.FC<EditBudgetModalProps> = ({ isModalVisible, setIs
           </FieldGroup>
 
           <div style={{ textAlign: "right", marginTop: "10px" }}>
-            <Button type="submit">Save</Button>
+            <Button type="submit">{t("budgets:modal.save")}</Button>
           </div>
         </form>
       </DialogContent>

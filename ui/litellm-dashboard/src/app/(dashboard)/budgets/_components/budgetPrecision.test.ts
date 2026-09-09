@@ -42,4 +42,15 @@ describe("applyBudgetPrecision", () => {
   it("does not disturb a value that already has two or fewer decimals", () => {
     expect(applyBudgetPrecision({ max_budget: 42.5, tpm_limit: 500 })).toEqual({ max_budget: 42.5, tpm_limit: 500 });
   });
+
+  it("returns NaN unchanged instead of rounding it to a number", () => {
+    expect(applyBudgetPrecision({ max_budget: Number.NaN })).toEqual({ max_budget: Number.NaN });
+  });
+
+  it("leaves non-number values on precision fields alone, including numeric strings", () => {
+    expect(applyBudgetPrecision({ max_budget: "42.567", tpm_limit: false })).toEqual({
+      max_budget: "42.567",
+      tpm_limit: false,
+    });
+  });
 });
