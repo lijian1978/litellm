@@ -1,3 +1,127 @@
 {
-  "budgets": "预算"
+  "page": {
+    "title": "预算",
+    "subtitle": "可分配给客户的花费、TPM 和 RPM 上限。",
+    "createBudget": "创建预算",
+    "tabs": {
+      "budgets": "预算",
+      "examples": "示例"
+    }
+  },
+  "toast": {
+    "makingApiCall": "正在调用 API",
+    "created": "预算已创建",
+    "updated": "预算已更新",
+    "deleted": "预算已删除。",
+    "createFailed": "创建预算失败：{{error}}",
+    "updateFailed": "更新预算失败：{{error}}",
+    "deleteFailed": "删除预算失败"
+  },
+  "delete": {
+    "title": "删除预算？",
+    "message": "确定要删除该预算吗？此操作无法撤销。",
+    "infoTitle": "预算信息",
+    "labels": {
+      "budgetId": "预算 ID",
+      "maxBudget": "预算上限",
+      "tpm": "TPM",
+      "rpm": "RPM"
+    }
+  },
+  "form": {
+    "budgetId": {
+      "label": "预算 ID",
+      "createDescription": "为预算起一个易读的名称",
+      "editDescription": "预算 ID 创建后不可更改",
+      "nameRequired": "请输入预算的易读名称"
+    },
+    "tpm": {
+      "label": "每分钟最大 Token 数"
+    },
+    "rpm": {
+      "label": "每分钟最大请求数"
+    },
+    "maxBudget": {
+      "label": "预算上限（USD）"
+    },
+    "resetBudget": {
+      "label": "重置周期"
+    },
+    "defaultModelLimit": "默认使用模型上限。",
+    "optionalSettings": "可选设置",
+    "na": "n/a",
+    "duration": {
+      "1h": "每小时",
+      "24h": "每天",
+      "7d": "每周",
+      "30d": "每月"
+    }
+  },
+  "modal": {
+    "createTitle": "创建预算",
+    "editTitle": "编辑预算",
+    "save": "保存"
+  },
+  "table": {
+    "loading": "预算加载中…",
+    "searchPlaceholder": "搜索预算 ID…",
+    "notSet": "未设置",
+    "unlimited": "无上限",
+    "na": "n/a",
+    "actions": "操作",
+    "openActions": "打开预算操作菜单",
+    "edit": "编辑预算",
+    "delete": "删除预算",
+    "columns": {
+      "budgetId": "预算 ID",
+      "maxBudget": "预算上限",
+      "tpm": "TPM",
+      "rpm": "RPM",
+      "reset": "重置周期",
+      "created": "创建时间"
+    },
+    "empty": {
+      "noBudgets": "暂无预算",
+      "noBudgetsHint": "创建预算，为客户设置花费、TPM 和 RPM 上限。",
+      "noMatch": "没有匹配的预算",
+      "noMatchHint": "没有符合搜索或筛选条件的预算。"
+    },
+    "error": {
+      "forbidden": "你无权访问预算",
+      "forbiddenHint": "请联系代理管理员授予管理员查看者角色。",
+      "loadFailed": "无法加载预算"
+    },
+    "filters": {
+      "title": "筛选",
+      "description": "缩小预算范围",
+      "reset": "重置周期",
+      "maxBudget": "预算上限（USD）",
+      "created": "创建时间",
+      "unlimitedOnly": "仅看无上限",
+      "min": "最小值",
+      "max": "最大值",
+      "any": "不限",
+      "minAria": "最小预算上限",
+      "maxAria": "最大预算上限",
+      "fromAria": "创建起始日期",
+      "toAria": "创建结束日期",
+      "chip": {
+        "maxBudget": "预算上限",
+        "created": "创建时间"
+      },
+      "duration": {
+        "1h": "每小时",
+        "24h": "每天",
+        "7d": "每周",
+        "30d": "每月",
+        "unset": "未设置"
+      }
+    }
+  },
+  "examples": {
+    "intro": "如何使用预算 ID",
+    "assign": "为客户分配预算",
+    "testCurl": "测试（Curl）",
+    "testSdk": "测试（OpenAI SDK）"
+  }
 }
