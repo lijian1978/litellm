@@ -38,9 +38,15 @@
 
 | Agent | 名称 | 状态 | worktree/分支 | 交付物 | 最后更新 |
 |---|---|---|---|---|---|
-| A5 | i18n-shell-auth-developer | 待命 | i18n/w2-agent5-shell | 壳层 + common/navigation/auth namespace | - |
-| A6 | i18n-feature-developer | 待命 | i18n/w2-agent6-models | Models + API Keys | - |
-| A7 | i18n-qa | 待命 | i18n/w2-agent7-qa | 持续测试 | - |
+| A5 | i18n-shell-auth-developer | **已完成 ✅（已合并）** | i18n/w2-agent5-shell | 29 文件壳层+认证本地化；build 51/51、52单测+7集成 | 2026-09-09 |
+| A6 | i18n-feature-developer | **已完成 ✅（已合并）** | i18n/w2-agent6-models | 28 文件 Models+API Keys；build 51/51、52单测+31组件测试 | 2026-09-09 |
+| A7 | i18n-qa | **部分完成（工具✅，E2E 缺口⚠️）** | i18n/w2-agent7-qa | check-keys-dangling 工具+测试；E2E 断言未落地 | 2026-09-09 |
+
+**Wave 2 集成（Agent 0，本地，未 push）**
+- 已合并 A5 (`d3a7eb8555`) + A6 (`0f8c91a8ae`) + A7 (`4d344c23de`) 到 `i18n/w1-integration`，无冲突。
+- 各分支独立 build 全绿（51/51）；A5+A6 字典 en/zh key 一致（check-keys PASS）。
+- **关键接缝 R1 已正确落地**：menuGroups 用 key，渲染/面包屑/UI-Settings 都 `t()` 翻译，无原始 key 泄漏。
+- **未决**：① 合并后联合 build 验证中（后台）→ ② E2E Playwright 断言缺口（A7 未落地）→ ③ push 暂缓。
 
 ## Wave 3 — 第二批功能
 
