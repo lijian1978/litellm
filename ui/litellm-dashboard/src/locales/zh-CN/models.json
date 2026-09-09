@@ -1,0 +1,266 @@
+{
+  "page": {
+    "title": "模型管理",
+    "subtitle": {
+      "admin": "为代理添加并管理模型",
+      "nonAdmin": "为你担任管理员的团队添加模型。"
+    },
+    "lastRefreshed": "上次刷新：{{time}}",
+    "refreshAria": "刷新模型",
+    "tab": {
+      "allModels": "全部模型",
+      "yourModels": "我的模型",
+      "add": "添加模型",
+      "autoRouters": "自动路由",
+      "llmCredentials": "LLM 凭据",
+      "passThrough": "直通端点",
+      "health": "健康状态",
+      "retrySettings": "模型重试设置",
+      "modelGroupAlias": "模型组别名",
+      "accessGroupBudgets": "模型访问组预算",
+      "priceData": "价格数据重新加载"
+    }
+  },
+  "common": {
+    "notSet": "未设置",
+    "cancel": "取消",
+    "required": "必填"
+  },
+  "delete": {
+    "toastSuccess": "模型已删除",
+    "title": "删除模型",
+    "alertMessage": "此操作无法撤销。",
+    "message": "确定要删除此模型吗？",
+    "resourceInformationTitle": "模型信息",
+    "labels": {
+      "modelName": "模型名称",
+      "litellmModelName": "LiteLLM 模型名称",
+      "provider": "提供商",
+      "createdBy": "创建者"
+    },
+    "configCannotDelete": "配置文件定义的模型无法在控制台删除，请从配置文件中删除。",
+    "action": "删除模型"
+  },
+  "pause": {
+    "toastPaused": "模型已暂停",
+    "toastResumed": "模型已恢复",
+    "configCannotPause": "配置文件定义的模型无法从控制台暂停，暂停操作由数据库支持。",
+    "adminOnly": "只有代理管理员可以暂停或恢复模型。",
+    "resumeTooltip": "恢复模型——恢复正常路由。",
+    "pauseTooltip": "暂停模型——停止路由请求，直至恢复。",
+    "resumeAria": "恢复模型",
+    "pauseAria": "暂停模型"
+  },
+  "accessInfo": {
+    "personalBefore": "如需访问这些模型，请在",
+    "linkLabel": "虚拟密钥页面",
+    "personalAfter": "创建不带团队的虚拟密钥。",
+    "teamBefore": "如需访问这些模型，请创建虚拟密钥并将团队选择为\"{{team}}\"，然后在",
+    "teamAfter": "。"
+  },
+  "table": {
+    "empty": {
+      "noModels": "未找到模型",
+      "noModelsHint": "没有模型匹配你的搜索或筛选条件，请尝试重置。"
+    },
+    "loading": "正在加载模型…",
+    "searchPlaceholder": "搜索模型名称…",
+    "teamAria": "当前团队",
+    "team": "团队",
+    "viewAria": "视图",
+    "view": "视图",
+    "settingsAria": "模型设置",
+    "settingsTitle": "模型设置",
+    "group": {
+      "allModels": "全部模型",
+      "wildcard": "通配符模型 (*)",
+      "allAccessGroups": "全部模型访问组"
+    },
+    "viewMode": {
+      "currentTeam": "当前团队模型",
+      "all": "全部可用模型"
+    },
+    "filter": {
+      "publicModelName": "公共模型名称",
+      "accessGroup": "模型访问组",
+      "byPublicModelName": "按公共模型名称筛选",
+      "byAccessGroup": "按模型访问组筛选",
+      "noAccessGroups": "未找到模型访问组"
+    },
+    "filters": {
+      "title": "筛选",
+      "description": "缩小模型与端点范围",
+      "reset": "重置筛选"
+    }
+  },
+  "columns": {
+    "modelId": "模型 ID",
+    "modelInformation": "模型信息",
+    "credentials": "凭据",
+    "createdBy": "创建者",
+    "updatedAt": "更新时间",
+    "costs": "成本",
+    "teamId": "团队 ID",
+    "accessGroup": "模型访问组",
+    "source": "来源",
+    "dbModel": "数据库模型",
+    "configModel": "配置文件模型",
+    "actions": "操作",
+    "publicModelName": "公共模型名称",
+    "litellmModelName": "LiteLLM 模型名称",
+    "unknownProvider": "未知提供商",
+    "copyLiteLLMNameAria": "复制 LiteLLM 模型名称",
+    "copyLiteLLMNameSuccess": "LiteLLM 模型名称已复制",
+    "definedInConfig": "配置文件定义",
+    "unknown": "未知",
+    "unknownDate": "未知日期",
+    "costPer1MTokens": "每 1M Token 的成本",
+    "more": "+{{count}} 个更多"
+  },
+  "credentials": {
+    "aboutAria": "关于凭据类型",
+    "types": "凭据类型",
+    "reusable": "可复用",
+    "reusableDesc": "保存在 LiteLLM 中、可重复添加到多个模型的凭据。",
+    "manual": "手动",
+    "manualDesc": "创建模型时直接添加或由配置文件定义的凭据。",
+    "description": "为不同 AI 提供商配置的凭据。添加并管理你的 API 凭据。",
+    "add": "添加凭据",
+    "updatedToast": "凭据已更新",
+    "updateFailedToast": "更新凭据失败",
+    "addedToast": "凭据已添加",
+    "addFailedToast": "添加凭据失败",
+    "deletedToast": "凭据已删除",
+    "deleteFailedToast": "删除凭据失败",
+    "deleteTitle": "删除凭据？",
+    "deleteMessage": "确定要删除此凭据吗？此操作无法撤销，且可能影响现有集成。",
+    "deleteResourceTitle": "凭据信息",
+    "credentialName": "凭据名称",
+    "provider": "提供商",
+    "empty": {
+      "title": "尚未配置凭据",
+      "hint": "添加凭据以连接 AI 提供商。"
+    },
+    "loading": "正在加载凭据…",
+    "openActionsAria": "打开凭据操作",
+    "edit": "编辑",
+    "copiedToast": "凭据名称已复制",
+    "copyName": "复制凭据名称",
+    "delete": "删除",
+    "actions": "操作",
+    "editTitle": "编辑凭据",
+    "addTitle": "添加新凭据",
+    "reuseTitle": "复用凭据",
+    "reuseSubmit": "复用凭据",
+    "reuseEnterPrefix": "请输入",
+    "modal": {
+      "nameLabel": "凭据名称：",
+      "nameRequired": "凭据名称必填",
+      "namePlaceholder": "为这些凭据输入一个友好的名称",
+      "providerLabel": "提供商：",
+      "providerHint": "帮助自动填充提供商专属字段",
+      "selectProvider": "选择提供商",
+      "helpTooltip": "在我们的 GitHub 上获取帮助",
+      "needHelp": "需要帮助？",
+      "updateCredential": "更新凭据",
+      "addCredential": "添加凭据"
+    }
+  },
+  "autoRouter": {
+    "heading": "自动路由",
+    "description": "自动路由位于你的部署之上，为每个请求挑选模型，调用方式与其他模型一致，因此客户端可始终使用同一个模型名称。",
+    "add": "添加自动路由",
+    "addDescription": "通过为请求分类复杂度，将每个请求路由到相应模型。调用方式与其他模型一致，因此客户端可始终使用同一个模型名称。",
+    "deletedToast": "已删除自动路由：{{name}}",
+    "deleteFailedToast": "删除自动路由失败：{{error}}",
+    "deleteTitle": "删除自动路由",
+    "deleteMessage": "确定要删除\"{{name}}\"吗？仍在使用此模型名称的客户端将开始报错。",
+    "resourceTitle": "自动路由",
+    "nameLabel": "名称",
+    "typeLabel": "类型",
+    "empty": {
+      "title": "暂无自动路由",
+      "canCreate": "创建自动路由以按请求挑选合适模型，而不是固定使用某一个。",
+      "readOnly": "自动路由会按请求挑选合适模型，而不是固定使用某一个。"
+    },
+    "loading": "正在加载自动路由…",
+    "openActionsAria": "为 {{name}} 打开操作",
+    "deleteAction": "删除自动路由",
+    "columns": {
+      "name": "名称",
+      "type": "类型",
+      "routesTo": "路由到",
+      "defaultModel": "默认模型",
+      "created": "创建时间"
+    }
+  },
+  "accessGroupBudget": {
+    "adminOnly": "只有代理管理员可以修改访问组预算",
+    "slashBlocked": "无法为名称含斜杠的组设置预算",
+    "openActionsAria": "为 {{group}} 打开预算操作",
+    "editBudget": "编辑预算",
+    "setBudget": "设置预算",
+    "nothingToClear": "此访问组无预算可清除",
+    "clearBudget": "清除预算",
+    "columns": {
+      "accessGroup": "访问组",
+      "models": "模型",
+      "deployments": "部署",
+      "sharedSpend": "共享花费",
+      "resets": "重置周期",
+      "actions": "操作"
+    },
+    "empty": {
+      "title": "暂无模型访问组",
+      "hint": "在模型设置中将部署加入访问组，然后在此为组设置共享预算。"
+    },
+    "description": "一个模型访问组可承载一个预算，通过名称获准访问该组的所有密钥将共同消耗此预算。通过通配符或全部代理模型访问该组模型的密钥不计入此预算。",
+    "loading": "正在加载模型访问组…",
+    "savedToast": "已为\"{{group}}\"保存预算",
+    "clearedToast": "已为\"{{group}}\"清除预算",
+    "accessGroup": "访问组",
+    "maxBudget": "预算上限",
+    "clearMessage": "确定要清除此访问组的预算吗？已记录的共享花费将一并清除，组内模型仍保持可用。",
+    "form": {
+      "validation": "请至少设置预算上限、软预算或重置周期中的一项",
+      "editTitle": "编辑",
+      "setTitle": "设置",
+      "description": "通过名称获准访问此访问组的所有密钥将共同消耗此预算。通过通配符或全部代理模型访问组内模型的密钥不计入此预算。",
+      "maxBudgetLabel": "预算上限（USD）",
+      "maxBudgetHint": "整个组可花费的上限。共享花费达到该值后，所有从此组取额度的密钥都将被拒绝",
+      "softBudgetLabel": "软预算（USD）",
+      "softBudgetHint": "组的花费达到该值时触发告警，请求仍会继续成功",
+      "resetBudgetLabel": "重置预算",
+      "resetBudgetHint": "组花费的重置频率。留空表示永不重置的预算",
+      "blankHint": "留空的字段将沿用预算的现有值。如需移除预算本身，请使用\"清除预算\"。",
+      "saving": "保存中...",
+      "saveBudget": "保存预算"
+    }
+  },
+  "retry": {
+    "scopeLabel": "重试策略范围：",
+    "scope": {
+      "globalDefault": "全局默认"
+    },
+    "globalHeading": "全局重试策略",
+    "globalDescription": "应用于所有模型组的默认重试设置，除非单独覆盖",
+    "groupHeading": "模型组 {{group}} 的重试策略",
+    "groupDescription": "模型专属重试设置。未设置时将回退到全局默认值。",
+    "globalValue": "（全局：{{value}}）",
+    "countAria": "{{type}} 重试次数",
+    "reset": "重置",
+    "save": "保存",
+    "savedToast": "重试设置已保存",
+    "saveFailedToast": "保存重试设置失败"
+  },
+  "select": {
+    "placeholder": "选择模型",
+    "empty": "未找到模型",
+    "more": "+{{count}} 个更多"
+  },
+  "priceData": {
+    "heading": "价格数据管理",
+    "description": "管理模型价格数据并配置自动重新加载计划",
+    "reload": "重新加载价格数据"
+  }
+}

@@ -10,6 +10,10 @@ from litellm.llms.anthropic.common_utils import AnthropicError
 from litellm.llms.anthropic.experimental_pass_through.messages.transformation import (
     AnthropicMessagesConfig,
 )
+from litellm.llms.openai_like.json_loader import SimpleProviderConfig
+from litellm.llms.openai_like.messages.transformation import (
+    JSONProviderAnthropicMessagesConfig,
+)
 
 
 def _claude_code_payload(effort="medium", max_tokens=8192, **output_config_extra):
@@ -30,6 +34,37 @@ def _transform(model, params, litellm_params=None):
         litellm_params=litellm_params or {},
         headers={},
     )
+
+
+def test_adaptive_thinking_only_translated_to_legacy_for_haiku_4_5():
+    """The minimal autoroute repro: Claude Code sends bare ``thinking={type: adaptive}``
+    (no ``output_config``) and the complexity router picks Haiku 4.5, which does not
+    support adaptive thinking. Anthropic 400s with "adaptive thinking is not supported on
+    this model" unless the flag is dropped, so it must be translated to the legacy extended
+    thinking the model does support rather than forwarded raw."""
+    result = _transform("claude-haiku-4-5", {"max_tokens": 8192, "thinking": {"type": "adaptive"}})
+
+    assert result["thinking"] == {
+        "type": "enabled",
+        "budget_tokens": DEFAULT_REASONING_EFFORT_MEDIUM_THINKING_BUDGET,
+    }
+    assert "output_config" not in result
+
+
+def test_adaptive_thinking_only_dropped_for_non_reasoning_model():
+    """Bare adaptive thinking on a model with no reasoning support at all is silently
+    dropped so the request still succeeds instead of being rejected."""
+    result = _transform("claude-3-5-haiku-latest", {"max_tokens": 8192, "thinking": {"type": "adaptive"}})
+
+    assert "thinking" not in result
+
+
+def test_adaptive_thinking_only_preserved_for_4_6():
+    """A 4.6+ model natively supports adaptive thinking, so a bare adaptive flag must not
+    be rewritten even without output_config."""
+    result = _transform("claude-sonnet-4-6", {"max_tokens": 8192, "thinking": {"type": "adaptive"}})
+
+    assert result["thinking"] == {"type": "adaptive"}
 
 
 def test_effort_translated_to_legacy_thinking_for_haiku_4_5():
@@ -263,3 +298,39 @@ def test_non_adaptive_request_without_effort_is_untouched():
 
     assert "thinking" not in result
     assert "output_config" not in result
+
+
+def test_reasoning_effort_budget_capped_below_max_tokens():
+    result = _transform("claude-haiku-4-5", {"max_tokens": 4000, "reasoning_effort": "xhigh"})
+
+    assert result["thinking"] == {"type": "enabled", "budget_tokens": 3999}
+    assert result["max_tokens"] == 4000
+
+
+def test_reasoning_effort_thinking_dropped_when_min_budget_cannot_fit():
+    result = _transform("claude-haiku-4-5", {"max_tokens": 1024, "reasoning_effort": "xhigh"})
+
+    assert "thinking" not in result
+    assert result["max_tokens"] == 1024
+
+
+def test_reasoning_effort_budget_capped_for_openai_like_messages_upstream():
+    provider = SimpleProviderConfig(
+        "meta",
+        {
+            "base_url": "https://api.meta.ai/v1",
+            "api_key_env": "META_API_KEY",
+            "supported_endpoints": ["/v1/messages"],
+        },
+    )
+
+    result = JSONProviderAnthropicMessagesConfig(provider).transform_anthropic_messages_request(
+        model="muse-spark-1.2",
+        messages=[{"role": "user", "content": "Hello"}],
+        anthropic_messages_optional_request_params={"max_tokens": 4000, "reasoning_effort": "xhigh"},
+        litellm_params={},
+        headers={},
+    )
+
+    assert result["thinking"] == {"type": "enabled", "budget_tokens": 3999}
+    assert result["max_tokens"] == 4000
