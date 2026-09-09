@@ -52,9 +52,15 @@
 
 | Agent | 名称 | 状态 | worktree/分支 | 交付物 | 最后更新 |
 |---|---|---|---|---|---|
-| A6A | i18n-feature-developer (Usage/Cost) | 待命 | i18n/w3-agent6a-usage | Usage + Cost Tracking | - |
-| A6B | i18n-feature-developer (Budgets) | 待命 | i18n/w3-agent6b-budgets | Budgets | - |
+| A6A | i18n-feature-developer (Usage/Cost) | **已完成 ✅（已合并）** | i18n/w3-agent6a-usage | 43 文件 Usage+Cost+CostOptimization；usage 133 key、cost 387 key；599 测试、build 51/51 | 2026-09-09 |
+| A6B | i18n-feature-developer (Budgets) | **已完成 ✅（已合并）** | i18n/w3-agent6b-budgets | budgets 5 组件 + 71 key；scan 15→0；50 测试、build 51/51 | 2026-09-09 |
 | A7 | i18n-qa | 待命 | i18n/w3-agent7-qa | 回归 | - |
+
+**Wave 3 集成（Agent 0，本地，未 push）**
+- 6A (`ee23dea299`) + 6B (`2c5ec93b3f`) 已合并到 `i18n/w1-integration`，无冲突。
+- 联合验证：check-keys 8 namespace 全 PASS；合并后 `npm run build` 全绿（51 路由）。
+- **遗留**（详见 W3_A6A/A6B_REPORT）：/old-usage 不在 v1 范围；若干共享组件（SavingsTiles、MoneyCell/DateCell、UsageExportHeader 等）与范围外 helper（budgetFilters 标签、getBudgetDurationLabel）仍英文；AI-chat 工具标签来自后端。
+- **未决**：A7 回归、Wave 4 复核、push 暂缓。
 
 ## Wave 4 — 集成验收
 
