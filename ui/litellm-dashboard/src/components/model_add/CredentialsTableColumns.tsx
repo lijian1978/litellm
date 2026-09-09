@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Copy, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 import { CredentialItem } from "@/components/networking";
 import { getProviderLogoAndName } from "@/components/provider_info_helpers";
@@ -47,10 +48,11 @@ interface CredentialRowActionsProps {
 }
 
 function CredentialRowActions({ credential, onEdit, onDelete }: CredentialRowActionsProps) {
+  const { t } = useTranslation();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        aria-label="Open credential actions"
+        aria-label={t("models:credentials.openActionsAria")}
         data-testid={`credential-actions-${credential.credential_name}`}
         className={cn(buttonVariants({ variant: "ghost", size: "icon-sm" }), "text-muted-foreground")}
       >
@@ -59,14 +61,14 @@ function CredentialRowActions({ credential, onEdit, onDelete }: CredentialRowAct
       <DropdownMenuContent align="end" className="w-52">
         <DropdownMenuItem data-testid="credential-action-edit" onClick={() => onEdit(credential)}>
           <Pencil />
-          Edit
+          {t("models:credentials.edit")}
         </DropdownMenuItem>
         <DropdownMenuItem
           data-testid="credential-action-copy"
-          onClick={() => void copyToClipboard(credential.credential_name, "Credential name copied")}
+          onClick={() => void copyToClipboard(credential.credential_name, t("models:credentials.copiedToast"))}
         >
           <Copy />
-          Copy credential name
+          {t("models:credentials.copyName")}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -75,7 +77,7 @@ function CredentialRowActions({ credential, onEdit, onDelete }: CredentialRowAct
           onClick={() => onDelete(credential)}
         >
           <Trash2 />
-          Delete
+          {t("models:credentials.delete")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -86,19 +88,21 @@ interface CredentialsTableColumnsDeps {
   canModifyCredentials: boolean;
   onEdit: (credential: CredentialItem) => void;
   onDelete: (credential: CredentialItem) => void;
+  t: (key: string, options?: Record<string, unknown>) => string;
 }
 
 export const getCredentialsTableColumns = ({
   canModifyCredentials,
   onEdit,
   onDelete,
+  t,
 }: CredentialsTableColumnsDeps): ColumnDef<CredentialItem>[] => {
   const dataColumns: ColumnDef<CredentialItem>[] = [
     {
       id: "credential_name",
       accessorKey: "credential_name",
-      meta: { title: "Credential Name" },
-      header: ({ column }) => <DataTableSortHeader column={column} title="Credential Name" />,
+      meta: { title: t("models:credentials.credentialName") },
+      header: ({ column }) => <DataTableSortHeader column={column} title={t("models:credentials.credentialName")} />,
       size: 260,
       enableSorting: true,
       cell: ({ row }) => (
@@ -108,8 +112,8 @@ export const getCredentialsTableColumns = ({
     {
       id: "provider",
       accessorKey: "credential_info.custom_llm_provider",
-      meta: { title: "Provider" },
-      header: "Provider",
+      meta: { title: t("models:credentials.provider") },
+      header: t("models:credentials.provider"),
       size: 200,
       enableSorting: false,
       cell: ({ row }) => <CredentialProviderCell provider={row.original.credential_info?.custom_llm_provider} />,
@@ -125,7 +129,7 @@ export const getCredentialsTableColumns = ({
     {
       id: "actions",
       meta: { className: "text-right", headerClassName: "text-right" },
-      header: () => <span className="sr-only">Actions</span>,
+      header: () => <span className="sr-only">{t("models:credentials.actions")}</span>,
       size: 64,
       enableSorting: false,
       enableHiding: false,

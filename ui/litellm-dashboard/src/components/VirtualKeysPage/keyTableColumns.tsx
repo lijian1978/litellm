@@ -2,8 +2,9 @@
 
 import { Info } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
+import { useTranslation } from "react-i18next";
 
-import { DataTableMultiSortHeader, DataTableSortHeader, type DataTableSortField } from "@/components/shared/DataTable";
+import { DataTableMultiSortHeader, DataTableSortHeader } from "@/components/shared/DataTable";
 import { inheritedBudgetGates } from "@/components/shared/InheritedBudgetHint";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -27,38 +28,32 @@ interface KeyStatus {
   tooltip?: string;
 }
 
-const SPEND_BUDGET_SORT_FIELDS: DataTableSortField[] = [
-  { id: "spend", label: "Spend" },
-  { id: "max_budget", label: "Budget" },
-];
-
 export const KEY_TABLE_SORT_FIELDS: readonly string[] = [
   "key_alias",
   "token",
   "created_at",
   "updated_at",
-  ...SPEND_BUDGET_SORT_FIELDS.map((field) => field.id),
+  "spend",
+  "max_budget",
 ];
 
-const getKeyStatus = (key: KeyResponse): KeyStatus => {
+const getKeyStatus = (key: KeyResponse, t: (key: string, options?: Record<string, unknown>) => string): KeyStatus => {
   if (key.blocked === true) {
     const isScimBlocked = (key.metadata as Record<string, unknown> | null | undefined)?.scim_blocked === true;
     return {
       tone: "error",
-      label: "Blocked",
-      tooltip: isScimBlocked
-        ? "Blocked by SCIM (external identity provider deactivated or deleted the owning user)."
-        : "Blocked. Requests using this key will be rejected with 401.",
+      label: t("apiKeys:status.blocked"),
+      tooltip: isScimBlocked ? t("apiKeys:status.scimBlockedTooltip") : t("apiKeys:status.blockedTooltip"),
     };
   }
   const expiresAt = key.expires ? Date.parse(key.expires) : Number.NaN;
   if (!Number.isNaN(expiresAt) && expiresAt < Date.now()) {
-    return { tone: "warning", label: "Expired", tooltip: "This key has passed its expiry date." };
+    return { tone: "warning", label: t("apiKeys:status.expired"), tooltip: t("apiKeys:status.expiredTooltip") };
   }
   return {
     tone: "success",
-    label: "Active",
-    tooltip: "This key is not blocked and has not expired.",
+    label: t("apiKeys:status.active"),
+    tooltip: t("apiKeys:status.activeTooltip"),
   };
 };
 
@@ -75,16 +70,19 @@ const UserPopoverCell = ({
 }) => {
   const displayValue = userAlias || userEmail || userId;
   const isDefaultAdmin = userId === "default_user_id";
+  const { t } = useTranslation();
+
+  const userLabels = [
+    { labelKey: "apiKeys:userInfo.alias", value: userAlias },
+    { labelKey: "apiKeys:userInfo.email", value: userEmail },
+    { labelKey: "apiKeys:userInfo.id", value: userId },
+  ];
 
   const popoverContent = (
     <div className="flex flex-col gap-2 text-xs min-w-[200px] max-w-[300px]">
-      {[
-        { label: "User Alias", value: userAlias },
-        { label: "User Email", value: userEmail },
-        { label: "User ID", value: userId },
-      ].map(({ label, value }) => (
-        <div key={label} className="flex flex-col min-w-0">
-          <span className="text-muted-foreground">{label}</span>
+      {userLabels.map(({ labelKey, value }) => (
+        <div key={labelKey} className="flex flex-col min-w-0">
+          <span className="text-muted-foreground">{t(labelKey)}</span>
           {value ? (
             <IdCell value={value} variant="plain" copyable className="max-w-full" />
           ) : (
@@ -123,32 +121,37 @@ const UserPopoverCell = ({
   );
 };
 
-const InfoHeader = ({ label, tooltip }: { label: string; tooltip: string }) => (
-  <span className="flex items-center gap-1">
-    {label}
-    <HoverCard>
-      <HoverCardTrigger render={<Info className="size-3 text-muted-foreground cursor-help" />} />
-      <HoverCardContent className="w-auto">{tooltip}</HoverCardContent>
-    </HoverCard>
-  </span>
-);
+const InfoHeader = ({ label, tooltip }: { label: string; tooltip: string }) => {
+  const { t } = useTranslation();
+  return (
+    <span className="flex items-center gap-1">
+      {t(label)}
+      <HoverCard>
+        <HoverCardTrigger render={<Info className="size-3 text-muted-foreground cursor-help" />} />
+        <HoverCardContent className="w-auto">{t(tooltip)}</HoverCardContent>
+      </HoverCard>
+    </span>
+  );
+};
 
 interface KeyTableColumnsDeps {
   allTeams: Team[];
   organizations: Organization[];
   onSelectKey: (key: KeyResponse) => void;
+  t: (key: string, options?: Record<string, unknown>) => string;
 }
 
 export const getKeyTableColumns = ({
   allTeams,
   organizations,
   onSelectKey,
+  t,
 }: KeyTableColumnsDeps): ColumnDef<KeyResponse>[] => [
   {
     id: "key_alias",
     accessorKey: "key_alias",
     meta: {
-      title: "Key",
+      title: t("apiKeys:columns.key"),
       renderSkeleton: () => (
         <div className="flex flex-col gap-1 py-1">
           <Skeleton className="h-4 w-32" />
@@ -159,11 +162,11 @@ export const getKeyTableColumns = ({
         </div>
       ),
     },
-    header: ({ column }) => <DataTableSortHeader column={column} title="Key" variant="header-cycle" />,
+    header: ({ column }) => <DataTableSortHeader column={column} title={t("apiKeys:columns.key")} variant="header-cycle" />,
     size: 260,
     enableSorting: true,
     cell: ({ row }) => {
-      const status = getKeyStatus(row.original);
+      const status = getKeyStatus(row.original, t);
       return (
         <IdentityCell
           title={row.original.key_alias || "-"}
@@ -184,8 +187,8 @@ export const getKeyTableColumns = ({
   {
     id: "token",
     accessorKey: "token",
-    meta: { title: "Key ID" },
-    header: ({ column }) => <DataTableSortHeader column={column} title="Key ID" variant="header-cycle" />,
+    meta: { title: t("apiKeys:columns.keyId") },
+    header: ({ column }) => <DataTableSortHeader column={column} title={t("apiKeys:columns.keyId")} variant="header-cycle" />,
     size: 120,
     enableSorting: true,
     cell: (info) => <IdCell value={info.getValue() as string | null} onClick={() => onSelectKey(info.row.original)} />,
@@ -193,8 +196,8 @@ export const getKeyTableColumns = ({
   {
     id: "team_alias",
     accessorKey: "team_id",
-    meta: { title: "Team" },
-    header: "Team",
+    meta: { title: t("apiKeys:columns.team") },
+    header: t("apiKeys:columns.team"),
     size: 120,
     enableSorting: false,
     cell: (info) => {
@@ -213,8 +216,8 @@ export const getKeyTableColumns = ({
   {
     id: "organization_alias",
     accessorKey: "org_id",
-    meta: { title: "Organization" },
-    header: "Organization",
+    meta: { title: t("apiKeys:columns.organization") },
+    header: t("apiKeys:columns.organization"),
     size: 140,
     enableSorting: false,
     cell: (info) => {
@@ -233,9 +236,9 @@ export const getKeyTableColumns = ({
   {
     id: "user",
     accessorKey: "user",
-    meta: { title: "User" },
+    meta: { title: t("apiKeys:columns.user") },
     header: () => (
-      <InfoHeader label="User" tooltip="Displays the first available value: User Alias, User Email, or User ID." />
+      <InfoHeader label="apiKeys:columns.user" tooltip="apiKeys:columns.userTooltip" />
     ),
     size: 160,
     enableSorting: false,
@@ -254,8 +257,8 @@ export const getKeyTableColumns = ({
   {
     id: "created_at",
     accessorKey: "created_at",
-    meta: { title: "Created At" },
-    header: ({ column }) => <DataTableSortHeader column={column} title="Created At" variant="header-cycle" />,
+    meta: { title: t("apiKeys:columns.createdAt") },
+    header: ({ column }) => <DataTableSortHeader column={column} title={t("apiKeys:columns.createdAt")} variant="header-cycle" />,
     size: 120,
     enableSorting: true,
     cell: (info) => <DateCell value={info.getValue() as string | null} precision="date" />,
@@ -263,8 +266,8 @@ export const getKeyTableColumns = ({
   {
     id: "created_by",
     accessorKey: "created_by",
-    meta: { title: "Created By" },
-    header: "Created By",
+    meta: { title: t("apiKeys:columns.createdBy") },
+    header: t("apiKeys:columns.createdBy"),
     size: 160,
     enableSorting: false,
     cell: (info) => {
@@ -284,40 +287,47 @@ export const getKeyTableColumns = ({
   {
     id: "updated_at",
     accessorKey: "updated_at",
-    meta: { title: "Updated At" },
-    header: ({ column }) => <DataTableSortHeader column={column} title="Updated At" variant="header-cycle" />,
+    meta: { title: t("apiKeys:columns.updatedAt") },
+    header: ({ column }) => <DataTableSortHeader column={column} title={t("apiKeys:columns.updatedAt")} variant="header-cycle" />,
     size: 120,
     enableSorting: true,
-    cell: (info) => <DateCell value={info.getValue() as string | null} precision="date" fallback="Never" />,
+    cell: (info) => <DateCell value={info.getValue() as string | null} precision="date" fallback={t("apiKeys:time.never")} />,
   },
   {
     id: "last_active",
     accessorKey: "last_active",
-    meta: { title: "Last Active" },
+    meta: { title: t("apiKeys:columns.lastActive") },
     header: () => (
-      <InfoHeader
-        label="Last Active"
-        tooltip="This is a new field and is not backfilled. Only new key usage will update this value."
-      />
+      <InfoHeader label="apiKeys:columns.lastActive" tooltip="apiKeys:columns.lastActiveTooltip" />
     ),
     size: 130,
     enableSorting: false,
-    cell: (info) => <DateCell value={info.getValue() as string | null} precision="date" fallback="Unknown" />,
+    cell: (info) => (
+      <DateCell value={info.getValue() as string | null} precision="date" fallback={t("apiKeys:time.unknown")} />
+    ),
   },
   {
     id: "expires",
     accessorKey: "expires",
-    meta: { title: "Expires" },
-    header: "Expires",
+    meta: { title: t("apiKeys:columns.expires") },
+    header: t("apiKeys:columns.expires"),
     size: 120,
     enableSorting: false,
-    cell: (info) => <DateCell value={info.getValue() as string | null} precision="date" fallback="Never" />,
+    cell: (info) => <DateCell value={info.getValue() as string | null} precision="date" fallback={t("apiKeys:time.never")} />,
   },
   {
     id: "spend",
     accessorKey: "spend",
-    meta: { title: "Spend / Budget", skeleton: "meter" },
-    header: ({ table }) => <DataTableMultiSortHeader table={table} fields={SPEND_BUDGET_SORT_FIELDS} />,
+    meta: { title: t("apiKeys:columns.spendBudget"), skeleton: "meter" },
+    header: ({ table }) => (
+      <DataTableMultiSortHeader
+        table={table}
+        fields={[
+          { id: "spend", label: t("apiKeys:columns.spend") },
+          { id: "max_budget", label: t("apiKeys:columns.budget") },
+        ]}
+      />
+    ),
     size: 180,
     enableSorting: true,
     cell: ({ row }) => {
@@ -336,17 +346,17 @@ export const getKeyTableColumns = ({
   {
     id: "budget_reset_at",
     accessorKey: "budget_reset_at",
-    meta: { title: "Budget Reset" },
-    header: "Budget Reset",
+    meta: { title: t("apiKeys:columns.budgetReset") },
+    header: t("apiKeys:columns.budgetReset"),
     size: 130,
     enableSorting: false,
-    cell: (info) => <DateCell value={info.getValue() as string | null} fallback="Never" />,
+    cell: (info) => <DateCell value={info.getValue() as string | null} fallback={t("apiKeys:time.never")} />,
   },
   {
     id: "models",
     accessorKey: "models",
-    meta: { title: "Models", skeleton: "chips" },
-    header: "Models",
+    meta: { title: t("apiKeys:columns.models"), skeleton: "chips" },
+    header: t("apiKeys:columns.models"),
     size: 220,
     enableSorting: false,
     cell: (info) => (
@@ -359,16 +369,20 @@ export const getKeyTableColumns = ({
   },
   {
     id: "rate_limits",
-    meta: { title: "Rate Limits" },
-    header: "Rate Limits",
+    meta: { title: t("apiKeys:columns.rateLimits") },
+    header: t("apiKeys:columns.rateLimits"),
     size: 140,
     enableSorting: false,
     cell: ({ row }) => {
       const key = row.original;
       return (
         <div className="text-xs">
-          <div>TPM: {key.tpm_limit !== null ? key.tpm_limit : "Unlimited"}</div>
-          <div>RPM: {key.rpm_limit !== null ? key.rpm_limit : "Unlimited"}</div>
+          <div>
+            TPM: {key.tpm_limit !== null ? key.tpm_limit : t("apiKeys:rate.limit.unlimited")}
+          </div>
+          <div>
+            RPM: {key.rpm_limit !== null ? key.rpm_limit : t("apiKeys:rate.limit.unlimited")}
+          </div>
         </div>
       );
     },

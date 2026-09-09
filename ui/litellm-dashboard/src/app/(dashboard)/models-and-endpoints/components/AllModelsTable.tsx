@@ -3,6 +3,7 @@
 import { ColumnFiltersState, OnChangeFn, PaginationState, SortingState } from "@tanstack/react-table";
 import { Search, Settings } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { ModelData } from "@/components/model_dashboard/types";
 import {
@@ -32,14 +33,9 @@ export const WILDCARD_MODEL_GROUP_VALUE = "wildcard";
 
 const MODEL_TABLE_BODY_HEIGHT = 600;
 
-const FILTER_LABELS: Record<string, string> = {
-  [MODEL_NAME_COLUMN_ID]: "Public Model Name",
-  [ACCESS_GROUPS_COLUMN_ID]: "Model Access Group",
-};
-
-const VIEW_MODE_LABELS: Record<ModelViewMode, string> = {
-  current_team: "Current Team Models",
-  all: "All Available Models",
+const VIEW_MODE_LABEL_KEYS: Record<ModelViewMode, string> = {
+  current_team: "models:table.viewMode.currentTeam",
+  all: "models:table.viewMode.all",
 };
 
 export interface ModelsTableTeamOption {
@@ -81,15 +77,14 @@ interface AllModelsTableProps {
 }
 
 function EmptyState() {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-col items-center gap-1 py-6">
       <div className="mb-1 flex size-11 items-center justify-center rounded-xl bg-muted">
         <Search className="size-5 text-muted-foreground" />
       </div>
-      <div className="text-base font-semibold text-foreground">No models found</div>
-      <div className="max-w-80 text-sm text-muted-foreground">
-        No models match your search or filters. Try resetting them.
-      </div>
+      <div className="text-base font-semibold text-foreground">{t("models:table.empty.noModels")}</div>
+      <div className="max-w-80 text-sm text-muted-foreground">{t("models:table.empty.noModelsHint")}</div>
     </div>
   );
 }
@@ -126,6 +121,7 @@ export function AllModelsTable({
   onTogglePauseClick,
   pausingModelId,
 }: AllModelsTableProps) {
+  const { t } = useTranslation();
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const columns = useMemo(() => {
@@ -137,31 +133,32 @@ export function AllModelsTable({
       onDeleteClick,
       onTogglePauseClick,
       pausingModelId,
+      t,
     };
     return getModelsTableColumns(columnDeps);
-  }, [userRole, userID, onModelIdClick, onTeamIdClick, onDeleteClick, onTogglePauseClick, pausingModelId]);
+  }, [userRole, userID, onModelIdClick, onTeamIdClick, onDeleteClick, onTogglePauseClick, pausingModelId, t]);
 
   const modelGroupOptions = useMemo(
     () => [
-      { label: "All Models", value: ALL_MODEL_GROUPS_VALUE },
-      { label: "Wildcard Models (*)", value: WILDCARD_MODEL_GROUP_VALUE },
+      { label: t("models:table.group.allModels"), value: ALL_MODEL_GROUPS_VALUE },
+      { label: t("models:table.group.wildcard"), value: WILDCARD_MODEL_GROUP_VALUE },
       ...availableModelGroups.map((group) => ({ label: group, value: group })),
     ],
-    [availableModelGroups],
+    [availableModelGroups, t],
   );
 
   const accessGroupOptions = useMemo(
     () => [
-      { label: "All Model Access Groups", value: ALL_MODEL_GROUPS_VALUE },
+      { label: t("models:table.group.allAccessGroups"), value: ALL_MODEL_GROUPS_VALUE },
       ...availableModelAccessGroups.map((accessGroup) => ({ label: accessGroup, value: accessGroup })),
     ],
-    [availableModelAccessGroups],
+    [availableModelAccessGroups, t],
   );
 
   const formatFilterValue = (columnId: string, value: unknown): string => {
     const raw = String(value);
     if (columnId === MODEL_NAME_COLUMN_ID && raw === WILDCARD_MODEL_GROUP_VALUE) {
-      return "Wildcard Models (*)";
+      return t("models:table.group.wildcard");
     }
     return raw;
   };
@@ -190,7 +187,7 @@ export function AllModelsTable({
       enableColumnResizing
       maxBodyHeight={MODEL_TABLE_BODY_HEIGHT}
       isLoading={isLoading}
-      loadingMessage="Loading models…"
+      loadingMessage={t("models:table.loading")}
       noDataMessage={<EmptyState />}
       size="compact"
       toolbar={(table) => (
@@ -199,17 +196,20 @@ export function AllModelsTable({
             table={table}
             searchValue={searchValue}
             onSearchChange={onSearchChange}
-            searchPlaceholder="Search model names…"
+            searchPlaceholder={t("models:table.searchPlaceholder")}
             onOpenFilters={() => setFiltersOpen(true)}
             onRefresh={onRefresh}
             isRefreshing={isRefreshing}
-            filterLabels={FILTER_LABELS}
+            filterLabels={{
+              [MODEL_NAME_COLUMN_ID]: t("models:table.filter.publicModelName"),
+              [ACCESS_GROUPS_COLUMN_ID]: t("models:table.filter.accessGroup"),
+            }}
             formatFilterValue={formatFilterValue}
           >
             <Select value={selectedTeamValue} onValueChange={(value) => onTeamChange(String(value))}>
               <SelectTrigger
                 size="sm"
-                aria-label="Current team"
+                aria-label={t("models:table.teamAria")}
                 data-testid="models-team-select"
                 className="gap-2 bg-secondary"
               >
@@ -219,7 +219,7 @@ export function AllModelsTable({
                     selectedTeamValue === PERSONAL_TEAM_VALUE ? "bg-info" : "bg-success",
                   )}
                 />
-                <span className="text-muted-foreground">Team</span>
+                <span className="text-muted-foreground">{t("models:table.team")}</span>
                 <span className="truncate font-semibold">{selectedTeamLabel}</span>
               </SelectTrigger>
               <SelectContent>
@@ -239,13 +239,13 @@ export function AllModelsTable({
             </Select>
 
             <Select value={viewMode} onValueChange={(value) => onViewModeChange(value as ModelViewMode)}>
-              <SelectTrigger size="sm" aria-label="View" data-testid="models-view-select" className="gap-2">
-                <span className="text-muted-foreground">View</span>
-                <span className="truncate">{VIEW_MODE_LABELS[viewMode]}</span>
+              <SelectTrigger size="sm" aria-label={t("models:table.viewAria")} data-testid="models-view-select" className="gap-2">
+                <span className="text-muted-foreground">{t("models:table.view")}</span>
+                <span className="truncate">{t(VIEW_MODE_LABEL_KEYS[viewMode])}</span>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="current_team">{VIEW_MODE_LABELS.current_team}</SelectItem>
-                <SelectItem value="all">{VIEW_MODE_LABELS.all}</SelectItem>
+                <SelectItem value="current_team">{t(VIEW_MODE_LABEL_KEYS.current_team)}</SelectItem>
+                <SelectItem value="all">{t(VIEW_MODE_LABEL_KEYS.all)}</SelectItem>
               </SelectContent>
             </Select>
 
@@ -254,8 +254,8 @@ export function AllModelsTable({
             <Button
               variant="outline"
               size="icon-sm"
-              aria-label="Model Settings"
-              title="Model Settings"
+              aria-label={t("models:table.settingsAria")}
+              title={t("models:table.settingsTitle")}
               data-testid="models-settings-trigger"
               onClick={onOpenModelSettings}
             >
@@ -266,33 +266,33 @@ export function AllModelsTable({
             table={table}
             open={filtersOpen}
             onOpenChange={setFiltersOpen}
-            title="Filters"
-            description="Narrow down models + endpoints"
-            resetLabel="Reset Filters"
+            title={t("models:table.filters.title")}
+            description={t("models:table.filters.description")}
+            resetLabel={t("models:table.filters.reset")}
             onReset={onResetFilters}
           >
             {({ get, set }) => (
               <>
-                <DataTableFilterField label="Public Model Name">
+                <DataTableFilterField label={t("models:table.filter.publicModelName")}>
                   <SearchSelect
                     options={modelGroupOptions}
                     value={(get(MODEL_NAME_COLUMN_ID) as string) ?? ALL_MODEL_GROUPS_VALUE}
                     onValueChange={(value) =>
                       set(MODEL_NAME_COLUMN_ID, value === ALL_MODEL_GROUPS_VALUE ? undefined : value)
                     }
-                    placeholder="Filter by Public Model Name"
-                    emptyText="No models found"
+                    placeholder={t("models:table.filter.byPublicModelName")}
+                    emptyText={t("models:table.empty.noModels")}
                   />
                 </DataTableFilterField>
-                <DataTableFilterField label="Model Access Group">
+                <DataTableFilterField label={t("models:table.filter.accessGroup")}>
                   <SearchSelect
                     options={accessGroupOptions}
                     value={(get(ACCESS_GROUPS_COLUMN_ID) as string) ?? ALL_MODEL_GROUPS_VALUE}
                     onValueChange={(value) =>
                       set(ACCESS_GROUPS_COLUMN_ID, value === ALL_MODEL_GROUPS_VALUE ? undefined : value)
                     }
-                    placeholder="Filter by Model Access Group"
-                    emptyText="No model access groups found"
+                    placeholder={t("models:table.filter.byAccessGroup")}
+                    emptyText={t("models:table.filter.noAccessGroups")}
                   />
                 </DataTableFilterField>
               </>

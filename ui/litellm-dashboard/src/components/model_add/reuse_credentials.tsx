@@ -1,5 +1,6 @@
 import React from "react";
 import { z } from "zod/v4";
+import { useTranslation } from "react-i18next";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { FormField } from "@/components/shared/form/FormField";
 import { Button } from "@/components/ui/button";
@@ -17,12 +18,6 @@ interface ReuseCredentialsModalProps {
   setIsCredentialModalOpen: (isVisible: boolean) => void;
 }
 
-const reuseCredentialsSchema = z.object({
-  credential_name: z.string().min(1, "Credential name is required"),
-});
-
-type ReuseCredentialsFormValues = z.infer<typeof reuseCredentialsSchema>;
-
 const storedValuesOf = (existingCredential: CredentialItem | null): Record<string, unknown> => {
   const values: unknown = existingCredential?.credential_values;
   return typeof values === "object" && values !== null ? (values as Record<string, unknown>) : {};
@@ -35,6 +30,11 @@ const ReuseCredentialsModal: React.FC<ReuseCredentialsModalProps> = ({
   existingCredential,
   setIsCredentialModalOpen,
 }) => {
+  const { t } = useTranslation();
+  const reuseCredentialsSchema = z.object({
+    credential_name: z.string().min(1, t("models:credentials.modal.nameRequired")),
+  });
+  type ReuseCredentialsFormValues = z.infer<typeof reuseCredentialsSchema>;
   const fieldIdPrefix = React.useId();
   const storedValues = storedValuesOf(existingCredential);
   const form = useZodForm(reuseCredentialsSchema, {
@@ -56,14 +56,14 @@ const ReuseCredentialsModal: React.FC<ReuseCredentialsModalProps> = ({
     <Dialog open={isVisible} onOpenChange={(open) => !open && handleCancel()}>
       <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>Reuse Credentials</DialogTitle>
+          <DialogTitle>{t("models:credentials.reuseTitle")}</DialogTitle>
         </DialogHeader>
         <TooltipProvider>
           <form onSubmit={form.handleSubmit(handleSubmit)} noValidate>
             <FieldGroup>
-              <FormField control={form.control} name="credential_name" label="Credential Name:">
+              <FormField control={form.control} name="credential_name" label={t("models:credentials.modal.nameLabel")}>
                 {({ ref, ...field }) => (
-                  <Input {...field} ref={ref} placeholder="Enter a friendly name for these credentials" />
+                  <Input {...field} ref={ref} placeholder={t("models:credentials.modal.namePlaceholder")} />
                 )}
               </FormField>
 
@@ -73,7 +73,7 @@ const ReuseCredentialsModal: React.FC<ReuseCredentialsModalProps> = ({
                   <Input
                     id={`${fieldIdPrefix}-${key}`}
                     value={String(value)}
-                    placeholder={`Enter ${key}`}
+                    placeholder={`${t("models:credentials.reuseEnterPrefix")} ${key}`}
                     disabled
                     readOnly
                   />
@@ -88,18 +88,18 @@ const ReuseCredentialsModal: React.FC<ReuseCredentialsModalProps> = ({
                         href="https://github.com/BerriAI/litellm/issues"
                         className="text-sm text-primary underline-offset-4 hover:underline"
                       >
-                        Need Help?
+                        {t("models:credentials.modal.needHelp")}
                       </a>
                     }
                   />
-                  <TooltipContent>Get help on our github</TooltipContent>
+                  <TooltipContent>{t("models:credentials.modal.helpTooltip")}</TooltipContent>
                 </Tooltip>
 
                 <div className="flex gap-2.5">
                   <Button type="button" variant="outline" onClick={handleCancel}>
-                    Cancel
+                    {t("models:common.cancel")}
                   </Button>
-                  <Button type="submit">Reuse Credentials</Button>
+                  <Button type="submit">{t("models:credentials.reuseSubmit")}</Button>
                 </div>
               </div>
             </FieldGroup>
