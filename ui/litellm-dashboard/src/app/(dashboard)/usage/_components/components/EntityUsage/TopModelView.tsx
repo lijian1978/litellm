@@ -3,6 +3,7 @@ import { DataTable } from "@/components/shared/DataTable";
 import { MoneyCell } from "@/components/shared/table_cells";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { formatNumberWithCommas } from "@/utils/dataUtils";
 
 type TopModel = {
@@ -22,6 +23,7 @@ interface TopModelViewProps {
 export const TOP_MODEL_LIMITS = [5, 10, 25, 50];
 
 export default function TopModelView({ topModels, topModelsLimit, setTopModelsLimit }: TopModelViewProps) {
+  const { t } = useTranslation();
   const [modelViewMode, setModelViewMode] = useState<"chart" | "table">("table");
 
   const columns = [
@@ -31,25 +33,25 @@ export default function TopModelView({ topModels, topModelsLimit, setTopModelsLi
       cell: (info: any) => info.getValue() || "-",
     },
     {
-      header: "Spend (USD)",
+      header: t("usage:topModel.columnSpendUsd"),
       accessorKey: "spend",
       meta: { numeric: true },
       cell: (info: any) => <MoneyCell value={info.getValue()} decimals={2} />,
     },
     {
-      header: "Successful",
+      header: t("usage:topModel.columnSuccessful"),
       accessorKey: "successful_requests",
       meta: { numeric: true },
       cell: (info: any) => <span className="text-success">{info.getValue()?.toLocaleString() || 0}</span>,
     },
     {
-      header: "Failed",
+      header: t("usage:topModel.columnFailed"),
       accessorKey: "failed_requests",
       meta: { numeric: true },
       cell: (info: any) => <span className="text-destructive">{info.getValue()?.toLocaleString() || 0}</span>,
     },
     {
-      header: "Tokens",
+      header: t("usage:topModel.columnTokens"),
       accessorKey: "tokens",
       meta: { numeric: true },
       cell: (info: any) => info.getValue()?.toLocaleString() || 0,
@@ -61,7 +63,7 @@ export default function TopModelView({ topModels, topModelsLimit, setTopModelsLi
     <>
       <div className="mb-4 flex justify-between items-center">
         <Tabs value={String(topModelsLimit)} onValueChange={(value: string) => setTopModelsLimit(Number(value))}>
-          <TabsList aria-label="Number of models to show">
+          <TabsList aria-label={t("usage:topModel.numModelsAria")}>
             {TOP_MODEL_LIMITS.map((limit) => (
               <TabsTrigger key={limit} value={String(limit)} className="flex-none px-3">
                 {limit}
@@ -70,12 +72,12 @@ export default function TopModelView({ topModels, topModelsLimit, setTopModelsLi
           </TabsList>
         </Tabs>
         <Tabs value={modelViewMode} onValueChange={(value: string) => setModelViewMode(value as "chart" | "table")}>
-          <TabsList aria-label="Top model view mode">
+          <TabsList aria-label={t("usage:topModel.viewModeAria")}>
             <TabsTrigger value="table" className="flex-none px-3">
-              Table View
+              {t("usage:topModel.tableView")}
             </TabsTrigger>
             <TabsTrigger value="chart" className="flex-none px-3">
-              Chart View
+              {t("usage:topModel.chartView")}
             </TabsTrigger>
           </TabsList>
         </Tabs>

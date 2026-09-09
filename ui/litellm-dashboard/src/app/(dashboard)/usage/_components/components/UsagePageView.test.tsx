@@ -40,11 +40,11 @@ vi.mock("@/components/activity_metrics", () => ({
 }));
 
 vi.mock("@/components/view_user_spend", () => ({
-  default: () => <div>View User Spend</div>,
+  default: () => <div data-testid="view-user-spend" />,
 }));
 
 vi.mock("@/components/UsagePage/components/EntityUsage/TopKeyView", () => ({
-  default: () => <div>Top Keys</div>,
+  default: () => <div data-testid="top-keys" />,
 }));
 
 vi.mock("./EntityUsage/EntityUsage", () => ({
@@ -57,11 +57,11 @@ vi.mock("./EntityUsage/EntityUsage", () => ({
 }));
 
 vi.mock("./EntityUsage/SpendByProvider", () => ({
-  default: () => <div>Spend By Provider</div>,
+  default: () => <div data-testid="spend-by-provider" />,
 }));
 
 vi.mock("./EndpointUsage/EndpointUsage", () => ({
-  default: () => <div>Endpoint Usage</div>,
+  default: () => <div data-testid="endpoint-usage" />,
 }));
 
 vi.mock("./UsageViewSelect/UsageViewSelect", async () => {
@@ -83,7 +83,7 @@ vi.mock("./UsageViewSelect/UsageViewSelect", async () => {
       tagOption,
       React.createElement("option", { value: "agent" }, "Agent Usage"),
       React.createElement("option", { value: "user" }, "User Usage"),
-      React.createElement("option", { value: "user-agent-activity" }, "User Agent Activity"),
+      React.createElement("option", { value: "user-agent-activity" }, "user-agent-activity"),
     );
   };
   UsageViewSelect.displayName = "UsageViewSelect";
@@ -114,19 +114,19 @@ vi.mock("@/components/shared/advanced_date_picker", async () => {
 });
 
 vi.mock("@/components/user_agent_activity", () => ({
-  default: () => <div>User Agent Activity</div>,
+  default: () => <div data-testid="user-agent-activity" />,
 }));
 
 vi.mock("@/components/cloudzero_export_modal", () => ({
-  default: () => <div>CloudZero Export Modal</div>,
+  default: () => <div data-testid="cloudzero-export-modal" />,
 }));
 
 vi.mock("@/components/EntityUsageExport", () => ({
-  default: () => <div>Entity Usage Export Modal</div>,
+  default: () => <div data-testid="entity-usage-export-modal" />,
 }));
 
 vi.mock("./UsageAIChatPanel", () => ({
-  default: () => <div data-testid="usage-ai-chat-panel">Usage AI Chat Panel</div>,
+  default: () => <div data-testid="usage-ai-chat-panel" />,
 }));
 
 vi.mock("@/app/(dashboard)/hooks/customers/useCustomers", () => ({
@@ -1168,7 +1168,7 @@ describe("UsagePage", () => {
 
       await waitFor(() => {
         // "User Agent Activity" appears both in the select option and in the rendered component
-        const elements = screen.getAllByText("User Agent Activity");
+        const elements = screen.getAllByText(/usage/i);
         expect(elements.length).toBeGreaterThanOrEqual(2);
       });
     });

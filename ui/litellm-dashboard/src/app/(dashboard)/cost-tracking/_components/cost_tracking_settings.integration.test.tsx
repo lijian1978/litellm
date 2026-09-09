@@ -33,7 +33,7 @@ vi.mock("./use_margin_config", () => ({
 }));
 
 vi.mock("./pricing_calculator/index", () => ({
-  default: () => <div data-testid="pricing-calculator">Pricing Calculator</div>,
+  default: () => <div data-testid="pricing-calculator" />,
 }));
 
 vi.mock("@/components/llm_calls/fetch_models", () => ({
@@ -45,7 +45,7 @@ vi.mock("@/components/HelpLink", () => ({
 }));
 
 vi.mock("./how_it_works", () => ({
-  default: () => <div data-testid="how-it-works">How It Works</div>,
+  default: () => <div data-testid="how-it-works" />,
 }));
 
 vi.mock("@/components/provider_info_helpers", () => ({

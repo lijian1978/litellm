@@ -229,11 +229,11 @@ describe("AutoRouterBenchmarksTab", () => {
     renderTab();
 
     expect(screen.getByText("Same model")).toBeInTheDocument();
-    expect(screen.getByText("previous turn → same tier")).toBeInTheDocument();
+    expect(screen.getByText("previous turn -> same tier")).toBeInTheDocument();
     expect(screen.getByText("First visit")).toBeInTheDocument();
-    expect(screen.getByText("previous turn → a tier not used yet")).toBeInTheDocument();
+    expect(screen.getByText("previous turn -> a tier not used yet")).toBeInTheDocument();
     expect(screen.getByText("Return to tier")).toBeInTheDocument();
-    expect(screen.getByText("previous turn → a tier used earlier")).toBeInTheDocument();
+    expect(screen.getByText("previous turn -> a tier used earlier")).toBeInTheDocument();
     expect(screen.getByText("400")).toBeInTheDocument();
     expect(screen.getByText("37")).toBeInTheDocument();
     expect(screen.getByText("381")).toBeInTheDocument();

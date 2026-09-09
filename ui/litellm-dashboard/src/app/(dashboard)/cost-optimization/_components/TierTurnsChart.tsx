@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 import type { AutoRouterDeployment } from "@/app/(dashboard)/hooks/models/useModels";
 import { hydrateTierLabels } from "@/components/add_model/build_complexity_router_config";
@@ -84,6 +85,7 @@ interface TierTurnsChartProps {
 }
 
 const TierTurnsChart: React.FC<TierTurnsChartProps> = ({ view, autoRouters }) => {
+  const { t } = useTranslation();
   const group = viewGroup(view);
   const entries = Object.entries(group?.tier_turns ?? {}).filter(([, turns]) => turns > 0);
   if (!group || entries.length === 0) return null;
@@ -100,10 +102,9 @@ const TierTurnsChart: React.FC<TierTurnsChartProps> = ({ view, autoRouters }) =>
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Routing by tier</CardTitle>
+        <CardTitle>{t("cost:optimization.tierTurns.title")}</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Turns each tier served. Turns the classifier sent to the default model belong to no tier and are not counted
-          here, so this can total less than the router&apos;s turns.
+          {t("cost:optimization.tierTurns.description")}
         </p>
       </CardHeader>
       <CardContent>
@@ -116,7 +117,7 @@ const TierTurnsChart: React.FC<TierTurnsChartProps> = ({ view, autoRouters }) =>
             colors={colors}
             valueFormatter={(value) => value.toLocaleString()}
             showLabel
-            label={`${total.toLocaleString()} total turns`}
+            label={t("cost:optimization.tierTurns.totalTurns", { count: total })}
           />
           <ul className="flex flex-col gap-6">
             {slices.map((slice, idx) => (

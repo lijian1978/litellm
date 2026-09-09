@@ -40,7 +40,7 @@ vi.mock("@/components/activity_metrics", () => ({
 }));
 
 vi.mock("../EndpointUsage/EndpointUsage", () => ({
-  default: () => <div>Endpoint Usage Panel</div>,
+  default: () => <div data-testid="endpoint-usage-panel" />,
 }));
 
 vi.mock("@/components/UsagePage/components/EntityUsage/TopKeyView", () => ({
@@ -66,7 +66,7 @@ vi.mock("./TeamUserSpendCard", () => ({
 }));
 
 vi.mock("@/components/EntityUsageExport/EntityUsageExportModal", () => ({
-  default: () => <div>Entity Usage Export Modal</div>,
+  default: () => <div data-testid="entity-usage-export-modal" />,
 }));
 
 vi.mock("@/components/EntityUsageExport", () => ({
@@ -94,7 +94,7 @@ vi.mock("@/app/(dashboard)/hooks/users/useUsers", () => ({
 }));
 
 vi.mock("@/components/common_components/team_multi_select", () => ({
-  default: () => <div>Team Multi Select</div>,
+  default: () => <div data-testid="team-multi-select" />,
 }));
 
 // Mock useTeams hook
@@ -579,7 +579,8 @@ describe("EntityUsage", () => {
     return true;
   };
 
-  const showingCount = (marker: string): number => screen.queryAllByText(marker).filter(isShowing).length;
+  const showingCount = (marker: string): number =>
+    [...screen.queryAllByText(marker), ...screen.queryAllByTestId(marker)].filter(isShowing).length;
 
   const showingText = (text: string): HTMLElement => {
     const [element] = screen.getAllByText(text).filter(isShowing);
@@ -591,7 +592,7 @@ describe("EntityUsage", () => {
     ["Cost", "Tag Spend Overview"],
     ["Model Activity", "metrics-source:model_groups"],
     ["Key Activity", "metrics-source:api_keys"],
-    ["Endpoint Activity", "Endpoint Usage Panel"],
+    ["Endpoint Activity", "endpoint-usage-panel"],
   ];
 
   it.each(NON_TEAM_PANELS)("shows only the %s panel for a non-team entity type", async (tabLabel, marker) => {
@@ -617,7 +618,7 @@ describe("EntityUsage", () => {
     ["Model Activity", "metrics-source:model_groups"],
     ["Agent Activity", "metrics-source:entities"],
     ["Key Activity", "metrics-source:api_keys"],
-    ["Endpoint Activity", "Endpoint Usage Panel"],
+    ["Endpoint Activity", "endpoint-usage-panel"],
   ];
 
   it.each(TEAM_PANELS)("shows only the %s panel for the team entity type", async (tabLabel, marker) => {

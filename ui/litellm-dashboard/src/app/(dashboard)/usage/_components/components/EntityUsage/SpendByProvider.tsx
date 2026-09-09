@@ -8,6 +8,7 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/componen
 import { Switch } from "@/components/ui/switch";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ProviderLogo } from "@/components/molecules/models/ProviderLogo";
 import { ChartLoader } from "@/components/shared/chart_loader";
 
@@ -26,9 +27,11 @@ interface SpendByProviderProps {
   providerSpend: ProviderSpendData[];
 }
 
-const columns: ColumnDef<ProviderSpendData>[] = [
+const useColumns = (): ColumnDef<ProviderSpendData>[] => {
+  const { t } = useTranslation();
+  return [
   {
-    header: "Provider",
+    header: t("usage:spendByProvider.columnProvider"),
     accessorKey: "provider",
     cell: ({ row }) => (
       <div className="flex items-center space-x-2">
@@ -38,32 +41,35 @@ const columns: ColumnDef<ProviderSpendData>[] = [
     ),
   },
   {
-    header: "Spend",
+    header: t("usage:spendByProvider.columnSpend"),
     accessorKey: "spend",
     meta: { numeric: true },
     cell: ({ row }) => <MoneyCell value={row.original.spend} decimals={2} />,
   },
   {
-    header: "Successful",
+    header: t("usage:spendByProvider.columnSuccessful"),
     accessorKey: "successful_requests",
     meta: { numeric: true, className: "text-success" },
     cell: ({ row }) => row.original.successful_requests.toLocaleString(),
   },
   {
-    header: "Failed",
+    header: t("usage:spendByProvider.columnFailed"),
     accessorKey: "failed_requests",
     meta: { numeric: true, className: "text-destructive" },
     cell: ({ row }) => row.original.failed_requests.toLocaleString(),
   },
   {
-    header: "Tokens",
+    header: t("usage:spendByProvider.columnTokens"),
     accessorKey: "tokens",
     meta: { numeric: true },
     cell: ({ row }) => row.original.tokens.toLocaleString(),
   },
-];
+  ];
+};
 
 const SpendByProvider: React.FC<SpendByProviderProps> = ({ loading, isDateChanging, providerSpend }) => {
+  const { t } = useTranslation();
+  const columns = useColumns();
   const [includeZeroSpend, setIncludeZeroSpend] = useState(false);
   const [includeUnknown, setIncludeUnknown] = useState(false);
 
@@ -87,18 +93,18 @@ const SpendByProvider: React.FC<SpendByProviderProps> = ({ loading, isDateChangi
   return (
     <Card className="h-full">
       <CardHeader>
-        <CardTitle>Spend by Provider</CardTitle>
+        <CardTitle>{t("usage:spendByProvider.title")}</CardTitle>
         <CardAction className="flex items-center gap-4">
           <div className="flex items-center gap-2">
-            <label className="text-sm text-foreground">Show Zero Spend</label>
+            <label className="text-sm text-foreground">{t("usage:spendByProvider.showZeroSpend")}</label>
             <Switch checked={includeZeroSpend} onCheckedChange={setIncludeZeroSpend} />
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
-              <label className="text-sm text-foreground">Show Unknown</label>
+              <label className="text-sm text-foreground">{t("usage:spendByProvider.showUnknown")}</label>
               <Tooltip>
                 <TooltipTrigger render={<Info className="size-4 text-muted-foreground hover:text-foreground" />} />
-                <TooltipContent>Requests that failed to route to a provider</TooltipContent>
+                <TooltipContent>{t("usage:spendByProvider.unknownHint")}</TooltipContent>
               </Tooltip>
             </div>
             <Switch checked={includeUnknown} onCheckedChange={setIncludeUnknown} />
@@ -125,7 +131,7 @@ const SpendByProvider: React.FC<SpendByProviderProps> = ({ loading, isDateChangi
               columns={columns}
               data={filteredProviderSpend}
               getRowId={(row) => row.provider}
-              noDataMessage="No provider usage data"
+              noDataMessage={t("usage:entity.noProviderUsageData")}
               size="compact"
             />
           </div>
