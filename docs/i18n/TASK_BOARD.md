@@ -52,9 +52,9 @@
 
 | Agent | 名称 | 状态 | worktree/分支 | 交付物 | 最后更新 |
 |---|---|---|---|---|---|
-| A6A | i18n-feature-developer (Usage/Cost) | **已完成 ✅（已合并）** | i18n/w3-agent6a-usage | 43 文件 Usage+Cost+CostOptimization；usage 133 key、cost 387 key；599 测试、build 51/51 | 2026-09-09 |
-| A6B | i18n-feature-developer (Budgets) | **已完成 ✅（已合并）** | i18n/w3-agent6b-budgets | budgets 5 组件 + 71 key；scan 15→0；50 测试、build 51/51 | 2026-09-09 |
-| A7 | i18n-qa | **回归完成（G3 FAIL）** | i18n/w1-integration | W3_A7_REGRESSION_REPORT（`b8d7ecdb89`）：0 P0 / 3 P1 / 7 P2 | 2026-09-09 |
+| A6A | i18n-feature-developer (Usage/Cost) | **已完成 ✅（含回归修复 D-2/D-7）** | i18n/w3-agent6a-usage | 43 文件 Usage+Cost+CostOptimization；usage 133+ key、cost 387 key；599 测试、build 51/51 | 2026-09-09 |
+| A6B | i18n-feature-developer (Budgets) | **已完成 ✅（含回归修复 D-1/D-3）** | i18n/w3-agent6b-budgets | budgets 5 组件 + 72 key；scan 15→0；51 测试、build 51/51 | 2026-09-09 |
+| A7 | i18n-qa | **回归完成 ✅（修复后复验 G3 PASS）** | i18n/w1-integration | W3_A7_REGRESSION_REPORT（`b8d7ecdb89`）；3 P1 已修复，Agent 0 复验通过 | 2026-09-09 |
 
 **Wave 3 集成（Agent 0，本地，未 push）**
 - 6A (`ee23dea299`) + 6B (`2c5ec93b3f`) 已合并到 `i18n/w1-integration`，无冲突。
@@ -74,11 +74,13 @@
 （Wave 4B 按 P0 → P1 → 阻塞门禁 P2 → 其他 P2 排序）
 | 编号 | 级别 | 描述 | Owner | 状态 |
 |---|---|---|---|---|
-| D-1 | P1 | BudgetTableColumns.tsx:43 表格"重置周期"列硬编码英文时长标签（A6B 报告此点不实） | A6B | 待修复 |
-| D-2 | P1 | EntityUsage.tsx:279/292/398/454 `{{entity}}` 传原始英文类型，中文渲染 "Team花费概览"/"按Key花费" | A6A | 待修复 |
-| D-3 | P1 | AccessGroupBudgetColumns.tsx:153（models 页）英文时长标签 | A6B | 待修复 |
-| D-4 | P2 | lint 1 个既有 error（I18nProvider.gate.integration.test.tsx:73 prefer-find-by，Wave 1 遗留） | A4 | 待修复 |
-| D-5 | P2 | Wave 3 新增 17 文件未过 Prettier（format:check 290 文件 FAIL，多数既有） | A6A/A6B | 待修复 |
+| D-1 | P1 | BudgetTableColumns.tsx:43 表格"重置周期"列硬编码英文时长标签（A6B 报告此点不实） | A6B | 已修复 ✅ |
+| D-2 | P1 | EntityUsage.tsx:279/292/398/454 `{{entity}}` 传原始英文类型，中文渲染 "Team花费概览"/"按Key花费" | A6A | 已修复 ✅ |
+| D-3 | P1 | AccessGroupBudgetColumns.tsx:153（models 页）英文时长标签 | A6B | 已修复 ✅ |
+| D-4 | P2 | lint 1 个既有 error（I18nProvider.gate.integration.test.tsx:73 prefer-find-by，Wave 1 遗留） | A4 | 已修复 ✅ |
+| D-5 | P2 | Wave 3 新增 17 文件未过 Prettier（format:check 290 文件 FAIL，多数既有） | A6A/A6B | 已修复 ✅ |
 | D-6 | P2 | A6A 遗留共享组件英文在 /usage 可见（SavingsTiles 等） | A0 裁决 | 排队 |
-| D-7 | P2 | 半角省略号/括号不一致（usage.json:122-123、cost.json 多处）及"费用/价格加价"措辞 | A6A | 待修复 |
+| D-7 | P2 | 半角省略号/括号不一致（usage.json:122-123、cost.json 多处）及"费用/价格加价"措辞 | A6A | 已修复 ✅ |
 | D-8 | P2 | E2E 无 i18n locale 断言（T-01 smoke 未落地） | A7 | 排队 |
+
+**Wave 3 修复轮（Agent 0）**：6A (`d8fdf92d37`) + 6B (`c154994439`) + D-4 (`f9633ee1fa`) 已合并；复验 check-keys PASS、lint 0 error、Wave 3 四目录 prettier 全过、build 51/51、budgets 51 测试全过。**G3 判定：PASS**（D-6/D-8 为非阻塞 P2，留 Wave 4 处理）
