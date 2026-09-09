@@ -1,3 +1,266 @@
 {
-  "models": "Models"
+  "page": {
+    "title": "Model Management",
+    "subtitle": {
+      "admin": "Add and manage models for the proxy",
+      "nonAdmin": "Add models for teams you are an admin for."
+    },
+    "lastRefreshed": "Last Refreshed: {{time}}",
+    "refreshAria": "Refresh models",
+    "tab": {
+      "allModels": "All Models",
+      "yourModels": "Your Models",
+      "add": "Add Model",
+      "autoRouters": "Auto-Routers",
+      "llmCredentials": "LLM Credentials",
+      "passThrough": "Pass-Through Endpoints",
+      "health": "Health Status",
+      "retrySettings": "Model Retry Settings",
+      "modelGroupAlias": "Model Group Alias",
+      "accessGroupBudgets": "Model Access Group Budgets",
+      "priceData": "Price Data Reload"
+    }
+  },
+  "common": {
+    "notSet": "Not Set",
+    "cancel": "Cancel",
+    "required": "Required"
+  },
+  "delete": {
+    "toastSuccess": "Model deleted successfully",
+    "title": "Delete Model",
+    "alertMessage": "This action cannot be undone.",
+    "message": "Are you sure you want to delete this model?",
+    "resourceInformationTitle": "Model Information",
+    "labels": {
+      "modelName": "Model Name",
+      "litellmModelName": "LiteLLM Model Name",
+      "provider": "Provider",
+      "createdBy": "Created By"
+    },
+    "configCannotDelete": "Config model cannot be deleted on the dashboard. Please delete it from the config file.",
+    "action": "Delete model"
+  },
+  "pause": {
+    "toastPaused": "Model paused",
+    "toastResumed": "Model resumed",
+    "configCannotPause": "Config models cannot be paused from the dashboard. Pause is DB-backed.",
+    "adminOnly": "Only proxy admins can pause or resume a model.",
+    "resumeTooltip": "Resume model — restore normal routing.",
+    "pauseTooltip": "Pause model — stop routing requests until resumed.",
+    "resumeAria": "Resume model",
+    "pauseAria": "Pause model"
+  },
+  "accessInfo": {
+    "personalBefore": "To access these models, create a Virtual Key without selecting a team on the",
+    "linkLabel": "Virtual Keys page",
+    "personalAfter": ".",
+    "teamBefore": "To access these models, create a Virtual Key and select Team as \"{{team}}\" on the",
+    "teamAfter": "."
+  },
+  "table": {
+    "empty": {
+      "noModels": "No models found",
+      "noModelsHint": "No models match your search or filters. Try resetting them."
+    },
+    "loading": "Loading models…",
+    "searchPlaceholder": "Search model names…",
+    "teamAria": "Current team",
+    "team": "Team",
+    "viewAria": "View",
+    "view": "View",
+    "settingsAria": "Model Settings",
+    "settingsTitle": "Model Settings",
+    "group": {
+      "allModels": "All Models",
+      "wildcard": "Wildcard Models (*)",
+      "allAccessGroups": "All Model Access Groups"
+    },
+    "viewMode": {
+      "currentTeam": "Current Team Models",
+      "all": "All Available Models"
+    },
+    "filter": {
+      "publicModelName": "Public Model Name",
+      "accessGroup": "Model Access Group",
+      "byPublicModelName": "Filter by Public Model Name",
+      "byAccessGroup": "Filter by Model Access Group",
+      "noAccessGroups": "No model access groups found"
+    },
+    "filters": {
+      "title": "Filters",
+      "description": "Narrow down models + endpoints",
+      "reset": "Reset Filters"
+    }
+  },
+  "columns": {
+    "modelId": "Model ID",
+    "modelInformation": "Model Information",
+    "credentials": "Credentials",
+    "createdBy": "Created By",
+    "updatedAt": "Updated At",
+    "costs": "Costs",
+    "teamId": "Team ID",
+    "accessGroup": "Model Access Group",
+    "source": "Source",
+    "dbModel": "DB Model",
+    "configModel": "Config Model",
+    "actions": "Actions",
+    "publicModelName": "Public Model Name",
+    "litellmModelName": "LiteLLM Model Name",
+    "unknownProvider": "Unknown provider",
+    "copyLiteLLMNameAria": "Copy LiteLLM model name",
+    "copyLiteLLMNameSuccess": "LiteLLM model name copied",
+    "definedInConfig": "Defined in config",
+    "unknown": "Unknown",
+    "unknownDate": "Unknown date",
+    "costPer1MTokens": "Cost per 1M tokens",
+    "more": "+{{count}} more"
+  },
+  "credentials": {
+    "aboutAria": "About credential types",
+    "types": "Credential types",
+    "reusable": "Reusable",
+    "reusableDesc": "Credentials saved in LiteLLM that can be added to models repeatedly.",
+    "manual": "Manual",
+    "manualDesc": "Credentials added directly during model creation or defined in the config file.",
+    "description": "Configured credentials for different AI providers. Add and manage your API credentials.",
+    "add": "Add Credential",
+    "updatedToast": "Credential updated successfully",
+    "updateFailedToast": "Failed to update credential",
+    "addedToast": "Credential added successfully",
+    "addFailedToast": "Failed to add credential",
+    "deletedToast": "Credential deleted successfully",
+    "deleteFailedToast": "Failed to delete credential",
+    "deleteTitle": "Delete Credential?",
+    "deleteMessage": "Are you sure you want to delete this credential? This action cannot be undone and may break existing integrations.",
+    "deleteResourceTitle": "Credential Information",
+    "credentialName": "Credential Name",
+    "provider": "Provider",
+    "empty": {
+      "title": "No credentials configured",
+      "hint": "Add a credential to connect an AI provider."
+    },
+    "loading": "Loading credentials…",
+    "openActionsAria": "Open credential actions",
+    "edit": "Edit",
+    "copiedToast": "Credential name copied",
+    "copyName": "Copy credential name",
+    "delete": "Delete",
+    "actions": "Actions",
+    "editTitle": "Edit Credential",
+    "addTitle": "Add New Credential",
+    "reuseTitle": "Reuse Credentials",
+    "reuseSubmit": "Reuse Credentials",
+    "reuseEnterPrefix": "Enter",
+    "modal": {
+      "nameLabel": "Credential Name:",
+      "nameRequired": "Credential name is required",
+      "namePlaceholder": "Enter a friendly name for these credentials",
+      "providerLabel": "Provider:",
+      "providerHint": "Helper to auto-populate provider specific fields",
+      "selectProvider": "Select a provider",
+      "helpTooltip": "Get help on our github",
+      "needHelp": "Need Help?",
+      "updateCredential": "Update Credential",
+      "addCredential": "Add Credential"
+    }
+  },
+  "autoRouter": {
+    "heading": "Auto routers",
+    "description": "Auto routers sit above your deployments and pick a model per request. They are called like any other model, so clients keep using a single model name.",
+    "add": "Add Auto Router",
+    "addDescription": "Routes each request to a model by classifying its complexity. Called like any other model, so clients keep using a single model name.",
+    "deletedToast": "Deleted auto router: {{name}}",
+    "deleteFailedToast": "Failed to delete auto router: {{error}}",
+    "deleteTitle": "Delete Auto Router",
+    "deleteMessage": "Are you sure you want to delete \"{{name}}\"? Any client still calling this model name will start failing.",
+    "resourceTitle": "Auto router",
+    "nameLabel": "Name",
+    "typeLabel": "Type",
+    "empty": {
+      "title": "No auto routers yet",
+      "canCreate": "Create an auto router to pick the right model per request instead of pinning one.",
+      "readOnly": "An auto router picks the right model per request instead of pinning one."
+    },
+    "loading": "Loading auto routers…",
+    "openActionsAria": "Open actions for {{name}}",
+    "deleteAction": "Delete auto router",
+    "columns": {
+      "name": "Name",
+      "type": "Type",
+      "routesTo": "Routes to",
+      "defaultModel": "Default model",
+      "created": "Created"
+    }
+  },
+  "accessGroupBudget": {
+    "adminOnly": "Only a proxy admin can change an access group budget",
+    "slashBlocked": "A budget cannot be set on a group whose name contains a slash",
+    "openActionsAria": "Open budget actions for {{group}}",
+    "editBudget": "Edit budget",
+    "setBudget": "Set budget",
+    "nothingToClear": "This access group has no budget to clear",
+    "clearBudget": "Clear Budget",
+    "columns": {
+      "accessGroup": "Access Group",
+      "models": "Models",
+      "deployments": "Deployments",
+      "sharedSpend": "Shared Spend",
+      "resets": "Resets",
+      "actions": "Actions"
+    },
+    "empty": {
+      "title": "No model access groups yet",
+      "hint": "Put a deployment in an access group from its model settings, then give the group a shared budget here."
+    },
+    "description": "A model access group can carry one budget that every key granted the group by name draws from together. Keys that reach the group's models through a wildcard or all-proxy-models are not charged against it.",
+    "loading": "Loading model access groups…",
+    "savedToast": "Budget saved for \"{{group}}\"",
+    "clearedToast": "Budget cleared for \"{{group}}\"",
+    "accessGroup": "Access Group",
+    "maxBudget": "Max Budget",
+    "clearMessage": "Are you sure you want to clear this access group's budget? The recorded shared spend is cleared with it, and the group's models stay available.",
+    "form": {
+      "validation": "Set at least one of max budget, soft budget or reset window",
+      "editTitle": "Edit",
+      "setTitle": "Set",
+      "description": "Every key granted this access group by name draws from this one budget. A key that reaches the group's models through a wildcard or all-proxy-models is not charged against it.",
+      "maxBudgetLabel": "Max Budget (USD)",
+      "maxBudgetHint": "Total the whole group may spend. Once its shared spend reaches this, every key that draws from the group is refused",
+      "softBudgetLabel": "Soft Budget (USD)",
+      "softBudgetHint": "Fires an alert when the group's spend reaches this. Requests keep succeeding",
+      "resetBudgetLabel": "Reset Budget",
+      "resetBudgetHint": "How often the group's spend resets. Leave empty for a budget that never resets",
+      "blankHint": "A field left blank keeps whatever the budget already has. Use Clear budget to remove the budget itself.",
+      "saving": "Saving...",
+      "saveBudget": "Save Budget"
+    }
+  },
+  "retry": {
+    "scopeLabel": "Retry Policy Scope:",
+    "scope": {
+      "globalDefault": "Global Default"
+    },
+    "globalHeading": "Global Retry Policy",
+    "globalDescription": "Default retry settings applied to all model groups unless overridden",
+    "groupHeading": "Retry Policy for {{group}}",
+    "groupDescription": "Model-specific retry settings. Falls back to global defaults if not set.",
+    "globalValue": "(Global: {{value}})",
+    "countAria": "{{type}} retry count",
+    "reset": "Reset",
+    "save": "Save",
+    "savedToast": "Retry settings saved successfully",
+    "saveFailedToast": "Failed to save retry settings"
+  },
+  "select": {
+    "placeholder": "Select Models",
+    "empty": "No models found",
+    "more": "+{{count}} more"
+  },
+  "priceData": {
+    "heading": "Price Data Management",
+    "description": "Manage model pricing data and configure automatic reload schedules",
+    "reload": "Reload Price Data"
+  }
 }

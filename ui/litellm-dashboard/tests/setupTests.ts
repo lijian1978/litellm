@@ -2,6 +2,8 @@ import "@testing-library/jest-dom";
 import { cleanup } from "@testing-library/react";
 import { afterEach, vi } from "vitest";
 
+import "./i18nTestSetup";
+
 const ensureTestLocalStorage = () => {
   if (typeof window === "undefined" || typeof window.Storage === "undefined") {
     return;

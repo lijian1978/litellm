@@ -2,6 +2,7 @@ import { ProxyModel, useAllProxyModels } from "@/app/(dashboard)/hooks/models/us
 import { useOrganization } from "@/app/(dashboard)/hooks/organizations/useOrganizations";
 import { useTeam } from "@/app/(dashboard)/hooks/teams/useTeams";
 import { useCurrentUser } from "@/app/(dashboard)/hooks/users/useCurrentUser";
+import { useTranslation } from "react-i18next";
 import {
   Combobox,
   ComboboxChip,
@@ -122,6 +123,7 @@ const filterModels = (
 };
 
 export const ModelSelect = (props: ModelSelectProps) => {
+  const { t } = useTranslation();
   const anchor = useComboboxAnchor();
   const { id, teamID, organizationID, options, context, dataTestId, value = [], onChange, style } = props;
   const { showAllProxyModelsOverride, includeSpecialOptions } = options || {};
@@ -250,17 +252,17 @@ export const ModelSelect = (props: ModelSelectProps) => {
                   <Tooltip>
                     <TooltipTrigger
                       render={<span className="px-1 text-xs text-muted-foreground" />}
-                    >{`+${overflowOptions.length} more`}</TooltipTrigger>
+                    >{t("models:select.more", { count: overflowOptions.length })}</TooltipTrigger>
                     <TooltipContent>{overflowOptions.map((option) => option.value).join(", ")}</TooltipContent>
                   </Tooltip>
                 )}
               </>
             )}
           </ComboboxValue>
-          <ComboboxChipsInput id={id} placeholder="Select Models" aria-label="Select Models" className="min-w-24" />
+          <ComboboxChipsInput id={id} placeholder={t("models:select.placeholder")} aria-label={t("models:select.placeholder")} className="min-w-24" />
         </ComboboxChips>
         <ComboboxContent anchor={anchor}>
-          <ComboboxEmpty>No models found</ComboboxEmpty>
+          <ComboboxEmpty>{t("models:select.empty")}</ComboboxEmpty>
           <ComboboxList>
             {(group: ModelOptionGroup) => (
               <ComboboxGroup key={group.label} items={group.items}>

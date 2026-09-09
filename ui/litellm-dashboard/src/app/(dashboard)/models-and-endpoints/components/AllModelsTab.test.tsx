@@ -403,7 +403,10 @@ describe("AllModelsTab", () => {
     it("links the Virtual Keys page through the migrated /ui route", () => {
       render(<AllModelsTab {...defaultProps} />);
 
-      expect(screen.getByRole("link", { name: "Virtual Keys page" })).toHaveAttribute("href", "/ui/api-keys");
+      expect(screen.getAllByRole("link").find((link) => link.textContent?.includes("Virtual Keys page"))).toHaveAttribute(
+        "href",
+        "/ui/api-keys",
+      );
     });
 
     it("links the team hint's Virtual Keys page through the migrated /ui route", async () => {
@@ -414,7 +417,10 @@ describe("AllModelsTab", () => {
       await user.click(await screen.findByRole("option", { name: "Engineering" }));
 
       await screen.findByText(/select Team as "Engineering"/i);
-      expect(screen.getByRole("link", { name: "Virtual Keys page" })).toHaveAttribute("href", "/ui/api-keys");
+      expect(screen.getAllByRole("link").find((link) => link.textContent?.includes("Virtual Keys page"))).toHaveAttribute(
+        "href",
+        "/ui/api-keys",
+      );
     });
 
     it("names the selected team in the hint", async () => {

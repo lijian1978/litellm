@@ -3,6 +3,7 @@ import { SearchSelect, type SearchSelectOption } from "@/components/shared/Searc
 import { SimpleTooltip } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FormProvider, useForm } from "react-hook-form";
 import ProviderSpecificFields from "../add_model/provider_specific_fields";
 import { requiredRule } from "../common_components/formRules";
@@ -42,6 +43,7 @@ export default function CredentialModal({
   existingCredential = null,
 }: CredentialModalProps) {
   const isEdit = mode === "edit";
+  const { t } = useTranslation();
   const [selectedProvider, setSelectedProvider] = useState<Providers>(
     (existingCredential?.credential_info.custom_llm_provider as Providers) ?? Providers.OpenAI,
   );
@@ -90,7 +92,7 @@ export default function CredentialModal({
     <Dialog open={open} onOpenChange={(open) => !open && closeAndReset()}>
       <DialogContent className="max-h-[calc(100dvh-2rem)] overflow-y-auto sm:max-w-[600px]">
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit Credential" : "Add New Credential"}</DialogTitle>
+          <DialogTitle>{isEdit ? t("models:credentials.editTitle") : t("models:credentials.addTitle")}</DialogTitle>
         </DialogHeader>
         <FormProvider {...form}>
           <MountedFormProvider value={{ control: form.control, registry }}>
@@ -101,10 +103,10 @@ export default function CredentialModal({
               }}
             >
               <MountedFormField
-                label="Credential Name:"
+                label={t("models:credentials.modal.nameLabel")}
                 name="credential_name"
                 required
-                rules={{ validate: { required: requiredRule("Credential name is required") } }}
+                rules={{ validate: { required: requiredRule(t("models:credentials.modal.nameRequired")) } }}
                 className="mb-4"
               >
                 {(control) => (
@@ -113,23 +115,23 @@ export default function CredentialModal({
                     value={(control.value as string | undefined) ?? ""}
                     onChange={control.onChange}
                     onBlur={control.onBlur}
-                    placeholder="Enter a friendly name for these credentials"
+                    placeholder={t("models:credentials.modal.namePlaceholder")}
                     disabled={isEdit}
                   />
                 )}
               </MountedFormField>
 
               <MountedFormField
-                label={labelWithHint("Provider:", "Helper to auto-populate provider specific fields")}
+                label={labelWithHint(t("models:credentials.modal.providerLabel"), t("models:credentials.modal.providerHint"))}
                 name="custom_llm_provider"
                 required
-                rules={{ validate: { required: requiredRule("Required") } }}
+                rules={{ validate: { required: requiredRule(t("models:common.required")) } }}
                 className="mb-4"
               >
                 {(control) => (
                   <SearchSelect
                     inputId={control.id}
-                    placeholder="Select a provider"
+                    placeholder={t("models:credentials.modal.selectProvider")}
                     options={providerOptions}
                     value={(control.value as string | undefined) ?? ""}
                     onValueChange={(value) => {
@@ -143,17 +145,19 @@ export default function CredentialModal({
               <ProviderSpecificFields selectedProvider={selectedProvider} />
 
               <div className="flex justify-between items-center">
-                <SimpleTooltip content="Get help on our github">
+                <SimpleTooltip content={t("models:credentials.modal.helpTooltip")}>
                   <a href="https://github.com/BerriAI/litellm/issues" className="text-sm text-primary hover:underline">
-                    Need Help?
+                    {t("models:credentials.modal.needHelp")}
                   </a>
                 </SimpleTooltip>
 
                 <div>
                   <Button variant="outline" className="mr-2.5" onClick={closeAndReset}>
-                    Cancel
+                    {t("models:common.cancel")}
                   </Button>
-                  <Button type="submit">{isEdit ? "Update Credential" : "Add Credential"}</Button>
+                  <Button type="submit">
+                    {isEdit ? t("models:credentials.modal.updateCredential") : t("models:credentials.modal.addCredential")}
+                  </Button>
                 </div>
               </div>
             </form>
