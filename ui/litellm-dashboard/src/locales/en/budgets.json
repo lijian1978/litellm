@@ -111,6 +111,7 @@
       },
       "duration": {
         "1h": "hourly",
+        "none": "Never resets",
         "24h": "daily",
         "7d": "weekly",
         "30d": "monthly",

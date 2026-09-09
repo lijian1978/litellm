@@ -132,7 +132,12 @@ const BudgetModal: React.FC<BudgetModalProps> = ({ isModalVisible, setIsModalVis
                     />
                   )}
                 </FormField>
-                <FormField className="mt-8" control={form.control} name="budget_duration" label={t("budgets:form.resetBudget.label")}>
+                <FormField
+                  className="mt-8"
+                  control={form.control}
+                  name="budget_duration"
+                  label={t("budgets:form.resetBudget.label")}
+                >
                   {({ id, value, onChange, "aria-invalid": ariaInvalid, "aria-describedby": ariaDescribedBy }) => (
                     <Select items={BUDGET_DURATION_OPTIONS} value={value ?? null} onValueChange={onChange}>
                       <SelectTrigger id={id} aria-invalid={ariaInvalid} aria-describedby={ariaDescribedBy}>

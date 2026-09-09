@@ -24,11 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ApiError } from "@/lib/http/client";
 
-import {
-  BUDGET_TABLE_HIDDEN_COLUMNS,
-  getBudgetTableColumns,
-  type BudgetTableColumnsDeps,
-} from "./BudgetTableColumns";
+import { BUDGET_TABLE_HIDDEN_COLUMNS, getBudgetTableColumns, type BudgetTableColumnsDeps } from "./BudgetTableColumns";
 
 interface BudgetTableProps {
   list: ResourceListResult<budgetItem>;

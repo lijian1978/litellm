@@ -8,7 +8,6 @@ import { DataTableSortHeader } from "@/components/shared/DataTable";
 import { DateCell, IdCell, MoneyCell } from "@/components/shared/table_cells";
 import type { budgetItem } from "@/app/(dashboard)/hooks/budgets/useBudgets";
 import { buttonVariants } from "@/components/ui/button";
-import { getBudgetDurationLabel } from "@/components/common_components/budget_duration_dropdown";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -35,12 +34,18 @@ function RateLimitCell({ value }: { value: number | null | undefined }) {
   return <span className="tabular-nums">{value}</span>;
 }
 
+const DURATION_LABEL_KEYS: ReadonlySet<string> = new Set(["1h", "24h", "7d", "30d", "none"]);
+
+export const localizedBudgetDurationLabel = (t: Translate, value: string | null | undefined): string => {
+  if (!value) {
+    return t("budgets:table.notSet");
+  }
+  return DURATION_LABEL_KEYS.has(value) ? t(`budgets:table.filters.duration.${value}`) : value;
+};
+
 function BudgetDurationCell({ value }: { value: string | null | undefined }) {
   const { t } = useTranslation();
-  if (!value) {
-    return <span className="text-muted-foreground">{t("budgets:table.notSet")}</span>;
-  }
-  return <span className="whitespace-nowrap">{getBudgetDurationLabel(value)}</span>;
+  return <span className="whitespace-nowrap">{localizedBudgetDurationLabel(t, value)}</span>;
 }
 
 interface BudgetRowActionsProps {
@@ -104,9 +109,7 @@ export const getBudgetTableColumns = ({
     id: "budget_id",
     accessorKey: "budget_id",
     meta: { title: t("budgets:table.columns.budgetId") },
-    header: ({ column }) => (
-      <DataTableSortHeader column={column} title={t("budgets:table.columns.budgetId")} />
-    ),
+    header: ({ column }) => <DataTableSortHeader column={column} title={t("budgets:table.columns.budgetId")} />,
     cell: ({ row }) => (
       <IdCell value={row.original.budget_id} variant="plain" truncate={false} copyable className="whitespace-nowrap" />
     ),
@@ -116,19 +119,17 @@ export const getBudgetTableColumns = ({
     accessorKey: "max_budget",
     filterFn: serverFilter,
     meta: { title: t("budgets:table.columns.maxBudget"), numeric: true },
-    header: ({ column }) => (
-      <DataTableSortHeader column={column} title={t("budgets:table.columns.maxBudget")} />
-    ),
+    header: ({ column }) => <DataTableSortHeader column={column} title={t("budgets:table.columns.maxBudget")} />,
     size: 120,
-    cell: ({ row }) => <MoneyCell value={row.original.max_budget} decimals={2} showZero emptyText={t("budgets:table.unlimited")} />,
+    cell: ({ row }) => (
+      <MoneyCell value={row.original.max_budget} decimals={2} showZero emptyText={t("budgets:table.unlimited")} />
+    ),
   },
   {
     id: "tpm_limit",
     accessorKey: "tpm_limit",
     meta: { title: t("budgets:table.columns.tpm"), numeric: true },
-    header: ({ column }) => (
-      <DataTableSortHeader column={column} title={t("budgets:table.columns.tpm")} />
-    ),
+    header: ({ column }) => <DataTableSortHeader column={column} title={t("budgets:table.columns.tpm")} />,
     size: 100,
     cell: ({ row }) => <RateLimitCell value={row.original.tpm_limit} />,
   },
@@ -136,9 +137,7 @@ export const getBudgetTableColumns = ({
     id: "rpm_limit",
     accessorKey: "rpm_limit",
     meta: { title: t("budgets:table.columns.rpm"), numeric: true },
-    header: ({ column }) => (
-      <DataTableSortHeader column={column} title={t("budgets:table.columns.rpm")} />
-    ),
+    header: ({ column }) => <DataTableSortHeader column={column} title={t("budgets:table.columns.rpm")} />,
     size: 100,
     cell: ({ row }) => <RateLimitCell value={row.original.rpm_limit} />,
   },
@@ -158,9 +157,7 @@ export const getBudgetTableColumns = ({
     accessorKey: "created_at",
     filterFn: serverFilter,
     meta: { title: t("budgets:table.columns.created") },
-    header: ({ column }) => (
-      <DataTableSortHeader column={column} title={t("budgets:table.columns.created")} />
-    ),
+    header: ({ column }) => <DataTableSortHeader column={column} title={t("budgets:table.columns.created")} />,
     size: 160,
     cell: ({ row }) => <DateCell value={row.original.created_at} />,
   },
