@@ -46,3 +46,10 @@ Keys use the `budgets:` namespace prefix with plain `useTranslation()`, matching
 - D-5：对本 Wave 3 改动文件（budgets 目录、AccessGroupBudgetColumns.tsx、两份 budgets.json）执行 `npx prettier --write`（仅行宽规范化）。
 
 证据：budgets 5 个测试文件 51/51 通过（含新增中文断言用例）；`check-keys.mjs` budgets 0 missing/0 shape/0 interpolation；`check-keys-dangling.mjs`（budgets + AccessGroupBudgetColumns）PASS；eslint 0 errors（4 个既有测试文件警告）；`npm run build` 51/51 静态路由全绿。
+
+## Wave 4B 修复（Wave 4A 复核，Owner 2）
+
+- D-11（P2）：`src/components/shared/table_cells/date_cell.tsx` 日期格式原先硬编码英文（"Sep 9, 2026"），影响 budgets/models/apiKeys 等 30+ 表格。现 `formatCellDate` / `formatFullTimestamp` 增加可选 `locale` 参数（默认 "en"，en 表现与输出完全不变）；`DateCell` 经 `useTranslation()` 读取 `i18n.language`，`zh` 前缀语言走 `Intl.DateTimeFormat("zh-CN")`（date → "2026年7月7日"，datetime → "7月7日 09:50:13"，tooltip 全时间戳同风格 + IANA 时区）。`formatCellDate` 的两个站外调用点（ModelsTableColumns、TagTable）未传 locale，行为为 en，与切英文时一致；TagTable 测试按返回值断言，不受影响。
+- D-10（P2）：zh-CN 字典 6 处半角省略号改全角 `…`：models.json "保存中…"，apiKeys.json "正在加载密钥…" ×2，auth.json "正在登录…" / "正在加载工具…" / "搜索服务器…"。`rg '\.\.\.'` 复扫 zh-CN 目录为 0。
+- 测试：date_cell.test.tsx 新增 4 个用例（zh datetime/date/zh 前缀回退、zh 全时间戳、zh-CN 组件级渲染断言并恢复 en），en 断言全部保留。受影响测试显式路径运行：date_cell（14）+ TagTable（13）共 27 通过。
+- 证据：`npx prettier --check` 通过；`check-keys.mjs` 全部 PASS；eslint 0 errors；`npm run build` 51/51 静态路由全绿。

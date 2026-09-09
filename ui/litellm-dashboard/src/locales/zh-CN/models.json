@@ -233,7 +233,7 @@
       "resetBudgetLabel": "重置预算",
       "resetBudgetHint": "组花费的重置频率。留空表示永不重置的预算",
       "blankHint": "留空的字段将沿用预算的现有值。如需移除预算本身，请使用\"清除预算\"。",
-      "saving": "保存中...",
+      "saving": "保存中…",
       "saveBudget": "保存预算"
     }
   },

@@ -6,8 +6,8 @@
     "title": "虚拟密钥",
     "subtitle": "用于向网关认证请求的所有密钥。"
   },
-  "loadingKey": "正在加载密钥...",
-  "loadingKeys": "正在加载密钥...",
+  "loadingKey": "正在加载密钥…",
+  "loadingKeys": "正在加载密钥…",
   "empty": "未找到密钥",
   "searchPlaceholder": "按密钥别名或 ID 搜索…",
   "filter": {
