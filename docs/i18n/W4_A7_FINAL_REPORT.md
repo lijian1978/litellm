@@ -197,3 +197,49 @@ Two P2s remain open by design (D-6 shared components, D-8 E2E locale specs) and 
 gate (format:check) is red only on pre-project legacy files. G4 sign-off recommendation:
 close or explicitly waive D-6/D-8, obtain Agent 2's zh visual walkthrough for item (5),
 and get an Agent 0 ruling on the legacy prettier baseline.
+
+## 9. D-8 landed this round: E2E locale smoke (T-01 minimal, A0 ruling)
+
+New spec: `tests/e2e/ui/tests/i18n/localeSmoke.spec.ts` (4 tests, chromium project).
+Collect + types verified: `npx playwright test --list tests/i18n/localeSmoke.spec.ts`
+reports "Total: 4 tests in 1 file"; `npx tsc --noEmit` over the suite exits 0.
+
+Coverage:
+
+1. Default boot is en: `<html lang>` matches `/^en(\b|-|$)/`, leftnav shows "Usage",
+   no raw keys.
+2. `litellm.locale=zh-CN` boot (localStorage + cookie, the D5 chain read by
+   I18nProvider): readiness gate resolves zh before render, `<html lang>` becomes
+   exactly `zh-CN`, leftnav shows the real dictionary labels 用量, and no raw key
+   leaks into visible text.
+3. Raw-key scan (`/(?:^|[\s"'`>(])(usage|cost|budgets|common|models|apiKeys|auth|navigation):[A-Za-z][A-Za-z0-9_.]*/`)
+   over the three v1 pages (`?page=new_usage`, `?page=budgets`, `?page=models`) in
+   zh-CN — any visible `namespace:segment` string fails with the key named.
+4. Reload persistence: full `page.reload()` keeps `<html lang="zh-CN">`, the zh
+   Budgets label stays visible, and `localStorage["litellm.locale"]` stays `zh-CN`.
+
+### Runtime prerequisites (execution is a user walkthrough item)
+
+The suite targets a live proxy (it cannot run against a bare static export because the
+pages require an authenticated proxy session):
+
+- Prereqs: seeded e2e proxy per `tests/e2e/ui/run_e2e.sh` (seed.sql users, master key).
+  Minimal form: `LITELLM_MASTER_KEY=sk-1234 litellm --config <config.yml> --port 4000`,
+  `SERVER_ROOT_PATH` default empty, base URL from `E2E_UI_BASE_URL`/`LITELLM_PROXY_URL`
+  (default `http://localhost:4000`). globalSetup seeds users/storage states
+  (`ADMIN_STORAGE_PATH`) and needs the master key via `LITELLM_MASTER_KEY`.
+- Run: `cd tests/e2e/ui && npx playwright test tests/i18n/localeSmoke.spec.ts`
+  (deps via `npm ci` in that directory; `@playwright/test` 1.58.1 per its own
+  package-lock).
+- "Actually executed against a live proxy" is deliberately left as a user walkthrough
+  item; no product code was modified to make the suite runnable.
+
+### New defect found while writing the spec
+
+| ID | Level | Where | What |
+|---|---|---|---|
+| D-9 | P1 | `src/components/LanguageSwitcher/LanguageSwitcher.tsx` | The switcher is exported and tested but **never mounted** — `rg LanguageSwitcher src` finds no importer outside the component itself. A user cannot switch language from any UI surface; only the storage chain works. The smoke spec therefore drives zh via the persisted-preference boot path. When the switcher is mounted, add a UI click-through E2E ("简体中文" button) to cover TC-03. |
+
+This updates the D-8 item: the missing E2E locale assertions now exist; D-8 can be
+closed pending the live-run walkthrough, and D-9 is the remaining blocker for
+"switch is reachable by end users" (DoD item 2's switch half).
