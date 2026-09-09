@@ -97,8 +97,11 @@ const CacheLeakageCard: React.FC<CacheLeakageCardProps> = ({ activity }) => {
         : { column, dir: NATURAL_DIR[column] },
     );
 
-  const subject = t(dimension === "model" ? "cost:optimization.cacheLeakage.models" : "cost:optimization.cacheLeakage.keys");
-  const firstColumn = dimension === "model" ? t("cost:optimization.cacheLeakage.model") : t("cost:optimization.cacheLeakage.key");
+  const subject = t(
+    dimension === "model" ? "cost:optimization.cacheLeakage.models" : "cost:optimization.cacheLeakage.keys",
+  );
+  const firstColumn =
+    dimension === "model" ? t("cost:optimization.cacheLeakage.model") : t("cost:optimization.cacheLeakage.key");
   const emptyNoun = t(
     dimension === "model" ? "cost:optimization.cacheLeakage.noModelUsage" : "cost:optimization.cacheLeakage.noKeyUsage",
   );
@@ -109,7 +112,14 @@ const CacheLeakageCard: React.FC<CacheLeakageCardProps> = ({ activity }) => {
         <CardHeader>
           <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
             <div className="min-w-0">
-              <CardTitle>{t("cost:optimization.cacheLeakage.title", { dimension: dimension === "model" ? t("cost:optimization.cacheLeakage.dimModel") : t("cost:optimization.cacheLeakage.dimVirtualKey") })}</CardTitle>
+              <CardTitle>
+                {t("cost:optimization.cacheLeakage.title", {
+                  dimension:
+                    dimension === "model"
+                      ? t("cost:optimization.cacheLeakage.dimModel")
+                      : t("cost:optimization.cacheLeakage.dimVirtualKey"),
+                })}
+              </CardTitle>
               <p className="mt-1 text-sm text-muted-foreground line-clamp-2">
                 {t("cost:optimization.cacheLeakage.description", { subject })}
               </p>
@@ -127,9 +137,7 @@ const CacheLeakageCard: React.FC<CacheLeakageCardProps> = ({ activity }) => {
         </CardHeader>
         <CardContent>
           {rows.length > 0 && isFetchingMore && (
-            <p className="mb-2 text-sm text-muted-foreground">
-              {t("cost:optimization.cacheLeakage.partialData")}
-            </p>
+            <p className="mb-2 text-sm text-muted-foreground">{t("cost:optimization.cacheLeakage.partialData")}</p>
           )}
           {rows.length === 0 ? (
             <p className="py-8 text-center text-sm text-muted-foreground">

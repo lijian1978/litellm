@@ -126,42 +126,48 @@ const StackedTurnBar: React.FC<{ buckets: BucketRow[] }> = ({ buckets }) => {
 const BucketTable: React.FC<{ buckets: BucketRow[] }> = ({ buckets }) => {
   const { t } = useTranslation();
   return (
-  <Table className="border-b">
-    <TableHeader>
-      <TableRow className="hover:bg-transparent">
-        <TableHead className="text-[11px] uppercase tracking-wide">{t("cost:optimization.autoRouter.bucket")}</TableHead>
-        <TableHead className="text-right text-[11px] uppercase tracking-wide">{t("cost:optimization.autoRouter.turns")}</TableHead>
-        <TableHead className="w-1/2" />
-        <TableHead className="text-right text-[11px] uppercase tracking-wide">{t("cost:optimization.autoRouter.hitRate")}</TableHead>
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      {buckets.map((b) => (
-        <TableRow key={b.key} className="hover:bg-transparent">
-          <TableCell className="text-foreground">
-            <span className="flex items-center gap-2">
-              <span className={`inline-block size-2 shrink-0 rounded-sm ${b.fill}`} aria-hidden />
-              <span>
-                {t(b.label)}
-                <span className="block text-xs font-normal text-muted-foreground">{t(b.sublabel)}</span>
-              </span>
-            </span>
-          </TableCell>
-          <TableCell className="text-right align-middle tabular-nums text-foreground">
-            {b.turns.toLocaleString()}
-          </TableCell>
-          <TableCell className="align-middle">
-            <div className="h-1.5 w-full rounded-full bg-muted">
-              <div className="h-full rounded-full bg-foreground" style={{ width: `${b.hitRatePct}%` }} aria-hidden />
-            </div>
-          </TableCell>
-          <TableCell className="text-right align-middle font-medium tabular-nums text-foreground">
-            {pctLabel(b.hitRatePct)}
-          </TableCell>
+    <Table className="border-b">
+      <TableHeader>
+        <TableRow className="hover:bg-transparent">
+          <TableHead className="text-[11px] uppercase tracking-wide">
+            {t("cost:optimization.autoRouter.bucket")}
+          </TableHead>
+          <TableHead className="text-right text-[11px] uppercase tracking-wide">
+            {t("cost:optimization.autoRouter.turns")}
+          </TableHead>
+          <TableHead className="w-1/2" />
+          <TableHead className="text-right text-[11px] uppercase tracking-wide">
+            {t("cost:optimization.autoRouter.hitRate")}
+          </TableHead>
         </TableRow>
-      ))}
-    </TableBody>
-  </Table>
+      </TableHeader>
+      <TableBody>
+        {buckets.map((b) => (
+          <TableRow key={b.key} className="hover:bg-transparent">
+            <TableCell className="text-foreground">
+              <span className="flex items-center gap-2">
+                <span className={`inline-block size-2 shrink-0 rounded-sm ${b.fill}`} aria-hidden />
+                <span>
+                  {t(b.label)}
+                  <span className="block text-xs font-normal text-muted-foreground">{t(b.sublabel)}</span>
+                </span>
+              </span>
+            </TableCell>
+            <TableCell className="text-right align-middle tabular-nums text-foreground">
+              {b.turns.toLocaleString()}
+            </TableCell>
+            <TableCell className="align-middle">
+              <div className="h-1.5 w-full rounded-full bg-muted">
+                <div className="h-full rounded-full bg-foreground" style={{ width: `${b.hitRatePct}%` }} aria-hidden />
+              </div>
+            </TableCell>
+            <TableCell className="text-right align-middle font-medium tabular-nums text-foreground">
+              {pctLabel(b.hitRatePct)}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 
@@ -204,7 +210,9 @@ const CachingCard: React.FC<{ cache: AutoRouterCacheStats }> = ({ cache }) => {
 
         <div className="flex flex-col gap-3 p-6">
           <div className="flex items-baseline justify-between">
-            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">{t("cost:optimization.autoRouter.shareOfTurns")}</p>
+            <p className="text-[11px] uppercase tracking-wide text-muted-foreground">
+              {t("cost:optimization.autoRouter.shareOfTurns")}
+            </p>
             <p className="text-xs text-muted-foreground">
               <span className="text-lg font-semibold tabular-nums text-foreground">{total.toLocaleString()}</span>{" "}
               {t("cost:optimization.autoRouter.turnsMeasured")}
@@ -253,21 +261,26 @@ const BenchmarksBody: React.FC<BenchmarksBodyProps> = ({ isPending, error, data,
           value={usd(stats.saved_per_session)}
           hint={`· ${t("cost:optimization.autoRouter.sessionsCount", { count: stats.sessions })}`}
         />
-        <Metric label={t("cost:optimization.autoRouter.avgTurnsPerSession")} value={stats.avg_turns_per_session.toFixed(1)} />
-        <Metric label={t("cost:optimization.autoRouter.avgSessionLength")} value={durationLabel(stats.avg_session_seconds)} />
-        <Metric label={t("cost:optimization.autoRouter.avgTokensPerSession")} value={formatNumberWithCommas(stats.avg_tokens_per_session, 1, true)} />
+        <Metric
+          label={t("cost:optimization.autoRouter.avgTurnsPerSession")}
+          value={stats.avg_turns_per_session.toFixed(1)}
+        />
+        <Metric
+          label={t("cost:optimization.autoRouter.avgSessionLength")}
+          value={durationLabel(stats.avg_session_seconds)}
+        />
+        <Metric
+          label={t("cost:optimization.autoRouter.avgTokensPerSession")}
+          value={formatNumberWithCommas(stats.avg_tokens_per_session, 1, true)}
+        />
       </div>
 
-      <p className="text-xs text-muted-foreground">
-        {t("cost:optimization.autoRouter.comparisonHint")}
-      </p>
+      <p className="text-xs text-muted-foreground">{t("cost:optimization.autoRouter.comparisonHint")}</p>
 
       <div className="space-y-4">
         <div className="flex flex-wrap items-baseline gap-2">
           <h3 className="text-lg font-semibold text-foreground">{t("cost:optimization.autoRouter.promptCaching")}</h3>
-          <p className="text-xs text-muted-foreground">
-            {t("cost:optimization.autoRouter.bucketHint")}
-          </p>
+          <p className="text-xs text-muted-foreground">{t("cost:optimization.autoRouter.bucketHint")}</p>
         </div>
         <CachingCard cache={stats.cache} />
       </div>

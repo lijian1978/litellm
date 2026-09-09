@@ -24,7 +24,8 @@ describe("UsageViewSelect", () => {
   it("should render", async () => {
     const user = userEvent.setup();
     const { container } = renderWithProviders(
-<UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" />);
+      <UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" />,
+    );
 
     expect(screen.getByText("Usage View")).toBeInTheDocument();
     expect(screen.getByText("Select the usage data you want to view")).toBeInTheDocument();
@@ -36,8 +37,7 @@ describe("UsageViewSelect", () => {
 
   it("should call onChange when value changes", async () => {
     const user = userEvent.setup();
-    renderWithProviders(
-<UsageViewSelect value="global" onChange={mockOnChange} userRole="Admin" />);
+    renderWithProviders(<UsageViewSelect value="global" onChange={mockOnChange} userRole="Admin" />);
 
     await chooseSelectOption(user, screen.getByRole("combobox"), /^Team Usage/);
 
@@ -48,7 +48,7 @@ describe("UsageViewSelect", () => {
   it("should show Tag Usage for non-admin users with tag usage permission", async () => {
     const user = userEvent.setup();
     const { container } = renderWithProviders(
-<UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" canViewTagUsage={true} />,
+      <UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" canViewTagUsage={true} />,
     );
 
     await openMenu(user);
@@ -58,7 +58,8 @@ describe("UsageViewSelect", () => {
   it("should hide Tag Usage for non-admin users without tag usage permission", async () => {
     const user = userEvent.setup();
     const { container } = renderWithProviders(
-<UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" />);
+      <UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" />,
+    );
 
     await openMenu(user);
     expect(offers(container, "Tag Usage")).toBe(false);
@@ -67,7 +68,8 @@ describe("UsageViewSelect", () => {
   it.each(["Organization Usage", "Agent Usage (A2A)"])("should show %s to an admin", async (optionName) => {
     const user = userEvent.setup();
     const { container } = renderWithProviders(
-<UsageViewSelect value="global" onChange={mockOnChange} userRole="Admin" />);
+      <UsageViewSelect value="global" onChange={mockOnChange} userRole="Admin" />,
+    );
 
     await openMenu(user);
     expect(offers(container, optionName)).toBe(true);
@@ -76,7 +78,7 @@ describe("UsageViewSelect", () => {
   it.each(["Organization Usage", "Agent Usage (A2A)"])("should hide %s from an internal user", async (optionName) => {
     const user = userEvent.setup();
     const { container } = renderWithProviders(
-<UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" canViewTagUsage={true} />,
+      <UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" canViewTagUsage={true} />,
     );
 
     await openMenu(user);
@@ -94,7 +96,7 @@ describe("UsageViewSelect", () => {
   ] as const)("should offer %s to an org admin: %s", async (optionName, expected) => {
     const user = userEvent.setup();
     const { container } = renderWithProviders(
-<UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" isOrgAdmin={true} />,
+      <UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" isOrgAdmin={true} />,
     );
 
     await openMenu(user);
@@ -104,7 +106,7 @@ describe("UsageViewSelect", () => {
   it.each(["Team Usage", "Tag Usage"])("should keep %s available to an internal user", async (optionName) => {
     const user = userEvent.setup();
     const { container } = renderWithProviders(
-<UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" canViewTagUsage={true} />,
+      <UsageViewSelect value="global" onChange={mockOnChange} userRole="Internal User" canViewTagUsage={true} />,
     );
 
     await openMenu(user);

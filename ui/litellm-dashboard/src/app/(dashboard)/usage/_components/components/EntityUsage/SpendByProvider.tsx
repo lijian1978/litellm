@@ -30,40 +30,40 @@ interface SpendByProviderProps {
 const useColumns = (): ColumnDef<ProviderSpendData>[] => {
   const { t } = useTranslation();
   return [
-  {
-    header: t("usage:spendByProvider.columnProvider"),
-    accessorKey: "provider",
-    cell: ({ row }) => (
-      <div className="flex items-center space-x-2">
-        {row.original.provider && <ProviderLogo provider={row.original.provider} className="size-4" />}
-        <span>{row.original.provider}</span>
-      </div>
-    ),
-  },
-  {
-    header: t("usage:spendByProvider.columnSpend"),
-    accessorKey: "spend",
-    meta: { numeric: true },
-    cell: ({ row }) => <MoneyCell value={row.original.spend} decimals={2} />,
-  },
-  {
-    header: t("usage:spendByProvider.columnSuccessful"),
-    accessorKey: "successful_requests",
-    meta: { numeric: true, className: "text-success" },
-    cell: ({ row }) => row.original.successful_requests.toLocaleString(),
-  },
-  {
-    header: t("usage:spendByProvider.columnFailed"),
-    accessorKey: "failed_requests",
-    meta: { numeric: true, className: "text-destructive" },
-    cell: ({ row }) => row.original.failed_requests.toLocaleString(),
-  },
-  {
-    header: t("usage:spendByProvider.columnTokens"),
-    accessorKey: "tokens",
-    meta: { numeric: true },
-    cell: ({ row }) => row.original.tokens.toLocaleString(),
-  },
+    {
+      header: t("usage:spendByProvider.columnProvider"),
+      accessorKey: "provider",
+      cell: ({ row }) => (
+        <div className="flex items-center space-x-2">
+          {row.original.provider && <ProviderLogo provider={row.original.provider} className="size-4" />}
+          <span>{row.original.provider}</span>
+        </div>
+      ),
+    },
+    {
+      header: t("usage:spendByProvider.columnSpend"),
+      accessorKey: "spend",
+      meta: { numeric: true },
+      cell: ({ row }) => <MoneyCell value={row.original.spend} decimals={2} />,
+    },
+    {
+      header: t("usage:spendByProvider.columnSuccessful"),
+      accessorKey: "successful_requests",
+      meta: { numeric: true, className: "text-success" },
+      cell: ({ row }) => row.original.successful_requests.toLocaleString(),
+    },
+    {
+      header: t("usage:spendByProvider.columnFailed"),
+      accessorKey: "failed_requests",
+      meta: { numeric: true, className: "text-destructive" },
+      cell: ({ row }) => row.original.failed_requests.toLocaleString(),
+    },
+    {
+      header: t("usage:spendByProvider.columnTokens"),
+      accessorKey: "tokens",
+      meta: { numeric: true },
+      cell: ({ row }) => row.original.tokens.toLocaleString(),
+    },
   ];
 };
 

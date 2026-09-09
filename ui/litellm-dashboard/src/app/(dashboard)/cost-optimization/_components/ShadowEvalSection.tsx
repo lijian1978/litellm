@@ -68,7 +68,9 @@ export const shadowedTargetLabel = (target: ShadowEvalJobTarget): string =>
   (target.target_type === "key" ? `${target.target_id.slice(0, 10)}…` : target.target_id);
 
 const shadowedTargetsLabel = (job: ShadowEvalJob, t: Translate): string =>
-  job.targets.length === 1 ? shadowedTargetLabel(job.targets[0]) : t("cost:optimization.shadowEval.targetsCount", { count: job.targets.length });
+  job.targets.length === 1
+    ? shadowedTargetLabel(job.targets[0])
+    : t("cost:optimization.shadowEval.targetsCount", { count: job.targets.length });
 
 const totalBudget = (job: ShadowEvalJob): number | null =>
   job.targets.reduce<number | null>(
@@ -169,51 +171,53 @@ const SliceTable: React.FC<{
   const { t } = useTranslation();
   const arm = otherArmLabel(direction, t);
   return (
-  <Table>
-    <TableHeader>
-      <TableRow>
-        <TableHead>{groupHeader}</TableHead>
-        {[
-          t("cost:optimization.shadowEval.judgedTurns"),
-          t("cost:optimization.shadowEval.routerWins"),
-          t("cost:optimization.shadowEval.otherWins", { arm }),
-          t("cost:optimization.shadowEval.ties"),
-          t("cost:optimization.shadowEval.judgeConfidence"),
-          t("cost:optimization.shadowEval.routerCost"),
-          t("cost:optimization.shadowEval.otherCost", { arm }),
-        ].map((label) => (
-          <TableHead key={label} className="text-right">
-            {label}
-          </TableHead>
-        ))}
-      </TableRow>
-    </TableHeader>
-    <TableBody>
-      {slices.map((slice) => (
-        <TableRow key={slice.group}>
-          <TableCell className="font-medium text-foreground">
-            {slice.group}
-            {slice.turn_count < MIN_TURNS_FOR_CONFIDENCE && (
-              <span className="ml-2 text-xs font-normal text-muted-foreground">{t("cost:optimization.shadowEval.lowSample")}</span>
-            )}
-          </TableCell>
-          <TableCell className="text-right tabular-nums">{slice.turn_count.toLocaleString()}</TableCell>
-          <TableCell className="text-right font-medium tabular-nums text-foreground">
-            {pct(routerWinRate(direction, slice))}
-          </TableCell>
-          <TableCell className="text-right tabular-nums">{pct(otherArmWinRate(direction, slice))}</TableCell>
-          <TableCell className="text-right tabular-nums">{pct(slice.tie_rate_pct)}</TableCell>
-          <TableCell className="text-right tabular-nums">{slice.avg_judge_confidence.toFixed(2)}</TableCell>
-          <TableCell className="text-right tabular-nums">
-            {routerSliceSpend(direction, slice) > 0 ? usd(routerSliceSpend(direction, slice)) : "-"}
-          </TableCell>
-          <TableCell className="text-right tabular-nums">
-            {otherSliceSpend(direction, slice) > 0 ? usd(otherSliceSpend(direction, slice)) : "-"}
-          </TableCell>
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead>{groupHeader}</TableHead>
+          {[
+            t("cost:optimization.shadowEval.judgedTurns"),
+            t("cost:optimization.shadowEval.routerWins"),
+            t("cost:optimization.shadowEval.otherWins", { arm }),
+            t("cost:optimization.shadowEval.ties"),
+            t("cost:optimization.shadowEval.judgeConfidence"),
+            t("cost:optimization.shadowEval.routerCost"),
+            t("cost:optimization.shadowEval.otherCost", { arm }),
+          ].map((label) => (
+            <TableHead key={label} className="text-right">
+              {label}
+            </TableHead>
+          ))}
         </TableRow>
-      ))}
-    </TableBody>
-  </Table>
+      </TableHeader>
+      <TableBody>
+        {slices.map((slice) => (
+          <TableRow key={slice.group}>
+            <TableCell className="font-medium text-foreground">
+              {slice.group}
+              {slice.turn_count < MIN_TURNS_FOR_CONFIDENCE && (
+                <span className="ml-2 text-xs font-normal text-muted-foreground">
+                  {t("cost:optimization.shadowEval.lowSample")}
+                </span>
+              )}
+            </TableCell>
+            <TableCell className="text-right tabular-nums">{slice.turn_count.toLocaleString()}</TableCell>
+            <TableCell className="text-right font-medium tabular-nums text-foreground">
+              {pct(routerWinRate(direction, slice))}
+            </TableCell>
+            <TableCell className="text-right tabular-nums">{pct(otherArmWinRate(direction, slice))}</TableCell>
+            <TableCell className="text-right tabular-nums">{pct(slice.tie_rate_pct)}</TableCell>
+            <TableCell className="text-right tabular-nums">{slice.avg_judge_confidence.toFixed(2)}</TableCell>
+            <TableCell className="text-right tabular-nums">
+              {routerSliceSpend(direction, slice) > 0 ? usd(routerSliceSpend(direction, slice)) : "-"}
+            </TableCell>
+            <TableCell className="text-right tabular-nums">
+              {otherSliceSpend(direction, slice) > 0 ? usd(otherSliceSpend(direction, slice)) : "-"}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 
@@ -231,14 +235,15 @@ const CostComparison: React.FC<{
     <div className="flex min-w-[240px] flex-1 flex-col gap-1 border-t px-6 py-4 sm:border-l sm:border-t-0">
       <p className="flex items-center gap-1 text-[11px] uppercase tracking-wide text-muted-foreground">
         {t("cost:optimization.shadowEval.costVsHeader", {
-          arm: direction === "reverse" ? t("cost:optimization.shadowEval.theBaseline") : t("cost:optimization.shadowEval.yourCurrentModel"),
+          arm:
+            direction === "reverse"
+              ? t("cost:optimization.shadowEval.theBaseline")
+              : t("cost:optimization.shadowEval.yourCurrentModel"),
         })}
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger render={<CircleHelp className="size-3.5 shrink-0 cursor-help" />} />
-            <TooltipContent>
-              {t("cost:optimization.shadowEval.costVsHint")}
-            </TooltipContent>
+            <TooltipContent>{t("cost:optimization.shadowEval.costVsHint")}</TooltipContent>
           </Tooltip>
         </TooltipProvider>
       </p>
@@ -277,7 +282,11 @@ const VerdictBar: React.FC<{ direction: ShadowEvalDirection; results: NonNullabl
   ];
   return (
     <div className="space-y-2 border-b px-6 py-4">
-      <div className="flex h-2 w-full overflow-hidden rounded-full" role="img" aria-label={t("cost:optimization.shadowEval.verdictAria")}>
+      <div
+        className="flex h-2 w-full overflow-hidden rounded-full"
+        role="img"
+        aria-label={t("cost:optimization.shadowEval.verdictAria")}
+      >
         {segments
           .filter((segment) => segment.value > 0)
           .map((segment) => (
@@ -305,7 +314,11 @@ const TargetTable: React.FC<{ job: ShadowEvalJob }> = ({ job }) => {
         <TableRow>
           <TableHead>{t("cost:optimization.shadowEval.targetCol")}</TableHead>
           <TableHead>{t("cost:optimization.shadowEval.statusCol")}</TableHead>
-          {[t("cost:optimization.shadowEval.budgetUsed"), t("cost:optimization.shadowEval.routerWins"), t("cost:optimization.shadowEval.otherWins", { arm })].map((label) => (
+          {[
+            t("cost:optimization.shadowEval.budgetUsed"),
+            t("cost:optimization.shadowEval.routerWins"),
+            t("cost:optimization.shadowEval.otherWins", { arm }),
+          ].map((label) => (
             <TableHead key={label} className="text-right">
               {label}
             </TableHead>
@@ -401,19 +414,31 @@ const ResultsBody: React.FC<{ job: ShadowEvalJob; resultsError?: boolean }> = ({
           <VerdictBar direction={job.direction} results={results} />
           {(results.by_router ?? []).length > 1 && (
             <div className="border-b">
-              <SliceTable groupHeader={t("cost:optimization.shadowEval.groupRouter")} direction={job.direction} slices={results.by_router ?? []} />
+              <SliceTable
+                groupHeader={t("cost:optimization.shadowEval.groupRouter")}
+                direction={job.direction}
+                slices={results.by_router ?? []}
+              />
             </div>
           )}
           {results.by_current_model.length > 0 && (
             <SliceTable
-              groupHeader={job.direction === "reverse" ? t("cost:optimization.shadowEval.routerPick") : t("cost:optimization.shadowEval.comparedAgainst")}
+              groupHeader={
+                job.direction === "reverse"
+                  ? t("cost:optimization.shadowEval.routerPick")
+                  : t("cost:optimization.shadowEval.comparedAgainst")
+              }
               direction={job.direction}
               slices={results.by_current_model}
             />
           )}
           {results.by_tier.length > 0 && (
             <div className={results.by_current_model.length > 0 ? "border-t" : ""}>
-              <SliceTable groupHeader={t("cost:optimization.shadowEval.promptDifficulty")} direction={job.direction} slices={results.by_tier} />
+              <SliceTable
+                groupHeader={t("cost:optimization.shadowEval.promptDifficulty")}
+                direction={job.direction}
+                slices={results.by_tier}
+              />
             </div>
           )}
         </>
@@ -474,7 +499,9 @@ const JobResults: React.FC<{
 const previousSummary = (job: ShadowEvalJob, t: Translate): string => {
   const results = job.results;
   if (results) return pct(routerMatchedOrBeatPct(job.direction, results));
-  return job.judged_count === 0 ? t("cost:optimization.shadowEval.noVerdictsNoun") : t("cost:optimization.shadowEval.viewResults");
+  return job.judged_count === 0
+    ? t("cost:optimization.shadowEval.noVerdictsNoun")
+    : t("cost:optimization.shadowEval.viewResults");
 };
 
 const PreviousJob: React.FC<{ job: ShadowEvalJob }> = ({ job }) => {
@@ -529,8 +556,12 @@ const PreviousJobs: React.FC<{ jobs: readonly ShadowEvalJob[] }> = ({ jobs }) =>
         onClick={() => setOpen((prev) => !prev)}
         className="flex w-full items-center justify-between gap-3 px-6 py-3 text-left hover:bg-muted/50"
       >
-        <span className="text-sm font-medium text-foreground">{t("cost:optimization.shadowEval.previousEvals", { count: jobs.length })}</span>
-        <span className="text-xs text-muted-foreground">{open ? t("cost:optimization.shadowEval.hide") : t("cost:optimization.shadowEval.show")}</span>
+        <span className="text-sm font-medium text-foreground">
+          {t("cost:optimization.shadowEval.previousEvals", { count: jobs.length })}
+        </span>
+        <span className="text-xs text-muted-foreground">
+          {open ? t("cost:optimization.shadowEval.hide") : t("cost:optimization.shadowEval.show")}
+        </span>
       </button>
       {open && (
         <div className="border-t">
@@ -575,16 +606,14 @@ const ShadowEvalSection: React.FC = () => {
     <div className="space-y-4">
       <div className="flex flex-wrap items-baseline gap-2">
         <h2 className="text-xl font-semibold text-foreground">{t("cost:optimization.shadowEval.title")}</h2>
-        <p className="text-sm text-muted-foreground">
-          {t("cost:optimization.shadowEval.description")}
-        </p>
+        <p className="text-sm text-muted-foreground">{t("cost:optimization.shadowEval.description")}</p>
       </div>
 
-      {error != null && (
-        <p className="text-sm text-destructive">{t("cost:optimization.shadowEval.loadFailed")}</p>
-      )}
+      {error != null && <p className="text-sm text-destructive">{t("cost:optimization.shadowEval.loadFailed")}</p>}
 
-      {isPending && error == null && <p className="text-sm text-muted-foreground">{t("cost:optimization.shadowEval.loading")}</p>}
+      {isPending && error == null && (
+        <p className="text-sm text-muted-foreground">{t("cost:optimization.shadowEval.loading")}</p>
+      )}
 
       {showcased.map((job) => (
         <JobCard key={job.job_id} job={job} readOnly={isViewOnly} />

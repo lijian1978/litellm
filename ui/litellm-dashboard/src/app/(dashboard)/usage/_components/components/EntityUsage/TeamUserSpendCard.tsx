@@ -31,38 +31,48 @@ interface TeamUserSpendCardProps {
 const useColumns = (): ColumnDef<TeamUserSpendRow>[] => {
   const { t } = useTranslation();
   return [
-  { header: t("usage:teamUserSpend.columnTeam"), accessorFn: teamLabel, id: "team", cell: ({ row }) => teamLabel(row.original) },
-  { header: t("usage:teamUserSpend.columnUser"), accessorFn: userLabel, id: "user", cell: ({ row }) => userLabel(row.original) },
-  {
-    header: t("usage:teamUserSpend.columnSpend"),
-    accessorKey: "spend",
-    meta: { numeric: true },
-    cell: ({ row }) => <MoneyCell value={row.original.spend} decimals={4} />,
-  },
-  {
-    header: t("usage:teamUserSpend.columnRequests"),
-    accessorKey: "api_requests",
-    meta: { numeric: true },
-    cell: ({ row }) => row.original.api_requests.toLocaleString(),
-  },
-  {
-    header: t("usage:teamUserSpend.columnSuccessful"),
-    accessorKey: "successful_requests",
-    meta: { numeric: true, className: "text-success" },
-    cell: ({ row }) => row.original.successful_requests.toLocaleString(),
-  },
-  {
-    header: t("usage:teamUserSpend.columnFailed"),
-    accessorKey: "failed_requests",
-    meta: { numeric: true, className: "text-destructive" },
-    cell: ({ row }) => row.original.failed_requests.toLocaleString(),
-  },
-  {
-    header: t("usage:teamUserSpend.columnTokens"),
-    accessorKey: "total_tokens",
-    meta: { numeric: true },
-    cell: ({ row }) => row.original.total_tokens.toLocaleString(),
-  },
+    {
+      header: t("usage:teamUserSpend.columnTeam"),
+      accessorFn: teamLabel,
+      id: "team",
+      cell: ({ row }) => teamLabel(row.original),
+    },
+    {
+      header: t("usage:teamUserSpend.columnUser"),
+      accessorFn: userLabel,
+      id: "user",
+      cell: ({ row }) => userLabel(row.original),
+    },
+    {
+      header: t("usage:teamUserSpend.columnSpend"),
+      accessorKey: "spend",
+      meta: { numeric: true },
+      cell: ({ row }) => <MoneyCell value={row.original.spend} decimals={4} />,
+    },
+    {
+      header: t("usage:teamUserSpend.columnRequests"),
+      accessorKey: "api_requests",
+      meta: { numeric: true },
+      cell: ({ row }) => row.original.api_requests.toLocaleString(),
+    },
+    {
+      header: t("usage:teamUserSpend.columnSuccessful"),
+      accessorKey: "successful_requests",
+      meta: { numeric: true, className: "text-success" },
+      cell: ({ row }) => row.original.successful_requests.toLocaleString(),
+    },
+    {
+      header: t("usage:teamUserSpend.columnFailed"),
+      accessorKey: "failed_requests",
+      meta: { numeric: true, className: "text-destructive" },
+      cell: ({ row }) => row.original.failed_requests.toLocaleString(),
+    },
+    {
+      header: t("usage:teamUserSpend.columnTokens"),
+      accessorKey: "total_tokens",
+      meta: { numeric: true },
+      cell: ({ row }) => row.original.total_tokens.toLocaleString(),
+    },
   ];
 };
 
@@ -84,9 +94,7 @@ const TeamUserSpendCard: React.FC<TeamUserSpendCardProps> = ({ accessToken, star
         <div className="flex items-start justify-between">
           <div className="flex flex-col space-y-2">
             <h3 className="text-lg font-medium text-foreground">{t("usage:teamUserSpend.title")}</h3>
-            <p className="text-xs text-muted-foreground">
-              {t("usage:teamUserSpend.hint")}
-            </p>
+            <p className="text-xs text-muted-foreground">{t("usage:teamUserSpend.hint")}</p>
           </div>
           <Button
             variant="outline"

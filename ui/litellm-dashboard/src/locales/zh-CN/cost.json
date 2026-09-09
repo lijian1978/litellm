@@ -88,8 +88,8 @@
     "discountApplied": "应用折扣："
   },
   "calculator": {
-    "loading": "正在加载配置...",
-    "updating": "正在更新...",
+    "loading": "正在加载配置…",
+    "updating": "正在更新…",
     "totalPerRequest": "每请求合计",
     "inputCost": "输入成本",
     "outputCost": "输出成本",
@@ -102,7 +102,7 @@
     "perMillion": "/1M",
     "total": "合计",
     "empty": "请在上方选择模型以查看成本估算",
-    "calculating": "正在计算成本...",
+    "calculating": "正在计算成本…",
     "costEstimates": "成本估算",
     "unknownModel": "未知模型",
     "totalPerRequestCap": "每请求合计",
@@ -253,7 +253,7 @@
       "turnsMeasured": "轮已测量",
       "unorderedTurns_one": "{{count}} 轮因跨 Pod 乱序到达而未被分桶",
       "unorderedTurns_other": "{{count}} 轮因跨 Pod 乱序到达而未被分桶",
-      "loading": "正在加载自动路由用量...",
+      "loading": "正在加载自动路由用量…",
       "adminOnly": "自动路由用量仅对代理管理员角色可见",
       "unavailable": "当前无法获取自动路由用量",
       "avgSavedPerSession": "平均每会话节省",
@@ -321,7 +321,7 @@
       "resultsLoadFailed": "结果加载失败，正在重试。",
       "collectingVerdicts": "正在收集判定结果。结果会随采样请求被评判而陆续出现。",
       "noVerdictsRecorded": "该任务没有记录任何判定结果。",
-      "loadingResults": "正在加载结果...",
+      "loadingResults": "正在加载结果…",
       "matchedOrBeat": "路由器持平或胜过 {{arm}}",
       "ofJudged": "占 {{count}} 个已评判响应",
       "groupRouter": "路由器",
@@ -330,7 +330,7 @@
       "promptDifficulty": "Prompt 难度",
       "judgedSummary": "已评判 {{judged}} 轮 · {{errored}} 次出错 · 评估花费 {{spend}}",
       "judgedSummaryBudget": "已评判 {{judged}} 轮 · {{errored}} 次出错 · 评估花费 {{spend}}（共 {{budget}}）",
-      "stopping": "正在停止...",
+      "stopping": "正在停止…",
       "stop": "停止",
       "lastFailure": "最近失败：",
       "noVerdictsNoun": "无判定结果",
@@ -341,7 +341,7 @@
       "title": "Shadow 评估",
       "description": "对自动路由在密钥、团队或用户的真实流量上进行盲评（团队与用户覆盖 JWT 认证流量）：切换前与它们当前使用的模型对比，切换后与固定基线对比。",
       "loadFailed": "无法加载已有评估。请刷新页面重试。",
-      "loading": "正在加载评估...",
+      "loading": "正在加载评估…",
       "form": {
         "recommended": "推荐",
         "configuredHere": "已在本网关配置",
@@ -388,7 +388,7 @@
         "judgeModel": "评判模型",
         "selectJudge": "选择评判模型",
         "noChatModels": "没有可用的对话模型",
-        "starting": "正在启动...",
+        "starting": "正在启动…",
         "startButton": "启动 Shadow 评估"
       }
     }

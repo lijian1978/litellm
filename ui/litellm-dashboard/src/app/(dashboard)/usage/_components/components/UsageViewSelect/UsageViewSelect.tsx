@@ -104,7 +104,7 @@ const options = (t: (key: string) => string): OptionConfig[] => [
     icon: <LineChart className="size-4" />,
     adminOnly: true,
   },
-  ];
+];
 export const UsageViewSelect: React.FC<UsageViewSelectProps> = ({
   value,
   onChange,
@@ -120,34 +120,36 @@ export const UsageViewSelect: React.FC<UsageViewSelectProps> = ({
   const subtitle = description ?? t("usage:viewSelect.subtitle");
   const isAdmin = all_admin_roles.includes(userRole ?? "");
   const getFilteredOptions = () => {
-    return options(t).filter((option) => {
-      if (option.capability) {
-        return hasCapability(userRole, option.capability, isOrgAdmin);
-      }
-      if (option.value === "tag" && canViewTagUsage) {
+    return options(t)
+      .filter((option) => {
+        if (option.capability) {
+          return hasCapability(userRole, option.capability, isOrgAdmin);
+        }
+        if (option.value === "tag" && canViewTagUsage) {
+          return true;
+        }
+        if (option.adminOnly && !isAdmin) {
+          return false;
+        }
         return true;
-      }
-      if (option.adminOnly && !isAdmin) {
-        return false;
-      }
-      return true;
-    }).map((option) => {
-      let label = option.label;
-      let desc = option.description;
-      if (option.showForAdmin && option.showForNonAdmin) {
-        label = isAdmin ? option.showForAdmin : option.showForNonAdmin;
-      }
-      if (option.descriptionForAdmin && option.descriptionForNonAdmin) {
-        desc = isAdmin ? option.descriptionForAdmin : option.descriptionForNonAdmin;
-      }
-      return {
-        value: option.value,
-        label,
-        description: desc,
-        icon: option.icon,
-        badgeText: option.badgeText,
-      };
-    });
+      })
+      .map((option) => {
+        let label = option.label;
+        let desc = option.description;
+        if (option.showForAdmin && option.showForNonAdmin) {
+          label = isAdmin ? option.showForAdmin : option.showForNonAdmin;
+        }
+        if (option.descriptionForAdmin && option.descriptionForNonAdmin) {
+          desc = isAdmin ? option.descriptionForAdmin : option.descriptionForNonAdmin;
+        }
+        return {
+          value: option.value,
+          label,
+          description: desc,
+          icon: option.icon,
+          badgeText: option.badgeText,
+        };
+      });
   };
   const filteredOptions = getFilteredOptions();
   const selectedOption = filteredOptions.find((option) => option.value === value);

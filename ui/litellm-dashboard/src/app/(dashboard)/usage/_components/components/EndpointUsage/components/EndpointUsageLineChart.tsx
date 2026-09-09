@@ -9,10 +9,7 @@ interface EndpointUsageLineChartProps {
 }
 
 // Transform daily data into chart format
-function transformDailyDataToChart(
-  dailyData: DailyData[],
-  locale: string,
-): Array<Record<string, string | number>> {
+function transformDailyDataToChart(dailyData: DailyData[], locale: string): Array<Record<string, string | number>> {
   const chartData: Array<Record<string, string | number>> = [];
 
   // Get all unique endpoint names

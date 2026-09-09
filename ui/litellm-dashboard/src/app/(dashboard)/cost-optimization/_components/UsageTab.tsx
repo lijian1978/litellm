@@ -89,7 +89,9 @@ const UsageTab: React.FC<UsageTabProps> = ({ accessToken, activity }) => {
   const intervalLabel = t("cost:optimization.usageTab.perDay");
   const rangeLabel = formatRangeLabel(startTime ?? undefined, endTime ?? undefined);
   const savingsSubtitle = [
-    accumulation === "cumulative" ? t("cost:optimization.usageTab.runningTotalSaved") : t("cost:optimization.usageTab.savedPerInterval", { interval: intervalLabel.toLowerCase() }),
+    accumulation === "cumulative"
+      ? t("cost:optimization.usageTab.runningTotalSaved")
+      : t("cost:optimization.usageTab.savedPerInterval", { interval: intervalLabel.toLowerCase() }),
     rangeLabel && `${rangeLabel} (UTC)`,
   ]
     .filter(Boolean)
@@ -202,9 +204,7 @@ const UsageTab: React.FC<UsageTabProps> = ({ accessToken, activity }) => {
         <Card>
           <CardHeader>
             <CardTitle>{t("cost:optimization.usageTab.spendByTool")}</CardTitle>
-            <p className="text-sm text-muted-foreground">
-              {t("cost:optimization.usageTab.spendByToolHint")}
-            </p>
+            <p className="text-sm text-muted-foreground">{t("cost:optimization.usageTab.spendByToolHint")}</p>
           </CardHeader>
           <CardContent>
             {topTools.length === 0 ? (
@@ -214,7 +214,9 @@ const UsageTab: React.FC<UsageTabProps> = ({ accessToken, activity }) => {
             ) : (
               <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <div>
-                  <p className="mb-2 text-sm font-medium text-muted-foreground">{t("cost:optimization.usageTab.totalByTool")}</p>
+                  <p className="mb-2 text-sm font-medium text-muted-foreground">
+                    {t("cost:optimization.usageTab.totalByTool")}
+                  </p>
                   <BarChart
                     data={topToolsChart}
                     index="tool_name"
@@ -229,7 +231,9 @@ const UsageTab: React.FC<UsageTabProps> = ({ accessToken, activity }) => {
                   />
                 </div>
                 <div>
-                  <p className="mb-2 text-sm font-medium text-muted-foreground">{t("cost:optimization.usageTab.dailySpendByTool")}</p>
+                  <p className="mb-2 text-sm font-medium text-muted-foreground">
+                    {t("cost:optimization.usageTab.dailySpendByTool")}
+                  </p>
                   <CustomLegend categories={topToolNames} colors={toolColors} />
                   <BarChart
                     data={dailyToolSeries}

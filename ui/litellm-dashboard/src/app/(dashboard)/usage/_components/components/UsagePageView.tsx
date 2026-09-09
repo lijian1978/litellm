@@ -585,15 +585,15 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                             <ShadcnCard>
                               <CardContent>
                                 <div className="flex items-center gap-2">
-                                  <h3 className="text-lg font-medium text-foreground">{t("usage:page.successfulRequests")}</h3>
+                                  <h3 className="text-lg font-medium text-foreground">
+                                    {t("usage:page.successfulRequests")}
+                                  </h3>
                                   {gatewayActivity && (
                                     <Tooltip>
                                       <TooltipTrigger
                                         render={<Info className="size-4 text-muted-foreground hover:text-foreground" />}
                                       />
-                                      <TooltipContent>
-                                        {t("usage:page.gatewayCountHint")}
-                                      </TooltipContent>
+                                      <TooltipContent>{t("usage:page.gatewayCountHint")}</TooltipContent>
                                     </Tooltip>
                                   )}
                                 </div>
@@ -614,7 +614,9 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                             <ShadcnCard>
                               <CardContent>
                                 <div className="flex items-center gap-2">
-                                  <h3 className="text-lg font-medium text-foreground">{t("usage:page.failedRequests")}</h3>
+                                  <h3 className="text-lg font-medium text-foreground">
+                                    {t("usage:page.failedRequests")}
+                                  </h3>
                                   <Tooltip>
                                     <TooltipTrigger
                                       render={<Info className="size-4 text-muted-foreground hover:text-foreground" />}
@@ -638,7 +640,9 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                             </ShadcnCard>
                             <ShadcnCard>
                               <CardContent>
-                                <h3 className="text-lg font-medium text-foreground">{t("usage:page.avgCostPerRequest")}</h3>
+                                <h3 className="text-lg font-medium text-foreground">
+                                  {t("usage:page.avgCostPerRequest")}
+                                </h3>
                                 <p className="text-2xl font-bold mt-2">
                                   $
                                   {formatNumberWithCommas(
@@ -679,7 +683,9 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                               </ShadcnCard>
                               <ShadcnCard>
                                 <CardContent>
-                                  <h3 className="text-lg font-medium text-foreground">{t("usage:page.outputTokens")}</h3>
+                                  <h3 className="text-lg font-medium text-foreground">
+                                    {t("usage:page.outputTokens")}
+                                  </h3>
                                   <p className="text-2xl font-bold mt-2 text-info">
                                     {userSpendData.metadata?.total_completion_tokens?.toLocaleString() || 0}
                                   </p>
@@ -687,7 +693,9 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                               </ShadcnCard>
                               <ShadcnCard>
                                 <CardContent>
-                                  <h3 className="text-lg font-medium text-foreground">{t("usage:page.cacheReadTokens")}</h3>
+                                  <h3 className="text-lg font-medium text-foreground">
+                                    {t("usage:page.cacheReadTokens")}
+                                  </h3>
                                   <p className="text-2xl font-bold mt-2 text-success">
                                     {userSpendData.metadata?.total_cache_read_input_tokens?.toLocaleString() || 0}
                                   </p>
@@ -695,7 +703,9 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                               </ShadcnCard>
                               <ShadcnCard>
                                 <CardContent>
-                                  <h3 className="text-lg font-medium text-foreground">{t("usage:page.cacheWriteTokens")}</h3>
+                                  <h3 className="text-lg font-medium text-foreground">
+                                    {t("usage:page.cacheWriteTokens")}
+                                  </h3>
                                   <p className="text-2xl font-bold mt-2 text-purple-600">
                                     {userSpendData.metadata?.total_cache_creation_input_tokens?.toLocaleString() || 0}
                                   </p>
@@ -731,13 +741,21 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                                 return (
                                   <div className="bg-card p-4 shadow-lg rounded-lg border">
                                     <p className="font-bold">{data.date}</p>
-                                    <p className="text-info">{t("usage:page.spendColon")} ${formatNumberWithCommas(data.metrics.spend, 2)}</p>
-                                    <p className="text-muted-foreground">{t("usage:page.requestsColon")} {data.metrics.api_requests}</p>
+                                    <p className="text-info">
+                                      {t("usage:page.spendColon")} ${formatNumberWithCommas(data.metrics.spend, 2)}
+                                    </p>
+                                    <p className="text-muted-foreground">
+                                      {t("usage:page.requestsColon")} {data.metrics.api_requests}
+                                    </p>
                                     <p className="text-muted-foreground">
                                       {t("usage:page.successfulColon")} {data.metrics.successful_requests}
                                     </p>
-                                    <p className="text-muted-foreground">{t("usage:page.failedColon")} {data.metrics.failed_requests}</p>
-                                    <p className="text-muted-foreground">{t("usage:page.tokensColon")} {data.metrics.total_tokens}</p>
+                                    <p className="text-muted-foreground">
+                                      {t("usage:page.failedColon")} {data.metrics.failed_requests}
+                                    </p>
+                                    <p className="text-muted-foreground">
+                                      {t("usage:page.tokensColon")} {data.metrics.total_tokens}
+                                    </p>
                                   </div>
                                 );
                               }}
@@ -759,9 +777,7 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                                     <Info className="ml-2 inline size-4 text-muted-foreground hover:text-foreground" />
                                   }
                                 />
-                                <TooltipContent>
-                                  {t("usage:page.gatewayEndpointHint")}
-                                </TooltipContent>
+                                <TooltipContent>{t("usage:page.gatewayEndpointHint")}</TooltipContent>
                               </Tooltip>
                             </CardTitle>
                           </CardHeader>
@@ -799,7 +815,9 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                       <ShadcnCard className="h-full">
                         <CardContent>
                           <h3 className="text-lg font-medium text-foreground">
-                            {modelViewType === "groups" ? t("usage:page.topPublicModelNames") : t("usage:page.topLitellmModels")}
+                            {modelViewType === "groups"
+                              ? t("usage:page.topPublicModelNames")
+                              : t("usage:page.topLitellmModels")}
                           </h3>
                           <div className="flex justify-between items-center mb-4">
                             <Tabs
@@ -840,12 +858,15 @@ const UsagePage: React.FC<UsagePageProps> = ({ teams, organizations }) => {
                                       return (
                                         <div className="bg-card p-4 shadow-lg rounded-lg border">
                                           <p className="font-bold">{data.key}</p>
-                                          <p className="text-info">{t("usage:page.spendColon")} ${formatNumberWithCommas(data.spend, 2)}</p>
+                                          <p className="text-info">
+                                            {t("usage:page.spendColon")} ${formatNumberWithCommas(data.spend, 2)}
+                                          </p>
                                           <p className="text-muted-foreground">
                                             {t("usage:page.totalRequestsColon")} {data.requests.toLocaleString()}
                                           </p>
                                           <p className="text-success">
-                                            {t("usage:page.successfulColon")} {data.successful_requests.toLocaleString()}
+                                            {t("usage:page.successfulColon")}{" "}
+                                            {data.successful_requests.toLocaleString()}
                                           </p>
                                           <p className="text-destructive">
                                             {t("usage:page.failedColon")} {data.failed_requests.toLocaleString()}

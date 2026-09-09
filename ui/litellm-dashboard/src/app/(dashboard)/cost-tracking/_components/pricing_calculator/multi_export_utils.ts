@@ -255,7 +255,11 @@ export const exportMultiToPDF = (multiResult: MultiModelResult, t: ExportTransla
 export const exportMultiToCSV = (multiResult: MultiModelResult, t: ExportTranslate): void => {
   const validEntries = multiResult.entries.filter((e) => e.result !== null);
 
-  const rows: string[][] = [[t("cost:export.csvReportTitle")], [t("cost:export.generated"), new Date().toLocaleString()], [""]];
+  const rows: string[][] = [
+    [t("cost:export.csvReportTitle")],
+    [t("cost:export.generated"), new Date().toLocaleString()],
+    [""],
+  ];
 
   // Summary section
   rows.push(

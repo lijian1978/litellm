@@ -103,9 +103,7 @@ const TierTurnsChart: React.FC<TierTurnsChartProps> = ({ view, autoRouters }) =>
     <Card>
       <CardHeader>
         <CardTitle>{t("cost:optimization.tierTurns.title")}</CardTitle>
-        <p className="text-sm text-muted-foreground">
-          {t("cost:optimization.tierTurns.description")}
-        </p>
+        <p className="text-sm text-muted-foreground">{t("cost:optimization.tierTurns.description")}</p>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 items-center gap-6 lg:grid-cols-2">
