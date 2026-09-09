@@ -99,7 +99,7 @@ describe("UsageExportHeader", () => {
     );
 
     expect(screen.getByText("Filter by tag")).toBeInTheDocument();
-    const input = screen.getByPlaceholderText("No tags with usage in this range");
+    const input = screen.getByPlaceholderText("No Tags with usage in this range");
     expect(input).toBeDisabled();
     expect(screen.queryByPlaceholderText("Select tag to filter...")).not.toBeInTheDocument();
   });
@@ -120,7 +120,7 @@ describe("UsageExportHeader", () => {
       />,
     );
 
-    expect(screen.getByPlaceholderText("No tags with usage in this range")).toBeEnabled();
+    expect(screen.getByPlaceholderText("No Tags with usage in this range")).toBeEnabled();
 
     await user.click(screen.getByRole("button", { name: "Clear Filter by tag" }));
     expect(onFiltersChange).toHaveBeenCalledWith([]);
@@ -141,6 +141,6 @@ describe("UsageExportHeader", () => {
 
     const input = screen.getByPlaceholderText("Select tag to filter...");
     expect(input).toBeEnabled();
-    expect(screen.queryByPlaceholderText("No tags with usage in this range")).not.toBeInTheDocument();
+    expect(screen.queryByPlaceholderText("No Tags with usage in this range")).not.toBeInTheDocument();
   });
 });

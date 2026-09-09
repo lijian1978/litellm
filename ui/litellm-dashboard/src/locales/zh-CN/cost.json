@@ -25,7 +25,7 @@
     "removeAria": "移除 {{name}} 的折扣"
   },
   "margins": {
-    "title": "费用/价格加价",
+    "title": "加价",
     "description": "在 LLM 成本上添加费用或加价，用于内部结算与成本回收",
     "add": "+ 添加提供商加价",
     "empty": "未配置提供商加价",

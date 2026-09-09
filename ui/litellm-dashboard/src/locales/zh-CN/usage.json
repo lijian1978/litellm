@@ -74,7 +74,16 @@
       "key": "密钥"
     },
     "filterBy": "按{{entity}}筛选",
-    "filterPlaceholder": "选择要筛选的{{entity}}…"
+    "filterPlaceholder": "选择要筛选的{{entity}}…",
+    "typePlural": {
+      "team": "团队",
+      "user": "用户",
+      "organization": "组织",
+      "customer": "客户",
+      "tag": "标签",
+      "agent": "Agent",
+      "key": "密钥"
+    }
   },
   "spendByProvider": {
     "title": "按提供商花费",
@@ -146,7 +155,7 @@
     "teamUsage": "团队用量",
     "customerUsage": "客户用量",
     "tagUsage": "标签用量",
-    "agentUsage": "Agent 用量 (A2A)",
+    "agentUsage": "Agent 用量（A2A）",
     "userUsage": "用户用量",
     "userAgentActivity": "用户 Agent 活动",
     "globalDescription": "查看所有资源的用量",
@@ -158,5 +167,53 @@
     "agentDescription": "按 AI Agent 查看用量",
     "userDescription": "按个人用户查看用量",
     "userAgentDescription": "查看详细的用户 Agent 活动日志"
+  },
+  "activity": {
+    "totalSuccessfulRequests": "成功请求总数",
+    "avgTokensPerSuccess_one": "每个成功请求平均 {{count}} Token",
+    "avgTokensPerSuccess_other": "每个成功请求平均 {{count}} Token",
+    "totalSpend": "总花费",
+    "spendPerSuccess": "每个成功请求 ${{amount}}",
+    "topKeysBySpend": "虚拟密钥花费排行",
+    "teamColon": "团队：{{team}}",
+    "requestsTokens": "{{requests}} 个请求 | {{tokens}} Token",
+    "spendPerDay": "每日花费",
+    "requestsPerDay": "每日请求数",
+    "successVsFailed": "成功与失败请求",
+    "promptCachingMetrics": "Prompt 缓存指标",
+    "cacheReadTokens": "缓存读取：{{count}} Token",
+    "cacheCreationTokens": "缓存写入：{{count}} Token",
+    "overallUsage": "整体用量",
+    "totalTokensOverTime": "Token 总数趋势",
+    "totalRequestsOverTime": "请求总数趋势",
+    "unknownItem": "未知项",
+    "requestsCount_one": "{{count}} 个请求",
+    "requestsCount_other": "{{count}} 个请求"
+  },
+  "modelView": {
+    "publicModelName": "公开模型名称",
+    "litellmModelName": "LiteLLM 模型名称"
+  },
+  "exportHeader": {
+    "noEntityUsage": "该时间段内没有{{entity}}的用量",
+    "noOptions": "未找到可选项",
+    "clearFilters": "清除{{filter}}",
+    "filtersNoun": "筛选条件"
+  },
+  "viewUserSpend": {
+    "maxBudget": "预算上限",
+    "budgetLimit": "上限 ${{amount}}",
+    "noLimit": "无上限"
+  },
+  "topKeys": {
+    "columnKeyId": "密钥 ID",
+    "columnKeyAlias": "密钥别名",
+    "columnTags": "标签",
+    "tagName": "标签名称",
+    "showFewerTags": "收起部分标签",
+    "showAllTags": "显示全部标签",
+    "numKeysAria": "显示的密钥数量",
+    "keyAliasColon": "密钥别名：",
+    "keyIdColon": "密钥 ID："
   }
 }
