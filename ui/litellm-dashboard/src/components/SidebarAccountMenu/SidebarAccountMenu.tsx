@@ -5,7 +5,7 @@ import { useDisableBouncingIcon } from "@/app/(dashboard)/hooks/useDisableBounci
 import { useDisableShowNewBadge } from "@/app/(dashboard)/hooks/useDisableShowNewBadge";
 import { useDisableShowPrompts } from "@/app/(dashboard)/hooks/useDisableShowPrompts";
 import { emitLocalStorageChange, removeLocalStorageItem, setLocalStorageItem } from "@/utils/localStorageUtils";
-import { navAccountDisplayName } from "@/components/Navbar/navDisplayName";
+import { navAccountDisplayName, localizedAccountDisplayName } from "@/components/Navbar/navDisplayName";
 import CopyButton from "@/components/shared/CopyButton";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -16,6 +16,7 @@ import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/cva.config";
 import { ChevronsUpDown, Crown, IdCard, LogOut, Mail, ShieldCheck } from "lucide-react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const RELEASE_NOTES_URL = "https://docs.litellm.ai/release_notes";
 
@@ -81,6 +82,7 @@ interface SidebarAccountMenuProps {
 }
 
 const SidebarAccountMenu: React.FC<SidebarAccountMenuProps> = ({ onLogout, collapsed = false }) => {
+  const { t } = useTranslation();
   const { userId, userEmail, userRoleLabel: userRole, premiumUser, accessToken } = useAuthorized();
   const { data: healthData } = useHealthReadinessDetails(accessToken);
   const version = healthData?.litellm_version;
@@ -101,29 +103,29 @@ const SidebarAccountMenu: React.FC<SidebarAccountMenuProps> = ({ onLogout, colla
   const toggles = [
     {
       key: "disableShowNewBadge",
-      label: "Hide New Feature Indicators",
-      ariaLabel: "Toggle hide new feature indicators",
+      label: t("auth:account.toggle.hideNew"),
+      ariaLabel: t("auth:account.toggle.hideNewAria"),
       checked: disableShowNewBadge,
       onCheckedChange: (checked: boolean) => setFlag("disableShowNewBadge", checked),
     },
     {
       key: "disableShowPrompts",
-      label: "Hide All Prompts",
-      ariaLabel: "Toggle hide all prompts",
+      label: t("auth:account.toggle.hidePrompts"),
+      ariaLabel: t("auth:account.toggle.hidePromptsAria"),
       checked: disableShowPrompts,
       onCheckedChange: (checked: boolean) => setFlag("disableShowPrompts", checked),
     },
     {
       key: "disableBlogPosts",
-      label: "Hide Blog Posts",
-      ariaLabel: "Toggle hide blog posts",
+      label: t("auth:account.toggle.hideBlog"),
+      ariaLabel: t("auth:account.toggle.hideBlogAria"),
       checked: disableBlogPosts,
       onCheckedChange: (checked: boolean) => setFlag("disableBlogPosts", checked),
     },
     {
       key: "disableBouncingIcon",
-      label: "Hide Bouncing Icon",
-      ariaLabel: "Toggle hide bouncing icon",
+      label: t("auth:account.toggle.hideBouncing"),
+      ariaLabel: t("auth:account.toggle.hideBouncingAria"),
       checked: disableBouncingIcon,
       onCheckedChange: (checked: boolean) => setFlag("disableBouncingIcon", checked),
     },
@@ -132,8 +134,11 @@ const SidebarAccountMenu: React.FC<SidebarAccountMenuProps> = ({ onLogout, colla
   const seed = userEmail || userId || "user";
   const initials = initialsFromIdentity(userEmail, userId);
   const hue = hueFromString(seed);
-  const displayName = navAccountDisplayName(userEmail, userId);
-  const triggerLabel = `Account menu — ${userRole ?? "Unknown role"} — signed in as ${userEmail || userId || "unknown"}`;
+  const displayName = localizedAccountDisplayName(navAccountDisplayName(userEmail, userId), t);
+  const triggerLabel = t("auth:account.triggerAria", {
+    role: userRole ?? "Unknown role",
+    user: userEmail || userId || "unknown",
+  });
 
   return (
     <Popover>
@@ -174,7 +179,7 @@ const SidebarAccountMenu: React.FC<SidebarAccountMenuProps> = ({ onLogout, colla
             <span
               className="animate-bounce text-lg leading-none"
               style={{ animationDuration: "2s" }}
-              title="Thanks for using LiteLLM!"
+              title={t("navigation:navbar.thanksMessage")}
               aria-hidden
             >
               🌴
@@ -193,27 +198,27 @@ const SidebarAccountMenu: React.FC<SidebarAccountMenuProps> = ({ onLogout, colla
         </div>
 
         <div className="flex flex-col px-3 py-2">
-          <InfoRow icon={<Crown className="size-[17px]" />} label="Tier">
+          <InfoRow icon={<Crown className="size-[17px]" />} label={t("auth:account.tier.label")}>
             {premiumUser ? (
               <Badge variant="outline" className="gap-1 border-warning/30 bg-warning/10 text-warning">
                 <Crown />
-                Premium
+                {t("auth:account.tier.premium")}
               </Badge>
             ) : (
-              <Badge variant="secondary" className="gap-1" title="Upgrade to Premium for advanced features">
+              <Badge variant="secondary" className="gap-1" title={t("auth:account.tier.upgradeTooltip")}>
                 <Crown />
-                Standard
+                {t("auth:account.tier.standard")}
               </Badge>
             )}
           </InfoRow>
-          <InfoRow icon={<ShieldCheck className="size-[17px]" />} label="Role">
+          <InfoRow icon={<ShieldCheck className="size-[17px]" />} label={t("auth:account.role")}>
             <Badge variant="secondary">{userRole}</Badge>
           </InfoRow>
-          <InfoRow icon={<Mail className="size-[17px]" />} label="Email">
-            <MonoValue value={userEmail} copyLabel="Copy email" />
+          <InfoRow icon={<Mail className="size-[17px]" />} label={t("auth:account.email")}>
+            <MonoValue value={userEmail} copyLabel={t("action.copyEmail")} />
           </InfoRow>
-          <InfoRow icon={<IdCard className="size-[17px]" />} label="User ID">
-            <MonoValue value={userId} copyLabel="Copy user ID" />
+          <InfoRow icon={<IdCard className="size-[17px]" />} label={t("auth:account.userId")}>
+            <MonoValue value={userId} copyLabel={t("action.copyUserId")} />
           </InfoRow>
         </div>
 
@@ -241,7 +246,7 @@ const SidebarAccountMenu: React.FC<SidebarAccountMenuProps> = ({ onLogout, colla
           className="h-[42px] w-full justify-start gap-2.5 rounded-none px-3 text-sm font-medium text-foreground"
         >
           <LogOut className="size-[19px] text-muted-foreground" />
-          Logout
+          {t("auth:account.logout")}
         </Button>
       </PopoverContent>
     </Popover>

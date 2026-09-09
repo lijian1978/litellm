@@ -8,7 +8,7 @@ import {
   removeLocalStorageItem,
   setLocalStorageItem,
 } from "@/utils/localStorageUtils";
-import { navAccountDisplayName } from "@/components/Navbar/navDisplayName";
+import { navAccountDisplayName, localizedAccountDisplayName } from "@/components/Navbar/navDisplayName";
 import { ChevronDown, ChevronsUpDown, Crown, LogOut, Mail, ShieldCheck, User } from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +19,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import CopyButton from "@/components/shared/CopyButton";
 import { cn } from "@/lib/cva.config";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 function hueFromString(seed: string): number {
   let h = 0;
@@ -63,6 +64,7 @@ interface UserDropdownProps {
 }
 
 const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar", collapsed = false }) => {
+  const { t } = useTranslation();
   const { userId, userEmail, userRoleLabel: userRole, premiumUser } = useAuthorized();
   const disableShowPrompts = useDisableShowPrompts();
   const disableBlogPosts = useDisableBlogPosts();
@@ -84,16 +86,16 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
         {premiumUser ? (
           <Badge>
             <Crown className="size-3" />
-            Premium
+            {t("auth:account.tier.premium")}
           </Badge>
         ) : (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger render={<Badge variant="outline" />}>
                 <Crown className="size-3" />
-                Standard
+                {t("auth:account.tier.standard")}
               </TooltipTrigger>
-              <TooltipContent side="left">Upgrade to Premium for advanced features</TooltipContent>
+              <TooltipContent side="left">{t("auth:account.tier.upgradeTooltip")}</TooltipContent>
             </Tooltip>
           </TooltipProvider>
         )}
@@ -102,25 +104,25 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <User className="size-4" />
-          <span className="text-muted-foreground">User ID</span>
+          <span className="text-muted-foreground">{t("auth:account.userId")}</span>
         </div>
         <div className="flex items-center gap-1">
           <span className="max-w-[150px] truncate" title={userId || "-"}>
             {userId || "-"}
           </span>
-          <CopyButton value={userId} label="Copy User ID" />
+          <CopyButton value={userId} label={t("action.copyUserId")} />
         </div>
       </div>
       <div className="flex w-full items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <ShieldCheck className="size-4" />
-          <span className="text-muted-foreground">Role</span>
+          <span className="text-muted-foreground">{t("auth:account.role")}</span>
         </div>
         <span>{userRole}</span>
       </div>
       <Separator className="my-2" />
       <div className="flex w-full items-center justify-between gap-2">
-        <span className="text-muted-foreground">Hide New Feature Indicators</span>
+        <span className="text-muted-foreground">{t("auth:account.toggle.hideNew")}</span>
         <Switch
           size="sm"
           checked={disableShowNewBadge}
@@ -134,11 +136,11 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
               emitLocalStorageChange("disableShowNewBadge");
             }
           }}
-          aria-label="Toggle hide new feature indicators"
+          aria-label={t("auth:account.toggle.hideNewAria")}
         />
       </div>
       <div className="flex w-full items-center justify-between gap-2">
-        <span className="text-muted-foreground">Hide All Prompts</span>
+        <span className="text-muted-foreground">{t("auth:account.toggle.hidePrompts")}</span>
         <Switch
           size="sm"
           checked={disableShowPrompts}
@@ -151,11 +153,11 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
               emitLocalStorageChange("disableShowPrompts");
             }
           }}
-          aria-label="Toggle hide all prompts"
+          aria-label={t("auth:account.toggle.hidePromptsAria")}
         />
       </div>
       <div className="flex w-full items-center justify-between gap-2">
-        <span className="text-muted-foreground">Hide Blog Posts</span>
+        <span className="text-muted-foreground">{t("auth:account.toggle.hideBlog")}</span>
         <Switch
           size="sm"
           checked={disableBlogPosts}
@@ -168,11 +170,11 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
               emitLocalStorageChange("disableBlogPosts");
             }
           }}
-          aria-label="Toggle hide blog posts"
+          aria-label={t("auth:account.toggle.hideBlogAria")}
         />
       </div>
       <div className="flex w-full items-center justify-between gap-2">
-        <span className="text-muted-foreground">Hide Bouncing Icon</span>
+        <span className="text-muted-foreground">{t("auth:account.toggle.hideBouncing")}</span>
         <Switch
           size="sm"
           checked={disableBouncingIcon}
@@ -185,7 +187,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
               emitLocalStorageChange("disableBouncingIcon");
             }
           }}
-          aria-label="Toggle hide bouncing icon"
+          aria-label={t("auth:account.toggle.hideBouncingAria")}
         />
       </div>
     </div>
@@ -194,7 +196,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
   const seed = userEmail || userId || "user";
   const initials = initialsFromIdentity(userEmail, userId);
   const hue = hueFromString(seed);
-  const displayName = navAccountDisplayName(userEmail, userId);
+  const displayName = localizedAccountDisplayName(navAccountDisplayName(userEmail, userId), t);
 
   return (
     <Popover>
@@ -207,7 +209,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
                 "flex w-full items-center rounded-lg border border-transparent transition-colors hover:bg-sidebar-accent",
                 collapsed ? "justify-center px-0 py-1" : "gap-2.5 px-2 py-1.5 text-left",
               )}
-              aria-label={`Account menu — ${userRole ?? "Unknown role"} — signed in as ${userEmail || userId || "unknown"}`}
+              aria-label={t("auth:account.triggerAria", { role: userRole ?? "Unknown role", user: userEmail || userId || "unknown" })}
               aria-haspopup="dialog"
               title={collapsed ? displayName : undefined}
             />
@@ -234,7 +236,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
             <button
               type="button"
               className="flex! max-w-[min(200px,34vw)] items-center gap-2 rounded-md! py-0.5! pl-1! pr-2! transition-colors hover:bg-accent!"
-              aria-label={`Account menu — ${userRole ?? "Unknown role"} — signed in as ${userEmail || userId || "unknown"}`}
+              aria-label={t("auth:account.triggerAria", { role: userRole ?? "Unknown role", user: userEmail || userId || "unknown" })}
               aria-haspopup="dialog"
             />
           }
@@ -264,7 +266,7 @@ const UserDropdown: React.FC<UserDropdownProps> = ({ onLogout, variant = "navbar
           className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-sm hover:bg-accent"
         >
           <LogOut className="size-4" />
-          Logout
+          {t("auth:account.logout")}
         </button>
       </PopoverContent>
     </Popover>

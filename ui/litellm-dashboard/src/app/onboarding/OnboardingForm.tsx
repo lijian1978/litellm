@@ -8,12 +8,14 @@ import { clearTokenCookies, storeLoginToken } from "@/utils/cookieUtils";
 import { OnboardingLoadingView } from "./OnboardingLoadingView";
 import { OnboardingErrorView } from "./OnboardingErrorView";
 import { OnboardingFormBody } from "./OnboardingFormBody";
+import { useTranslation } from "react-i18next";
 
 type OnboardingFormProps = {
   variant: "signup" | "reset_password";
 };
 
 export function OnboardingForm({ variant }: OnboardingFormProps) {
+  const { t } = useTranslation();
   const searchParams = useSearchParams()!;
   const inviteId = searchParams.get("invitation_id");
   const [claimError, setClaimError] = React.useState<string | null>(null);
@@ -41,7 +43,7 @@ export function OnboardingForm({ variant }: OnboardingFormProps) {
       {
         onSuccess: (data: { token?: string }) => {
           if (!data?.token) {
-            setClaimError("Failed to start session. Please try again.");
+            setClaimError(t("auth:onboarding.startSessionError"));
             return;
           }
           // Invite signup is a principal-change boundary — the prior admin's
@@ -54,7 +56,7 @@ export function OnboardingForm({ variant }: OnboardingFormProps) {
           window.location.href = proxyBaseUrl ? `${proxyBaseUrl}/ui/?login=success` : "/ui/?login=success";
         },
         onError: (error: Error) => {
-          setClaimError(error.message || "Failed to submit. Please try again.");
+          setClaimError(error.message || t("auth:onboarding.submitError"));
         },
       },
     );

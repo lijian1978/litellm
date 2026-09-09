@@ -1,3 +1,149 @@
 {
-  "dashboard": "Dashboard"
+  "dashboard": "Dashboard",
+  "group": {
+    "aiGateway": "AI Gateway",
+    "observability": "Observability",
+    "accessControl": "Access Control",
+    "developerTools": "Developer Tools",
+    "settings": "Settings"
+  },
+  "item": {
+    "virtualKeys": "Virtual Keys",
+    "playground": "Playground",
+    "modelsAndEndpoints": "Models + Endpoints",
+    "agentic": "Agentic",
+    "agents": "Agents",
+    "workflowRuns": "Workflow Runs",
+    "memory": "Memory",
+    "mcpServers": "MCP Servers",
+    "skills": "Skills",
+    "guardrails": "Guardrails",
+    "policies": "Policies",
+    "tools": "Tools",
+    "searchTools": "Search Tools",
+    "vectorStores": "Vector Stores",
+    "toolPolicies": "Tool Policies",
+    "usage": "Usage",
+    "costOptimization": "Cost Optimization",
+    "logs": "Logs",
+    "guardrailsMonitor": "Guardrails Monitor",
+    "teams": "Teams",
+    "projects": "Projects",
+    "internalUsers": "Internal Users",
+    "organizations": "Organizations",
+    "accessGroups": "Access Groups",
+    "budgets": "Budgets",
+    "apiReference": "API Reference",
+    "aiHub": "AI Hub",
+    "learningResources": "Learning Resources",
+    "responseCache": "Response Cache",
+    "experimental": "Experimental",
+    "prompts": "Prompts",
+    "apiPlayground": "API Playground",
+    "tagManagement": "Tag Management",
+    "oldUsage": "Old Usage",
+    "settingsItem": "Settings",
+    "routerSettings": "Router Settings",
+    "loggingAndAlerts": "Logging & Alerts",
+    "adminSettings": "Admin Settings",
+    "costTracking": "Cost Tracking",
+    "uiTheme": "UI Theme"
+  },
+  "pageDesc": {
+    "api-keys": "Manage virtual keys for API access and authentication",
+    "llm-playground": "Interactive playground for testing LLM requests",
+    "models": "Configure and manage LLM models and endpoints",
+    "agents": "Create and manage AI agents",
+    "agentic": "Manage agentic resources: agents, workflow runs, and memory",
+    "workflows": "Track and inspect durable workflow run history",
+    "mcp-servers": "Configure Model Context Protocol servers",
+    "memory": "Inspect and manage agent memory entries stored under /v1/memory",
+    "guardrails": "Set up content moderation and safety guardrails",
+    "policies": "Define access control and usage policies",
+    "search-tools": "Configure RAG search and retrieval tools",
+    "tool-policies": "Configure tool use policies and permissions",
+    "vector-stores": "Manage vector databases for embeddings",
+    "new_usage": "View usage analytics and metrics",
+    "cost-optimization": "Track and configure cost-saving features: prompt compression, caching, and auto routing",
+    "logs": "Access request and response logs",
+    "guardrails-monitor": "Monitor guardrail performance and view logs",
+    "users": "Manage internal user accounts and permissions",
+    "teams": "Create and manage teams for access control",
+    "organizations": "Manage organizations and their members",
+    "projects": "Manage projects within teams",
+    "access-groups": "Manage access groups for role-based permissions",
+    "budgets": "Set and monitor spending budgets",
+    "api_ref": "Browse API documentation and endpoints",
+    "model-hub-table": "Explore available AI models and providers",
+    "learning-resources": "Access tutorials and documentation",
+    "caching": "Configure response caching and coordination Redis settings",
+    "transform-request": "Set up request transformation rules",
+    "cost-tracking": "Track and analyze API costs",
+    "ui-theme": "Customize dashboard appearance",
+    "tag-management": "Organize resources with tags",
+    "prompts": "Manage and version prompt templates",
+    "skills": "Browse and manage Claude Code skills",
+    "usage": "View legacy usage dashboard",
+    "router-settings": "Configure routing and load balancing settings",
+    "logging-and-alerts": "Set up logging and alert configurations",
+    "admin-panel": "Access admin panel and settings"
+  },
+  "sidebar": {
+    "expand": "Expand sidebar",
+    "collapse": "Collapse sidebar"
+  },
+  "brand": {
+    "homeAriaLabel": "LiteLLM home"
+  },
+  "navbar": {
+    "thanksMessage": "Thanks for using LiteLLM!",
+    "productDocsAria": "Product documentation"
+  },
+  "blog": {
+    "title": "Blog",
+    "loadError": "Failed to load posts",
+    "empty": "No posts available",
+    "viewAll": "View all posts"
+  },
+  "docs": {
+    "title": "Docs"
+  },
+  "community": {
+    "joinSlack": "Join Slack",
+    "slackTooltip": "LiteLLM Slack community",
+    "github": "LiteLLM on GitHub",
+    "groupAria": "Community links"
+  },
+  "notifications": {
+    "triggerAria": "Notifications",
+    "autoRouterTitle": "LiteLLM Auto Router",
+    "autoRouterBody": "Route every request to the cheapest model that can handle it, no prompt changes needed.",
+    "readDocs": "Read the docs",
+    "markAsRead": "Mark as read"
+  },
+  "worker": {
+    "ariaLabel": "Worker",
+    "empty": "No matching workers"
+  },
+  "view": {
+    "aiGateway": "AI Gateway",
+    "chat": "Chat",
+    "chatDisabled": "Admins can enable in Settings"
+  },
+  "theme": {
+    "toDark": "Switch to dark mode (beta)",
+    "toLight": "Switch to light mode"
+  },
+  "usageCard": {
+    "title": "Enterprise usage",
+    "activePlan": "Active plan",
+    "seats": "Seats",
+    "teams": "Teams",
+    "valuetext": "{{used}} of {{total}}"
+  },
+  "mcpOAuth": {
+    "title": "LiteLLM MCP OAuth",
+    "complete": "Authorization complete. You may close this window and return to the LiteLLM dashboard.",
+    "manualClose": "If the window does not close automatically, everything is still saved—you can close it manually."
+  }
 }

@@ -48,7 +48,7 @@ export const getAvailablePages = (): PageMetadata[] => {
           page: item.page,
           label: label,
           group: group.groupLabel,
-          description: pageDescriptions[item.page] || "No description available",
+          description: pageDescriptions[item.page] || "common:error.noDescription",
         });
       }
 

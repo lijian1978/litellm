@@ -7,5 +7,26 @@
     "en": "English",
     "zh-CN": "简体中文"
   },
-  "loadError": "加载页面时发生错误。"
+  "loadError": "加载页面时发生错误。",
+  "action": {
+    "close": "关闭",
+    "cancel": "取消",
+    "back": "返回",
+    "retry": "重试",
+    "copy": "复制",
+    "copyEmail": "复制邮箱",
+    "copyUserId": "复制用户 ID"
+  },
+  "aria": {
+    "loading": "加载中"
+  },
+  "loading": {
+    "ellipsis": "加载中…"
+  },
+  "filter": {
+    "all": "全部"
+  },
+  "error": {
+    "noDescription": "暂无描述"
+  }
 }
