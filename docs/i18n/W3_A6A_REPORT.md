@@ -88,3 +88,36 @@ Commit: see "fix(i18n): address Wave 3 regression findings (D-2, D-7, D-5)".
   47 passed / 599 tests。
 - `node scripts/i18n/check-keys.mjs`：PASS，8 个 namespace en/zh key 一致。
 - `npm run build`：✓ Compiled successfully，51/51 static pages，无错误。
+
+## Wave 4B 修复 (A2 复核，Owner 1：usage 区域)
+
+Commit: see "fix(i18n): address Wave 4A review findings (D-9, D-12)".
+
+- **D-9 (P2)** — a) `cost.json` zh `margins.title` 实际改为 "加价"（上一轮提交信息
+  与 diff 不符，本轮落地）；b) `usage.json` zh `viewSelect.agentUsage` 改为
+  "Agent 用量（A2A）"（全角括号）。
+- **D-12 (P2)** — 按 A2 授权本地化 /usage 页可见的共享组件（文案走 usage namespace）：
+  - `src/components/activity_metrics.tsx`（ActivityMetrics：Overall Usage、四张汇总卡、
+    Top Virtual Keys by Spend、每日花费/请求、Token/请求趋势、Prompt 缓存指标、
+    Unknown Item 等，`usage:activity.*` 新增 19 个 key）；
+  - `src/components/EntityUsageExport/UsageExportHeader.tsx`（Export Data 按钮、
+    无选项占位 "No {{entity}} with usage in this range"（经 `usage:entity.typePlural.*`）、
+    "No options found"、清除筛选 aria-label，`usage:exportHeader.*`）；
+  - `ModelViewToggle`（2 个 label，`usage:modelView.*`）；
+  - `src/components/view_user_spend.tsx`（Total Spend / Max Budget /
+    "$X limit" / "No limit"，`usage:viewUserSpend.*`）；
+  - `src/components/UsagePage/components/EntityUsage/TopKeyView.tsx`
+    （列头、标签 tooltip、显示数量 aria、Table/Chart View、图例字段、关闭按钮，
+    `usage:topKeys.*`）。
+  按 A2 裁决未动：SavingsTiles、MoneyCell、getBudgetDurationLabel 其余消费方、
+  budgetFilters。
+- `UsageExportHeader.test.tsx` 同步更新占位与 aria 断言（占位改为经 typePlural 的
+  "No Tags with usage in this range"）。
+
+回归验证证据：
+
+- `npx vitest run`（ActivityMetrics / UsageExportHeader / TopKeyView 测试 + usage
+  区域全部测试，17 个文件）：17 passed / 304 tests。
+- `node scripts/i18n/check-keys.mjs`：PASS。
+- `npx prettier --check` 所改文件：全部通过。
+- `npm run build`：✓ Compiled successfully，51/51 static pages，无错误。

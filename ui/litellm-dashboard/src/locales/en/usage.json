@@ -74,7 +74,16 @@
       "key": "Key"
     },
     "filterBy": "Filter by {{entity}}",
-    "filterPlaceholder": "Select {{entity}} to filter..."
+    "filterPlaceholder": "Select {{entity}} to filter...",
+    "typePlural": {
+      "team": "Teams",
+      "user": "Users",
+      "organization": "Organizations",
+      "customer": "Customers",
+      "tag": "Tags",
+      "agent": "Agents",
+      "key": "Keys"
+    }
   },
   "spendByProvider": {
     "title": "Spend by Provider",
@@ -158,5 +167,53 @@
     "agentDescription": "View usage by AI agents",
     "userDescription": "View usage by individual users",
     "userAgentDescription": "View detailed user agent activity logs"
+  },
+  "activity": {
+    "totalSuccessfulRequests": "Total Successful Requests",
+    "avgTokensPerSuccess_one": "{{count}} avg per successful request",
+    "avgTokensPerSuccess_other": "{{count}} avg per successful request",
+    "totalSpend": "Total Spend",
+    "spendPerSuccess": "${{amount}} per successful request",
+    "topKeysBySpend": "Top Virtual Keys by Spend",
+    "teamColon": "Team: {{team}}",
+    "requestsTokens": "{{requests}} requests | {{tokens}} tokens",
+    "spendPerDay": "Spend per day",
+    "requestsPerDay": "Requests per day",
+    "successVsFailed": "Success vs Failed Requests",
+    "promptCachingMetrics": "Prompt Caching Metrics",
+    "cacheReadTokens": "Cache Read: {{count}} tokens",
+    "cacheCreationTokens": "Cache Creation: {{count}} tokens",
+    "overallUsage": "Overall Usage",
+    "totalTokensOverTime": "Total Tokens Over Time",
+    "totalRequestsOverTime": "Total Requests Over Time",
+    "unknownItem": "Unknown Item",
+    "requestsCount_one": "{{count}} request",
+    "requestsCount_other": "{{count}} requests"
+  },
+  "modelView": {
+    "publicModelName": "Public Model Name",
+    "litellmModelName": "Litellm Model Name"
+  },
+  "exportHeader": {
+    "noEntityUsage": "No {{entity}} with usage in this range",
+    "noOptions": "No options found",
+    "clearFilters": "Clear {{filter}}",
+    "filtersNoun": "filters"
+  },
+  "viewUserSpend": {
+    "maxBudget": "Max Budget",
+    "budgetLimit": "${{amount}} limit",
+    "noLimit": "No limit"
+  },
+  "topKeys": {
+    "columnKeyId": "Key ID",
+    "columnKeyAlias": "Key Alias",
+    "columnTags": "Tags",
+    "tagName": "Tag Name",
+    "showFewerTags": "Show fewer tags",
+    "showAllTags": "Show all tags",
+    "numKeysAria": "Number of top keys to show",
+    "keyAliasColon": "Key Alias:",
+    "keyIdColon": "Key ID:"
   }
 }
