@@ -66,9 +66,9 @@
 
 | Agent | 名称 | 状态 | 交付物 | 最后更新 |
 |---|---|---|---|---|
-| A2 | localization-designer | 待命 | 术语/中文体验复核 | - |
-| A7 | i18n-qa | 待命 | 完整回归 + 质量报告 | - |
-| A8 | i18n-integration-release | 待命 | 发布/回滚清单 | - |
+| A2 | localization-designer | **复核完成 ✅** | W4_A2_REVIEW（`1ba284481b`）：术语 93%、零 P1、P2×4/P3×7 | 2026-09-09 |
+| A7 | i18n-qa | **完整回归完成 ✅** | W4_A7_FINAL_REPORT（`0449ae6d03`）：932/932 测试、0 P0/P1 | 2026-09-09 |
+| A8 | i18n-integration-release | **清单完成 ✅** | W4_A8_RELEASE_CHECKLIST（`24477b4335`）：v1 定义 5/15 满足；发现 V1_SCOPE_MANIFEST 缺失、Onboarding/Connect/MCP OAuth 盲区 | 2026-09-09 |
 
 ## 缺陷队列
 （Wave 4B 按 P0 → P1 → 阻塞门禁 P2 → 其他 P2 排序）
@@ -84,3 +84,8 @@
 | D-8 | P2 | E2E 无 i18n locale 断言（T-01 smoke 未落地） | A7 | 排队 |
 
 **Wave 3 修复轮（Agent 0）**：6A (`d8fdf92d37`) + 6B (`c154994439`) + D-4 (`f9633ee1fa`) 已合并；复验 check-keys PASS、lint 0 error、Wave 3 四目录 prettier 全过、build 51/51、budgets 51 测试全过。**G3 判定：PASS**（D-6/D-8 为非阻塞 P2，留 Wave 4 处理）
+
+**Wave 4A 汇总与 G4 预审（Agent 0，2026-09-09）**
+- 交付物齐备（A2/A7/A8 三报告）；测试/工具门禁全绿（932 测试、check-keys 8/8、lint 0 error、build 51/51）。
+- 发现新缺陷并启动 Wave 4B：D-9（D-7 修复未落地：margins.title、agentUsage 半角括号）、D-10（Wave 1/2 字典 6 处半角省略号）、D-11（DateCell 全站日期格式不随 locale，30+ 表格）、D-12（D-6 值得修部分：usage 页 5 个共享组件英文）。
+- **待用户裁决**：① V1_SCOPE_MANIFEST 补建 + Onboarding/Connect/MCP OAuth 三个盲区是否纳入修复轮（涉及 v1 范围扩大）；② D-8 E2E locale 断言是否本轮补齐；③ 全仓 format:check 既有基线红（258 文件）豁免还是清理。
