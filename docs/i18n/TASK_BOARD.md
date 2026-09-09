@@ -88,4 +88,14 @@
 **Wave 4A 汇总与 G4 预审（Agent 0，2026-09-09）**
 - 交付物齐备（A2/A7/A8 三报告）；测试/工具门禁全绿（932 测试、check-keys 8/8、lint 0 error、build 51/51）。
 - 发现新缺陷并启动 Wave 4B：D-9（D-7 修复未落地：margins.title、agentUsage 半角括号）、D-10（Wave 1/2 字典 6 处半角省略号）、D-11（DateCell 全站日期格式不随 locale，30+ 表格）、D-12（D-6 值得修部分：usage 页 5 个共享组件英文）。
-- **待用户裁决**：① V1_SCOPE_MANIFEST 补建 + Onboarding/Connect/MCP OAuth 三个盲区是否纳入修复轮（涉及 v1 范围扩大）；② D-8 E2E locale 断言是否本轮补齐；③ 全仓 format:check 既有基线红（258 文件）豁免还是清理。
+- **用户裁决（2026-09-09）**：① 盲区记 v2；② D-8 本轮补 smoke；③ format 基线豁免。
+- Wave 4B 第二轮：6A (`3ffc97e964`，D-9+D-12) + 6B (`643b0072f1`，D-11+D-10) 合并复验全绿。
+- D-8 落地：A7 E2E locale smoke spec（`6dfa0c452d`，4 用例，--list 通过，实际执行待用户走查 live proxy）。
+- **新发现 P1 已修**：LanguageSwitcher 组件无挂载点（A5 Wave 2 遗漏），Agent 0 挂载至 navbar 右端用户菜单左侧（含 navbar 测试 mock 修正）。
+- V1_SCOPE_MANIFEST.md 已由 Agent 0 补建（v1 状态/v2 范围/豁免清单）。
+
+**G4 门禁结论（Agent 0，2026-09-09）：APPROVED**
+- v1 完成定义：13/15 满足（#5 窄视口人工走查、E2E 实际执行待用户走查项，均有明确 owner 与前提）。
+- P0=0、P1=0（LanguageSwitcher 挂载修复后）、P2 全部有处置结论（修复/记 v2/豁免）。
+- 门禁复验：check-keys 8/8、lint 0 error、build 51/51、定向测试全绿。
+- 发布与回滚清单完成（W4_A8_RELEASE_CHECKLIST）；push 待用户配置凭据后执行。
