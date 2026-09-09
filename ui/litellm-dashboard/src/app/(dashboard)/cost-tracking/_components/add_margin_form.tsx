@@ -121,9 +121,7 @@ const AddMarginForm: React.FC<AddMarginFormProps> = ({
         </Field>
 
         <Field>
-          <FieldTitle>
-            {labelWithHint(t("cost:marginForm.marginType"), t("cost:marginForm.marginTypeHint"))}
-          </FieldTitle>
+          <FieldTitle>{labelWithHint(t("cost:marginForm.marginType"), t("cost:marginForm.marginTypeHint"))}</FieldTitle>
           <RadioGroup
             value={marginType}
             onValueChange={(value: unknown) => onMarginTypeChange(value as "percentage" | "fixed")}

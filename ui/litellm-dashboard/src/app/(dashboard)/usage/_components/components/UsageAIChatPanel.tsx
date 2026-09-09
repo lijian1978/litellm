@@ -63,7 +63,11 @@ const ToolCallDisplay: React.FC<{ step: ToolCallStep }> = ({ step }) => {
           {icon} {step.tool_label}
         </div>
         {dateRange && <div className="text-muted-foreground mt-0.5">{dateRange}</div>}
-        {filter && <div className="text-muted-foreground mt-0.5">{t("usage:aiChat.filter")}: {filter}</div>}
+        {filter && (
+          <div className="text-muted-foreground mt-0.5">
+            {t("usage:aiChat.filter")}: {filter}
+          </div>
+        )}
         {step.status === "error" && step.error && <div className="text-destructive mt-0.5">{step.error}</div>}
       </div>
     </div>
@@ -283,7 +287,9 @@ const UsageAIChatPanel: React.FC<UsageAIChatPanelProps> = ({ open, onClose, acce
             showClear={selectedModel !== undefined}
           />
           <ComboboxContent>
-            <ComboboxEmpty>{isLoadingModels ? t("usage:aiChat.loadingModels") : t("usage:aiChat.noModels")}</ComboboxEmpty>
+            <ComboboxEmpty>
+              {isLoadingModels ? t("usage:aiChat.loadingModels") : t("usage:aiChat.noModels")}
+            </ComboboxEmpty>
             <ComboboxList>
               {(model: string) => (
                 <ComboboxItem key={model} value={model}>

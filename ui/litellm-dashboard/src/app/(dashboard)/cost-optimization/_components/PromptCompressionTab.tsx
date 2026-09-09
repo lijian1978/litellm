@@ -121,9 +121,7 @@ const PromptCompressionTab: React.FC<PromptCompressionTabProps> = ({ accessToken
           </p>
           {isLoading && <p className="text-sm text-muted-foreground">{t("common:loading.ellipsis")}</p>}
           {!isLoading && guardrails.length === 0 && (
-            <p className="text-sm text-muted-foreground">
-              {t("cost:optimization.compression.empty")}
-            </p>
+            <p className="text-sm text-muted-foreground">{t("cost:optimization.compression.empty")}</p>
           )}
           {!isLoading && guardrails.length > 0 && (
             <ul className="divide-y divide-border">
@@ -140,7 +138,9 @@ const PromptCompressionTab: React.FC<PromptCompressionTabProps> = ({ accessToken
                         : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    {guardrail.litellm_params?.default_on ? t("cost:optimization.compression.alwaysOn") : t("cost:optimization.compression.optIn")}
+                    {guardrail.litellm_params?.default_on
+                      ? t("cost:optimization.compression.alwaysOn")
+                      : t("cost:optimization.compression.optIn")}
                   </span>
                 </li>
               ))}
@@ -171,7 +171,11 @@ const PromptCompressionTab: React.FC<PromptCompressionTabProps> = ({ accessToken
                 >
                   {({ ref, ...field }) => <Input {...field} ref={ref} placeholder="https://your-headroom-endpoint" />}
                 </FormField>
-                <FormField control={form.control} name="defaultOn" label={t("cost:optimization.compression.applyToAll")}>
+                <FormField
+                  control={form.control}
+                  name="defaultOn"
+                  label={t("cost:optimization.compression.applyToAll")}
+                >
                   {({ value, onChange, ref: _ref, ...field }) => (
                     <Switch
                       {...field}

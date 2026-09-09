@@ -50,8 +50,8 @@
     "totalTokensColon": "总 Token 数：",
     "totalEntities": "{{entity}}总数：{{count}}",
     "spendBy": "按{{entity}}花费：",
-    "andMore_one": "...还有 {{count}} 个",
-    "andMore_other": "...还有 {{count}} 个",
+    "andMore_one": "还有 {{count}} 个…",
+    "andMore_other": "还有 {{count}} 个…",
     "spendPer": "每个{{entity}}的花费",
     "showingTop5": "按花费显示前 5 名",
     "getStarted": "开始跟踪每个{{entity}}的成本，请参阅",
@@ -63,7 +63,18 @@
     "noProviderUsageData": "没有提供商用量数据",
     "requestTokenConsumption": "请求 / Token 消耗",
     "agentActivity": "Agent 活动",
-    "agentData": "Agent 数据"
+    "agentData": "Agent 数据",
+    "type": {
+      "team": "团队",
+      "user": "用户",
+      "organization": "组织",
+      "customer": "客户",
+      "tag": "标签",
+      "agent": "Agent",
+      "key": "密钥"
+    },
+    "filterBy": "按{{entity}}筛选",
+    "filterPlaceholder": "选择要筛选的{{entity}}…"
   },
   "spendByProvider": {
     "title": "按提供商花费",
@@ -119,8 +130,8 @@
     "noModels": "未找到模型",
     "emptyPrompt": "提问关于你的用量",
     "emptyExample": "例如“哪个模型花费最高？”",
-    "thinking": "思考中...",
-    "inputPlaceholder": "询问你的用量...",
+    "thinking": "思考中…",
+    "inputPlaceholder": "询问你的用量…",
     "send": "发送",
     "clearChat": "清空对话",
     "enterToSend": "回车发送",

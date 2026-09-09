@@ -343,9 +343,7 @@ const MultiCostResults: React.FC<MultiCostResultsProps> = ({ multiResult, timePe
                           size="icon-xs"
                           aria-expanded={isExpanded}
                           aria-label={t("cost:calculator.showHideAria", {
-                            action: isExpanded
-                              ? t("cost:calculator.hide")
-                              : t("cost:calculator.show"),
+                            action: isExpanded ? t("cost:calculator.hide") : t("cost:calculator.show"),
                             model: record.model,
                           })}
                           onClick={() => toggleExpanded(record.id)}

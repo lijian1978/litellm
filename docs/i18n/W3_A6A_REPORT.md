@@ -62,3 +62,29 @@ GLOSSARY_EN_ZH.md (提供商, 虚拟密钥, 花费/成本, 用量, Token, 启用
   `AutoRouterBenchmarksTab.test.tsx` (closest() Element), `ShadowEvalSection.test.tsx`
   (missing `by_router` fixtures) and guardrails test files; vitest still runs them.
 - `ShadowEvalStartForm` remaining scan hits are expression fragments, not copy.
+
+## Wave 3 回归修复 (A7 G3 回归，D-2 / D-7 / D-5)
+
+Commit: see "fix(i18n): address Wave 3 regression findings (D-2, D-7, D-5)".
+
+- **D-2 (P1)** — `EntityUsage.tsx` 不再将原始英文实体类型传入 `{{entity}}` 插值。
+  新增模块级 `entityNoun(entityType, t)`，按实体类型查 `usage:entity.type.*`
+  （en: Team/Key/User/Organization/Customer/Tag/Agent；zh: 团队/密钥/用户/组织/
+  客户/标签/Agent，遵循 GLOSSARY_EN_ZH），应用于 spendOverview、totalEntities、
+  spendBy、spendPer、表格列头、noEntitySpendData；顺带本地化了同源的
+  "Filter by {{entity}}" / "Select {{entity}} to filter..."（`usage:entity.filterBy`
+  / `filterPlaceholder`）。中文渲染由 "Team花费概览" 变为 "团队花费概览"。
+- **D-7 (P2)** — 中文译文统一全角标点：zh `aiChat.thinking`、`aiChat.inputPlaceholder`、
+  `entity.andMore_*`、`cost calculator.loading/updating/calculating`、
+  `autoRouter.loading`、`shadowEval.loading/loadingResults/stopping`、
+  `form.starting`、`entity.filterPlaceholder` 全部改用 "…"；`cost margins.title`
+  "费用/价格加价" 统一为 GLOSSARY 术语 "加价"。
+- **D-5 (P2)** — 对 Wave 3 提交 `ee23dea299` 的全部 43 个改动文件运行
+  `npx prettier --write`；`npx prettier --check` 复核全部通过。
+
+回归验证证据：
+
+- `npx vitest run`（cost-optimization / cost-tracking / usage 全部 47 个测试文件）：
+  47 passed / 599 tests。
+- `node scripts/i18n/check-keys.mjs`：PASS，8 个 namespace en/zh key 一致。
+- `npm run build`：✓ Compiled successfully，51/51 static pages，无错误。

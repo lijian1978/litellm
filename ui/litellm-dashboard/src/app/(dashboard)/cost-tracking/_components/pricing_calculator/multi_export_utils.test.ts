@@ -13,10 +13,13 @@ import enCost from "@/locales/en/cost.json";
 
 const t = (key: string, options?: Record<string, unknown>): string => {
   const resolve = (k: string): unknown =>
-    k.replace(/^cost:/, "").split(".").reduce<unknown>(
-      (acc, part) => (acc !== null && typeof acc === "object" ? (acc as Record<string, unknown>)[part] : undefined),
-      enCost,
-    );
+    k
+      .replace(/^cost:/, "")
+      .split(".")
+      .reduce<unknown>(
+        (acc, part) => (acc !== null && typeof acc === "object" ? (acc as Record<string, unknown>)[part] : undefined),
+        enCost,
+      );
   const count = options?.count;
   let resolved = resolve(key);
   if (typeof resolved !== "string" && typeof count === "number") {

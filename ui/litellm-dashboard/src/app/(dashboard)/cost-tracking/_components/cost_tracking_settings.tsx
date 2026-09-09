@@ -200,10 +200,7 @@ const CostTrackingSettings: React.FC<CostTrackingSettingsProps> = ({ userID, use
         {/* Accordion 1: Provider Discounts - Only for proxy admins */}
         {isProxyAdmin && (
           <Collapsible className="rounded-lg border">
-            <SectionHeader
-              title={t("cost:discounts.title")}
-              description={t("cost:discounts.description")}
-            />
+            <SectionHeader title={t("cost:discounts.title")} description={t("cost:discounts.description")} />
             <CollapsibleContent className="px-0">
               <Tabs defaultValue="discounts">
                 <TabsList variant="line" className="mx-6 mt-4 h-auto justify-start rounded-none border-b p-0">
@@ -263,10 +260,7 @@ const CostTrackingSettings: React.FC<CostTrackingSettingsProps> = ({ userID, use
         {/* Accordion 2: Fee/Price Margin - Only for proxy admins */}
         {isProxyAdmin && (
           <Collapsible className="rounded-lg border">
-            <SectionHeader
-              title={t("cost:margins.title")}
-              description={t("cost:margins.description")}
-            />
+            <SectionHeader title={t("cost:margins.title")} description={t("cost:margins.description")} />
             <CollapsibleContent className="px-0">
               <div className="p-6">
                 <div className="flex justify-end mb-4">
@@ -309,10 +303,7 @@ const CostTrackingSettings: React.FC<CostTrackingSettingsProps> = ({ userID, use
         {/* Accordion 3: Block Unpriced Models - Only for proxy admins */}
         {isProxyAdmin && (
           <Collapsible className="rounded-lg border">
-            <SectionHeader
-              title={t("cost:blockUnpriced.title")}
-              description={t("cost:blockUnpriced.description")}
-            />
+            <SectionHeader title={t("cost:blockUnpriced.title")} description={t("cost:blockUnpriced.description")} />
             <CollapsibleContent className="px-0">
               <div className="p-6">
                 <div className="flex items-center justify-between">

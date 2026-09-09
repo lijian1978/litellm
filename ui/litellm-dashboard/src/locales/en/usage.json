@@ -63,7 +63,18 @@
     "noProviderUsageData": "No provider usage data",
     "requestTokenConsumption": "Request / Token Consumption",
     "agentActivity": "Agent Activity",
-    "agentData": "agent data"
+    "agentData": "agent data",
+    "type": {
+      "team": "Team",
+      "user": "User",
+      "organization": "Organization",
+      "customer": "Customer",
+      "tag": "Tag",
+      "agent": "Agent",
+      "key": "Key"
+    },
+    "filterBy": "Filter by {{entity}}",
+    "filterPlaceholder": "Select {{entity}} to filter..."
   },
   "spendByProvider": {
     "title": "Spend by Provider",
