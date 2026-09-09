@@ -6,6 +6,7 @@ import BudgetTable from "./BudgetTable";
 import type { budgetItem } from "@/app/(dashboard)/hooks/budgets/useBudgets";
 import type { ResourceListResult } from "@/app/(dashboard)/hooks/common/useResourceList";
 import { ApiError } from "@/lib/http/client";
+import { getI18n } from "@/i18n";
 
 const { copyToClipboardMock } = vi.hoisted(() => ({ copyToClipboardMock: vi.fn() }));
 
@@ -90,6 +91,22 @@ describe("BudgetTable", () => {
     renderWithProviders(<BudgetTable {...defaultProps} list={makeList()} />);
     await showColumn(user, "budget_duration");
     expect(screen.getByText("monthly")).toBeInTheDocument();
+  });
+
+  it("renders the reset-period cell with the zh-CN duration label", async () => {
+    const i18n = await getI18n();
+    await i18n.changeLanguage("zh-CN");
+    try {
+      const user = userEvent.setup();
+      renderWithProviders(
+        <BudgetTable {...defaultProps} list={makeList({ rows: [makeBudget({ budget_duration: "7d" })] })} />,
+      );
+      await showColumn(user, "budget_duration");
+      expect(await screen.findByText("每周")).toBeInTheDocument();
+      expect(screen.queryByText("weekly")).not.toBeInTheDocument();
+    } finally {
+      await i18n.changeLanguage("en");
+    }
   });
 
   it("should render 'Not set' when a budget has no reset duration", async () => {
