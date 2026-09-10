@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { i18n } from "i18next";
@@ -70,6 +70,6 @@ describe("I18nProvider readiness gate", () => {
       t: vi.fn(),
     } as unknown as i18n);
 
-    await waitFor(() => expect(screen.getByTestId("gate-child")).toBeInTheDocument());
+    await screen.findByTestId("gate-child");
   });
 });

@@ -18,6 +18,12 @@ vi.mock("./Navbar/BlogDropdown/BlogDropdown", () => ({
   BlogDropdown: () => <div data-testid="blog-dropdown">Blog</div>,
 }));
 
+// LanguageSwitcher needs <I18nProvider> (useI18n); the real tree gets it from
+// the root layout, which this test does not mount.
+vi.mock("./LanguageSwitcher/LanguageSwitcher", () => ({
+  LanguageSwitcher: () => <div data-testid="language-switcher">Language</div>,
+}));
+
 const mockUserDropdownData = vi.hoisted(() => ({
   current: () => ({
     userId: "test-user",

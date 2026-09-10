@@ -19,6 +19,7 @@ import { CommunityEngagementButtons } from "./Navbar/CommunityEngagementButtons/
 import { cn } from "@/lib/cva.config";
 import { NotificationsBell } from "./Navbar/NotificationsBell/NotificationsBell";
 import UserDropdown from "./Navbar/UserDropdown/UserDropdown";
+import { LanguageSwitcher } from "./LanguageSwitcher/LanguageSwitcher";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
 import ViewSwitcher from "./Navbar/ViewSwitcher";
 import WorkerDropdown from "./Navbar/WorkerDropdown/WorkerDropdown";
@@ -161,6 +162,8 @@ const Navbar: React.FC<NavbarProps> = ({
                   <ThemeToggle />
                   <span className="mx-0.5 h-6 w-px shrink-0 bg-border" aria-hidden />
                   <NotificationsBell />
+                  <span className="mx-0.5 h-6 w-px shrink-0 bg-border" aria-hidden />
+                  <LanguageSwitcher />
                   <span className="mx-0.5 h-6 w-px shrink-0 bg-border" aria-hidden />
                   <UserDropdown onLogout={handleLogout} />
                 </div>

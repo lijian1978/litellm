@@ -52,18 +52,50 @@
 
 | Agent | 名称 | 状态 | worktree/分支 | 交付物 | 最后更新 |
 |---|---|---|---|---|---|
-| A6A | i18n-feature-developer (Usage/Cost) | 待命 | i18n/w3-agent6a-usage | Usage + Cost Tracking | - |
-| A6B | i18n-feature-developer (Budgets) | 待命 | i18n/w3-agent6b-budgets | Budgets | - |
-| A7 | i18n-qa | 待命 | i18n/w3-agent7-qa | 回归 | - |
+| A6A | i18n-feature-developer (Usage/Cost) | **已完成 ✅（含回归修复 D-2/D-7）** | i18n/w3-agent6a-usage | 43 文件 Usage+Cost+CostOptimization；usage 133+ key、cost 387 key；599 测试、build 51/51 | 2026-09-09 |
+| A6B | i18n-feature-developer (Budgets) | **已完成 ✅（含回归修复 D-1/D-3）** | i18n/w3-agent6b-budgets | budgets 5 组件 + 72 key；scan 15→0；51 测试、build 51/51 | 2026-09-09 |
+| A7 | i18n-qa | **回归完成 ✅（修复后复验 G3 PASS）** | i18n/w1-integration | W3_A7_REGRESSION_REPORT（`b8d7ecdb89`）；3 P1 已修复，Agent 0 复验通过 | 2026-09-09 |
+
+**Wave 3 集成（Agent 0，本地，未 push）**
+- 6A (`ee23dea299`) + 6B (`2c5ec93b3f`) 已合并到 `i18n/w1-integration`，无冲突。
+- 联合验证：check-keys 8 namespace 全 PASS；合并后 `npm run build` 全绿（51 路由）。
+- **遗留**（详见 W3_A6A/A6B_REPORT）：/old-usage 不在 v1 范围；若干共享组件（SavingsTiles、MoneyCell/DateCell、UsageExportHeader 等）与范围外 helper（budgetFilters 标签、getBudgetDurationLabel）仍英文；AI-chat 工具标签来自后端。
+- **未决**：A7 回归、Wave 4 复核、push 暂缓。
 
 ## Wave 4 — 集成验收
 
 | Agent | 名称 | 状态 | 交付物 | 最后更新 |
 |---|---|---|---|---|
-| A2 | localization-designer | 待命 | 术语/中文体验复核 | - |
-| A7 | i18n-qa | 待命 | 完整回归 + 质量报告 | - |
-| A8 | i18n-integration-release | 待命 | 发布/回滚清单 | - |
+| A2 | localization-designer | **复核完成 ✅** | W4_A2_REVIEW（`1ba284481b`）：术语 93%、零 P1、P2×4/P3×7 | 2026-09-09 |
+| A7 | i18n-qa | **完整回归完成 ✅** | W4_A7_FINAL_REPORT（`0449ae6d03`）：932/932 测试、0 P0/P1 | 2026-09-09 |
+| A8 | i18n-integration-release | **清单完成 ✅** | W4_A8_RELEASE_CHECKLIST（`24477b4335`）：v1 定义 5/15 满足；发现 V1_SCOPE_MANIFEST 缺失、Onboarding/Connect/MCP OAuth 盲区 | 2026-09-09 |
 
 ## 缺陷队列
 （Wave 4B 按 P0 → P1 → 阻塞门禁 P2 → 其他 P2 排序）
-（空）
+| 编号 | 级别 | 描述 | Owner | 状态 |
+|---|---|---|---|---|
+| D-1 | P1 | BudgetTableColumns.tsx:43 表格"重置周期"列硬编码英文时长标签（A6B 报告此点不实） | A6B | 已修复 ✅ |
+| D-2 | P1 | EntityUsage.tsx:279/292/398/454 `{{entity}}` 传原始英文类型，中文渲染 "Team花费概览"/"按Key花费" | A6A | 已修复 ✅ |
+| D-3 | P1 | AccessGroupBudgetColumns.tsx:153（models 页）英文时长标签 | A6B | 已修复 ✅ |
+| D-4 | P2 | lint 1 个既有 error（I18nProvider.gate.integration.test.tsx:73 prefer-find-by，Wave 1 遗留） | A4 | 已修复 ✅ |
+| D-5 | P2 | Wave 3 新增 17 文件未过 Prettier（format:check 290 文件 FAIL，多数既有） | A6A/A6B | 已修复 ✅ |
+| D-6 | P2 | A6A 遗留共享组件英文在 /usage 可见（SavingsTiles 等） | A0 裁决 | 排队 |
+| D-7 | P2 | 半角省略号/括号不一致（usage.json:122-123、cost.json 多处）及"费用/价格加价"措辞 | A6A | 已修复 ✅ |
+| D-8 | P2 | E2E 无 i18n locale 断言（T-01 smoke 未落地） | A7 | 排队 |
+
+**Wave 3 修复轮（Agent 0）**：6A (`d8fdf92d37`) + 6B (`c154994439`) + D-4 (`f9633ee1fa`) 已合并；复验 check-keys PASS、lint 0 error、Wave 3 四目录 prettier 全过、build 51/51、budgets 51 测试全过。**G3 判定：PASS**（D-6/D-8 为非阻塞 P2，留 Wave 4 处理）
+
+**Wave 4A 汇总与 G4 预审（Agent 0，2026-09-09）**
+- 交付物齐备（A2/A7/A8 三报告）；测试/工具门禁全绿（932 测试、check-keys 8/8、lint 0 error、build 51/51）。
+- 发现新缺陷并启动 Wave 4B：D-9（D-7 修复未落地：margins.title、agentUsage 半角括号）、D-10（Wave 1/2 字典 6 处半角省略号）、D-11（DateCell 全站日期格式不随 locale，30+ 表格）、D-12（D-6 值得修部分：usage 页 5 个共享组件英文）。
+- **用户裁决（2026-09-09）**：① 盲区记 v2；② D-8 本轮补 smoke；③ format 基线豁免。
+- Wave 4B 第二轮：6A (`3ffc97e964`，D-9+D-12) + 6B (`643b0072f1`，D-11+D-10) 合并复验全绿。
+- D-8 落地：A7 E2E locale smoke spec（`6dfa0c452d`，4 用例，--list 通过，实际执行待用户走查 live proxy）。
+- **新发现 P1 已修**：LanguageSwitcher 组件无挂载点（A5 Wave 2 遗漏），Agent 0 挂载至 navbar 右端用户菜单左侧（含 navbar 测试 mock 修正）。
+- V1_SCOPE_MANIFEST.md 已由 Agent 0 补建（v1 状态/v2 范围/豁免清单）。
+
+**G4 门禁结论（Agent 0，2026-09-09）：APPROVED**
+- v1 完成定义：13/15 满足（#5 窄视口人工走查、E2E 实际执行待用户走查项，均有明确 owner 与前提）。
+- P0=0、P1=0（LanguageSwitcher 挂载修复后）、P2 全部有处置结论（修复/记 v2/豁免）。
+- 门禁复验：check-keys 8/8、lint 0 error、build 51/51、定向测试全绿。
+- 发布与回滚清单完成（W4_A8_RELEASE_CHECKLIST）；push 待用户配置凭据后执行。
