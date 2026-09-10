@@ -4,7 +4,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal, Trash2, Wallet } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
-import { getBudgetDurationLabel } from "@/components/common_components/budget_duration_dropdown";
 import { DataTableSortHeader } from "@/components/shared/DataTable";
 import { ModelsCell, SpendBudgetCell } from "@/components/shared/table_cells";
 import { buttonVariants } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/cva.config";
 import { ModelAccessGroup } from "@/app/(dashboard)/hooks/modelAccessGroups/useModelAccessGroups";
+import { localizedBudgetDurationLabel } from "@/app/(dashboard)/budgets/_components/BudgetTableColumns";
 
 const budgetDecimals = (maxBudget: number | null | undefined): number =>
   maxBudget != null && maxBudget > 0 && maxBudget < 0.01 ? 5 : 2;
@@ -101,7 +101,9 @@ export const getAccessGroupBudgetColumns = ({
     id: "access_group",
     accessorKey: "access_group",
     meta: { title: t("models:accessGroupBudget.columns.accessGroup") },
-    header: ({ column }) => <DataTableSortHeader column={column} title={t("models:accessGroupBudget.columns.accessGroup")} />,
+    header: ({ column }) => (
+      <DataTableSortHeader column={column} title={t("models:accessGroupBudget.columns.accessGroup")} />
+    ),
     size: 220,
     enableSorting: true,
     cell: ({ row }) => (
@@ -122,7 +124,9 @@ export const getAccessGroupBudgetColumns = ({
     id: "deployment_count",
     accessorKey: "deployment_count",
     meta: { title: t("models:accessGroupBudget.columns.deployments"), numeric: true },
-    header: ({ column }) => <DataTableSortHeader column={column} title={t("models:accessGroupBudget.columns.deployments")} />,
+    header: ({ column }) => (
+      <DataTableSortHeader column={column} title={t("models:accessGroupBudget.columns.deployments")} />
+    ),
     size: 120,
     enableSorting: true,
     cell: ({ row }) => row.original.deployment_count,
@@ -131,7 +135,9 @@ export const getAccessGroupBudgetColumns = ({
     id: "spend",
     accessorKey: "spend",
     meta: { title: t("models:accessGroupBudget.columns.sharedSpend") },
-    header: ({ column }) => <DataTableSortHeader column={column} title={t("models:accessGroupBudget.columns.sharedSpend")} />,
+    header: ({ column }) => (
+      <DataTableSortHeader column={column} title={t("models:accessGroupBudget.columns.sharedSpend")} />
+    ),
     size: 180,
     enableSorting: true,
     cell: ({ row }) => (
@@ -150,7 +156,7 @@ export const getAccessGroupBudgetColumns = ({
     enableSorting: false,
     cell: ({ row }) => (
       <span className="text-sm text-muted-foreground">
-        {getBudgetDurationLabel(row.original.budget?.budget_duration)}
+        {localizedBudgetDurationLabel(t, row.original.budget?.budget_duration)}
       </span>
     ),
   },

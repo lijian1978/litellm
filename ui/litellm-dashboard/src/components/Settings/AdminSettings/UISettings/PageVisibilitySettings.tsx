@@ -2,6 +2,7 @@
 
 import { ChevronDown } from "lucide-react";
 import { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { getAvailablePages } from "@/components/page_utils";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +23,7 @@ export default function PageVisibilitySettings({
   isUpdating,
   onUpdate,
 }: PageVisibilitySettingsProps) {
+  const { t } = useTranslation();
   const isPageVisibilitySet = enabledPagesInternalUsers !== null && enabledPagesInternalUsers !== undefined;
   const availablePages = useMemo(() => getAvailablePages(), []);
   const pagesByGroup = useMemo(() => {
@@ -86,7 +88,7 @@ export default function PageVisibilitySettings({
             {Object.entries(pagesByGroup).map(([groupName, pages]) => (
               <fieldset key={groupName} className="space-y-2">
                 <legend className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
-                  {groupName}
+                  {groupName.split(" > ").map((key) => t(key)).join(" > ")}
                 </legend>
                 <div className="ml-4 space-y-2">
                   {pages.map((page) => {
@@ -99,8 +101,8 @@ export default function PageVisibilitySettings({
                           onCheckedChange={(checked) => togglePage(page.page, checked === true)}
                         />
                         <span className="space-y-0.5">
-                          <span className="block text-sm text-foreground">{page.label}</span>
-                          <span className="block text-xs text-muted-foreground">{page.description}</span>
+                          <span className="block text-sm text-foreground">{t(page.label)}</span>
+                          <span className="block text-xs text-muted-foreground">{t(page.description)}</span>
                         </span>
                       </label>
                     );

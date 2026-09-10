@@ -12,6 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { BlogDropdown } from "./Navbar/BlogDropdown/BlogDropdown";
 import { DocsLink } from "./Navbar/DocsLink/DocsLink";
 import { CommunityEngagementButtons } from "./Navbar/CommunityEngagementButtons/CommunityEngagementButtons";
@@ -37,6 +38,7 @@ const Navbar: React.FC<NavbarProps> = ({
   sidebarCollapsed = false,
   onToggleSidebar,
 }) => {
+  const { t } = useTranslation();
   const baseUrl = getProxyBaseUrl();
   const proxySettings = useProxySettings(accessToken);
   const { logoUrl } = useTheme();
@@ -74,7 +76,7 @@ const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={onToggleSidebar}
                 className="mr-2 flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                title={sidebarCollapsed ? t("navigation:sidebar.expand") : t("navigation:sidebar.collapse")}
               >
                 <span className="text-lg">
                   {sidebarCollapsed ? (
@@ -106,7 +108,7 @@ const Navbar: React.FC<NavbarProps> = ({
                     <span
                       className="absolute -left-2 -top-1 animate-bounce text-lg"
                       style={{ animationDuration: "2s" }}
-                      title="Thanks for using LiteLLM!"
+                      title={t("navigation:navbar.thanksMessage")}
                     >
                       🌑
                     </span>
@@ -140,7 +142,7 @@ const Navbar: React.FC<NavbarProps> = ({
             )}
 
             <nav
-              aria-label="Product documentation"
+              aria-label={t("navigation:navbar.productDocsAria")}
               className={`flex min-w-0 items-center gap-2 ${showWorkerSwitch ? "border-l border-border pl-4" : ""}`}
             >
               <DocsLink />

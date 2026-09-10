@@ -1,3 +1,149 @@
 {
-  "dashboard": "仪表盘"
+  "dashboard": "仪表盘",
+  "group": {
+    "aiGateway": "AI 网关",
+    "observability": "可观测性",
+    "accessControl": "访问控制",
+    "developerTools": "开发工具",
+    "settings": "设置"
+  },
+  "item": {
+    "virtualKeys": "虚拟密钥",
+    "playground": "Playground",
+    "modelsAndEndpoints": "模型与端点",
+    "agentic": "Agentic",
+    "agents": "Agents",
+    "workflowRuns": "工作流运行",
+    "memory": "记忆",
+    "mcpServers": "MCP 服务器",
+    "skills": "Skills",
+    "guardrails": "Guardrails",
+    "policies": "Policies",
+    "tools": "Tools",
+    "searchTools": "搜索工具",
+    "vectorStores": "向量存储",
+    "toolPolicies": "工具策略",
+    "usage": "用量",
+    "costOptimization": "成本优化",
+    "logs": "日志",
+    "guardrailsMonitor": "Guardrails 监控",
+    "teams": "团队",
+    "projects": "项目",
+    "internalUsers": "内部用户",
+    "organizations": "组织",
+    "accessGroups": "访问组",
+    "budgets": "预算",
+    "apiReference": "API 参考",
+    "aiHub": "AI Hub",
+    "learningResources": "学习资料",
+    "responseCache": "响应缓存",
+    "experimental": "实验功能",
+    "prompts": "Prompts",
+    "apiPlayground": "API Playground",
+    "tagManagement": "标签管理",
+    "oldUsage": "旧版用量",
+    "settingsItem": "设置",
+    "routerSettings": "网关设置",
+    "loggingAndAlerts": "日志与告警",
+    "adminSettings": "管理设置",
+    "costTracking": "成本跟踪",
+    "uiTheme": "界面主题"
+  },
+  "pageDesc": {
+    "api-keys": "管理用于 API 访问与认证的虚拟密钥",
+    "llm-playground": "用于测试 LLM 请求的交互式演示台",
+    "models": "配置并管理 LLM 模型与端点",
+    "agents": "创建并管理 AI Agents",
+    "agentic": "管理 Agent 相关资源：Agents、工作流运行与记忆",
+    "workflows": "查看并检查持久化工作流运行记录",
+    "mcp-servers": "配置 Model Context Protocol 服务器",
+    "memory": "查看并管理存储在 /v1/memory 下的 Agent 记忆条目",
+    "guardrails": "配置内容审核与安全护栏",
+    "policies": "定义访问控制与使用策略",
+    "search-tools": "配置 RAG 搜索与检索工具",
+    "tool-policies": "配置工具使用策略与权限",
+    "vector-stores": "管理用于嵌入的向量数据库",
+    "new_usage": "查看用量分析与指标",
+    "cost-optimization": "跟踪并配置省钱功能：提示词压缩、缓存与自动路由",
+    "logs": "访问请求与响应日志",
+    "guardrails-monitor": "监控 Guardrails 表现并查看日志",
+    "users": "管理内部用户账号与权限",
+    "teams": "创建并管理用于访问控制的团队",
+    "organizations": "管理组织及其成员",
+    "projects": "管理团队内的项目",
+    "access-groups": "管理用于基于角色权限的访问组",
+    "budgets": "设置并监控支出预算",
+    "api_ref": "浏览 API 文档与端点",
+    "model-hub-table": "浏览可用的 AI 模型与提供商",
+    "learning-resources": "访问教程与文档",
+    "caching": "配置响应缓存与 Redis 协同设置",
+    "transform-request": "设置请求转换规则",
+    "cost-tracking": "跟踪并分析 API 成本",
+    "ui-theme": "自定义仪表盘外观",
+    "tag-management": "使用标签组织资源",
+    "prompts": "管理并版本化 Prompt 模板",
+    "skills": "浏览并管理 Claude Code Skills",
+    "usage": "查看旧版用量仪表盘",
+    "router-settings": "配置路由与负载均衡设置",
+    "logging-and-alerts": "设置日志与告警配置",
+    "admin-panel": "访问管理面板与设置"
+  },
+  "sidebar": {
+    "expand": "展开侧边栏",
+    "collapse": "收起侧边栏"
+  },
+  "brand": {
+    "homeAriaLabel": "LiteLLM 首页"
+  },
+  "navbar": {
+    "thanksMessage": "感谢使用 LiteLLM！",
+    "productDocsAria": "产品文档"
+  },
+  "blog": {
+    "title": "博客",
+    "loadError": "加载文章失败",
+    "empty": "暂无文章",
+    "viewAll": "查看全部文章"
+  },
+  "docs": {
+    "title": "文档"
+  },
+  "community": {
+    "joinSlack": "加入 Slack",
+    "slackTooltip": "LiteLLM Slack 社区",
+    "github": "LiteLLM on GitHub",
+    "groupAria": "社区链接"
+  },
+  "notifications": {
+    "triggerAria": "通知",
+    "autoRouterTitle": "LiteLLM 自动路由",
+    "autoRouterBody": "将每个请求路由到能处理它的最便宜模型，无需任何提示词改动。",
+    "readDocs": "阅读文档",
+    "markAsRead": "标记为已读"
+  },
+  "worker": {
+    "ariaLabel": "Worker",
+    "empty": "没有匹配的 worker"
+  },
+  "view": {
+    "aiGateway": "AI 网关",
+    "chat": "Chat",
+    "chatDisabled": "管理员可在设置中启用"
+  },
+  "theme": {
+    "toDark": "切换到深色模式（beta）",
+    "toLight": "切换到浅色模式"
+  },
+  "usageCard": {
+    "title": "企业版用量",
+    "activePlan": "当前套餐",
+    "seats": "席位",
+    "teams": "团队",
+    "valuetext": "{{used}} / {{total}}"
+  },
+  "mcpOAuth": {
+    "title": "LiteLLM MCP OAuth",
+    "complete": "授权完成。你可以关闭此窗口并返回 LiteLLM 仪表盘。",
+    "manualClose": "如果窗口未自动关闭，所有内容都已保存——你可以手动关闭它。"
+  }
 }

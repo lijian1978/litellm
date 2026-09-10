@@ -1,3 +1,128 @@
 {
-  "budgets": "Budgets"
+  "page": {
+    "title": "Budgets",
+    "subtitle": "Spend, TPM and RPM limits you can assign to customers.",
+    "createBudget": "Create Budget",
+    "tabs": {
+      "budgets": "Budgets",
+      "examples": "Examples"
+    }
+  },
+  "toast": {
+    "makingApiCall": "Making API Call",
+    "created": "Budget Created",
+    "updated": "Budget Updated",
+    "deleted": "Budget deleted.",
+    "createFailed": "Error creating the budget: {{error}}",
+    "updateFailed": "Error updating the budget: {{error}}",
+    "deleteFailed": "Failed to delete budget"
+  },
+  "delete": {
+    "title": "Delete Budget?",
+    "message": "Are you sure you want to delete this budget? This action cannot be undone.",
+    "infoTitle": "Budget Information",
+    "labels": {
+      "budgetId": "Budget ID",
+      "maxBudget": "Max Budget",
+      "tpm": "TPM",
+      "rpm": "RPM"
+    }
+  },
+  "form": {
+    "budgetId": {
+      "label": "Budget ID",
+      "createDescription": "A human-friendly name for the budget",
+      "editDescription": "Budget ID cannot be changed after creation",
+      "nameRequired": "Please input a human-friendly name for the budget"
+    },
+    "tpm": {
+      "label": "Max Tokens per minute"
+    },
+    "rpm": {
+      "label": "Max Requests per minute"
+    },
+    "maxBudget": {
+      "label": "Max Budget (USD)"
+    },
+    "resetBudget": {
+      "label": "Reset Budget"
+    },
+    "defaultModelLimit": "Default is model limit.",
+    "optionalSettings": "Optional Settings",
+    "na": "n/a",
+    "duration": {
+      "1h": "hourly",
+      "24h": "daily",
+      "7d": "weekly",
+      "30d": "monthly"
+    }
+  },
+  "modal": {
+    "createTitle": "Create Budget",
+    "editTitle": "Edit Budget",
+    "save": "Save"
+  },
+  "table": {
+    "loading": "Loading budgets…",
+    "searchPlaceholder": "Search by budget ID…",
+    "notSet": "Not set",
+    "unlimited": "Unlimited",
+    "na": "n/a",
+    "actions": "Actions",
+    "openActions": "Open budget actions",
+    "edit": "Edit budget",
+    "delete": "Delete budget",
+    "columns": {
+      "budgetId": "Budget ID",
+      "maxBudget": "Max Budget",
+      "tpm": "TPM",
+      "rpm": "RPM",
+      "reset": "Reset",
+      "created": "Created"
+    },
+    "empty": {
+      "noBudgets": "No budgets yet",
+      "noBudgetsHint": "Create a budget to set spend, TPM and RPM limits for customers.",
+      "noMatch": "No matching budgets",
+      "noMatchHint": "No budget matches your search or filters."
+    },
+    "error": {
+      "forbidden": "You do not have access to budgets",
+      "forbiddenHint": "Ask a proxy admin to grant you the admin viewer role.",
+      "loadFailed": "Could not load budgets"
+    },
+    "filters": {
+      "title": "Filters",
+      "description": "Narrow down your budgets",
+      "reset": "Reset",
+      "maxBudget": "Max Budget (USD)",
+      "created": "Created",
+      "unlimitedOnly": "Unlimited only",
+      "min": "Min",
+      "max": "Max",
+      "any": "any",
+      "minAria": "Minimum max budget",
+      "maxAria": "Maximum max budget",
+      "fromAria": "Created from",
+      "toAria": "Created to",
+      "chip": {
+        "maxBudget": "Max Budget",
+        "created": "Created"
+      },
+      "duration": {
+        "1h": "hourly",
+        "none": "Never resets",
+        "24h": "daily",
+        "7d": "weekly",
+        "30d": "monthly",
+        "unset": "Not set"
+      }
+    }
+  },
+  "examples": {
+    "intro": "How to use budget id",
+    "assign": "Assign Budget to Customer",
+    "testCurl": "Test it (Curl)",
+    "testSdk": "Test it (OpenAI SDK)"
+  }
 }
