@@ -3,23 +3,23 @@ import { describe, expect, it, vi } from "vitest";
 import EndpointUsage from "./EndpointUsage";
 
 vi.mock("./components/EndpointUsageBarChart", () => ({
-  default: () => <div>Endpoint Usage Bar Chart</div>,
+  default: () => <div data-testid="endpoint-usage-bar-chart" />,
 }));
 
 vi.mock("./components/EndpointUsageLineChart", () => ({
-  default: () => <div>Endpoint Usage Line Chart</div>,
+  default: () => <div data-testid="endpoint-usage-line-chart" />,
 }));
 
 vi.mock("./components/EndpointUsageTable", () => ({
-  default: () => <div>Endpoint Usage Table</div>,
+  default: () => <div data-testid="endpoint-usage-table" />,
 }));
 
 describe("EndpointUsage", () => {
   it("should render", () => {
     render(<EndpointUsage />);
 
-    expect(screen.getByText("Endpoint Usage Table")).toBeInTheDocument();
-    expect(screen.getByText("Endpoint Usage Bar Chart")).toBeInTheDocument();
-    expect(screen.getByText("Endpoint Usage Line Chart")).toBeInTheDocument();
+    expect(screen.getByTestId("endpoint-usage-table")).toBeInTheDocument();
+    expect(screen.getByTestId("endpoint-usage-bar-chart")).toBeInTheDocument();
+    expect(screen.getByTestId("endpoint-usage-line-chart")).toBeInTheDocument();
   });
 });

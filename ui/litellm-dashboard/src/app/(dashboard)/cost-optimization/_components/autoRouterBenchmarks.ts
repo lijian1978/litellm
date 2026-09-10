@@ -25,7 +25,7 @@ export const groupLabel = (group: AutoRouterBenchmarkGroup, groups: readonly Aut
 export const viewFor = (data: AutoRouterBenchmarksResponse, selectedKey: string): BenchmarkView => {
   const group = data.groups.find((g) => groupKey(g) === selectedKey);
   if (selectedKey === ALL_ROUTERS || !group) {
-    return { label: "All auto-routers", stats: data.totals };
+    return { label: "cost:optimization.autoRouter.allRouters", stats: data.totals };
   }
   return { label: groupLabel(group, data.groups), stats: group };
 };
@@ -50,8 +50,8 @@ export const bucketRows = (cache: AutoRouterCacheStats): BucketRow[] => {
   return [
     {
       key: "same_model",
-      label: "Same model",
-      sublabel: "previous turn → same tier",
+      label: "cost:optimization.autoRouter.buckets.sameModel",
+      sublabel: "cost:optimization.autoRouter.buckets.sameModelSub",
       turns: cache.same_model.turns,
       sharePct: sharePctOf(cache.same_model.turns, total),
       hitRatePct: cache.same_model.hit_rate_pct,
@@ -59,8 +59,8 @@ export const bucketRows = (cache: AutoRouterCacheStats): BucketRow[] => {
     },
     {
       key: "first_visit",
-      label: "First visit",
-      sublabel: "previous turn → a tier not used yet",
+      label: "cost:optimization.autoRouter.buckets.firstVisit",
+      sublabel: "cost:optimization.autoRouter.buckets.firstVisitSub",
       turns: cache.first_visit.turns,
       sharePct: sharePctOf(cache.first_visit.turns, total),
       hitRatePct: cache.first_visit.hit_rate_pct,
@@ -68,8 +68,8 @@ export const bucketRows = (cache: AutoRouterCacheStats): BucketRow[] => {
     },
     {
       key: "return_to_tier",
-      label: "Return to tier",
-      sublabel: "previous turn → a tier used earlier",
+      label: "cost:optimization.autoRouter.buckets.returnToTier",
+      sublabel: "cost:optimization.autoRouter.buckets.returnToTierSub",
       turns: cache.return_to_tier.turns,
       sharePct: sharePctOf(cache.return_to_tier.turns, total),
       hitRatePct: cache.return_to_tier.hit_rate_pct,

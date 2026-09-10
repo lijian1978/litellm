@@ -9,6 +9,26 @@ vi.mock("@/utils/dataUtils", () => ({
   formatNumberWithCommas: vi.fn((v: number, d: number = 0) => (Number.isFinite(v) ? v.toFixed(d) : "-")),
 }));
 
+import enCost from "@/locales/en/cost.json";
+
+const t = (key: string, options?: Record<string, unknown>): string => {
+  const resolve = (k: string): unknown =>
+    k
+      .replace(/^cost:/, "")
+      .split(".")
+      .reduce<unknown>(
+        (acc, part) => (acc !== null && typeof acc === "object" ? (acc as Record<string, unknown>)[part] : undefined),
+        enCost,
+      );
+  const count = options?.count;
+  let resolved = resolve(key);
+  if (typeof resolved !== "string" && typeof count === "number") {
+    resolved = resolve(`${key}_${count === 1 ? "one" : "other"}`);
+  }
+  if (typeof resolved !== "string") throw new Error(`missing translation key: ${key}`);
+  return resolved.replace(/\{\{(\w+)\}\}/g, (_, name: string) => String(options?.[name] ?? `{{${name}}}`));
+};
+
 function makeCostResponse(overrides: Partial<CostEstimateResponse> = {}): CostEstimateResponse {
   return {
     model: "gpt-4",
@@ -78,30 +98,30 @@ describe("exportMultiToPDF", () => {
   });
 
   it("should open a new popup window", () => {
-    exportMultiToPDF(makeMultiResult());
+    exportMultiToPDF(makeMultiResult(), t);
     expect(window.open).toHaveBeenCalledWith("", "_blank");
   });
 
   it("should write HTML containing the report title", () => {
-    exportMultiToPDF(makeMultiResult());
+    exportMultiToPDF(makeMultiResult(), t);
     const html = mockPrintWindow.document.write.mock.calls[0][0] as string;
     expect(html).toContain("LLM Cost Estimate Report");
   });
 
   it("should include model name and provider in the generated HTML", () => {
-    exportMultiToPDF(makeMultiResult());
+    exportMultiToPDF(makeMultiResult(), t);
     const html = mockPrintWindow.document.write.mock.calls[0][0] as string;
     expect(html).toContain("gpt-4");
     expect(html).toContain("openai");
   });
 
   it("should close the document after writing", () => {
-    exportMultiToPDF(makeMultiResult());
+    exportMultiToPDF(makeMultiResult(), t);
     expect(mockPrintWindow.document.close).toHaveBeenCalledTimes(1);
   });
 
   it("should call print after the window finishes loading", () => {
-    exportMultiToPDF(makeMultiResult());
+    exportMultiToPDF(makeMultiResult(), t);
     expect(mockPrintWindow.print).not.toHaveBeenCalled();
     mockPrintWindow.onload!();
     expect(mockPrintWindow.print).toHaveBeenCalledTimes(1);
@@ -118,13 +138,13 @@ describe("exportMultiToPDF", () => {
         monthly_margin: 30.0,
       },
     });
-    exportMultiToPDF(multiResult);
+    exportMultiToPDF(multiResult, t);
     const html = mockPrintWindow.document.write.mock.calls[0][0] as string;
     expect(html).toContain("Margin/Request");
   });
 
   it("should not show the margin section when margin per request is zero", () => {
-    exportMultiToPDF(makeMultiResult());
+    exportMultiToPDF(makeMultiResult(), t);
     const html = mockPrintWindow.document.write.mock.calls[0][0] as string;
     expect(html).not.toContain("Margin/Request");
   });
@@ -132,7 +152,7 @@ describe("exportMultiToPDF", () => {
   it("should alert when popup is blocked", () => {
     vi.spyOn(window, "open").mockReturnValue(null);
     const alertSpy = vi.spyOn(window, "alert").mockImplementation(() => {});
-    exportMultiToPDF(makeMultiResult());
+    exportMultiToPDF(makeMultiResult(), t);
     expect(alertSpy).toHaveBeenCalledWith("Please allow popups to export PDF");
   });
 
@@ -161,7 +181,7 @@ describe("exportMultiToPDF", () => {
         monthly_margin: null,
       },
     };
-    exportMultiToPDF(multiResult);
+    exportMultiToPDF(multiResult, t);
     const html = mockPrintWindow.document.write.mock.calls[0][0] as string;
     expect(html).toContain("1 model configured");
     expect(html).toContain("claude-3");
@@ -192,7 +212,7 @@ describe("exportMultiToPDF", () => {
         monthly_margin: null,
       },
     };
-    exportMultiToPDF(multiResult);
+    exportMultiToPDF(multiResult, t);
     const html = mockPrintWindow.document.write.mock.calls[0][0] as string;
     expect(html).toContain("2 models configured");
   });
@@ -210,7 +230,7 @@ describe("exportMultiToCSV", () => {
   });
 
   it("should create an object URL and revoke it after download", () => {
-    exportMultiToCSV(makeMultiResult());
+    exportMultiToCSV(makeMultiResult(), t);
     expect(window.URL.createObjectURL).toHaveBeenCalledTimes(1);
     expect(window.URL.revokeObjectURL).toHaveBeenCalledWith("blob:mock-url");
   });
@@ -225,7 +245,7 @@ describe("exportMultiToCSV", () => {
     });
 
     const today = new Date().toISOString().split("T")[0];
-    exportMultiToCSV(makeMultiResult());
+    exportMultiToCSV(makeMultiResult(), t);
 
     expect(createdAnchors[0].download).toBe(`cost_estimate_multi_model_${today}.csv`);
   });
@@ -240,7 +260,7 @@ describe("exportMultiToCSV", () => {
       }
     } as unknown as typeof Blob;
 
-    exportMultiToCSV(makeMultiResult());
+    exportMultiToCSV(makeMultiResult(), t);
     globalThis.Blob = OriginalBlob;
 
     expect(csvContent).toContain("Model");
@@ -259,10 +279,10 @@ describe("exportMultiToCSV", () => {
       }
     } as unknown as typeof Blob;
 
-    exportMultiToCSV(makeMultiResult());
+    exportMultiToCSV(makeMultiResult(), t);
     globalThis.Blob = OriginalBlob;
 
-    expect(csvContent).toContain("COMBINED TOTALS");
+    expect(csvContent).toContain("Combined Totals");
   });
 
   it("should create a blob with the correct CSV mime type", () => {
@@ -275,7 +295,7 @@ describe("exportMultiToCSV", () => {
       }
     } as unknown as typeof Blob;
 
-    exportMultiToCSV(makeMultiResult());
+    exportMultiToCSV(makeMultiResult(), t);
     globalThis.Blob = OriginalBlob;
 
     expect(capturedType).toBe("text/csv;charset=utf-8;");
@@ -310,7 +330,7 @@ describe("exportMultiToCSV", () => {
       }
     } as unknown as typeof Blob;
 
-    exportMultiToCSV(multiResult);
+    exportMultiToCSV(multiResult, t);
     globalThis.Blob = OriginalBlob;
 
     // CSV should have metadata rows but no model data row for gpt-4

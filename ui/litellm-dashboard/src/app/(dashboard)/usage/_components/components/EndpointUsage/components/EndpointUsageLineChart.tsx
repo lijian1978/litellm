@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { LineChart, type ChartColor } from "@/components/shared/charts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DailyData } from "@/components/UsagePage/types";
@@ -8,7 +9,7 @@ interface EndpointUsageLineChartProps {
 }
 
 // Transform daily data into chart format
-function transformDailyDataToChart(dailyData: DailyData[]): Array<Record<string, string | number>> {
+function transformDailyDataToChart(dailyData: DailyData[], locale: string): Array<Record<string, string | number>> {
   const chartData: Array<Record<string, string | number>> = [];
 
   // Get all unique endpoint names
@@ -21,7 +22,7 @@ function transformDailyDataToChart(dailyData: DailyData[]): Array<Record<string,
 
   dailyData.forEach((day) => {
     const date = new Date(day.date);
-    const dateStr = date.toLocaleDateString("en-US", {
+    const dateStr = date.toLocaleDateString(locale, {
       month: "short",
       day: "numeric",
     });
@@ -43,13 +44,14 @@ function transformDailyDataToChart(dailyData: DailyData[]): Array<Record<string,
 }
 
 export function EndpointUsageLineChart({ dailyData }: EndpointUsageLineChartProps) {
+  const { t, i18n } = useTranslation();
   const chartData = useMemo(() => {
     if (!dailyData?.results || dailyData.results.length === 0) {
       return [];
     }
 
-    return transformDailyDataToChart(dailyData.results);
-  }, [dailyData]);
+    return transformDailyDataToChart(dailyData.results, i18n.language);
+  }, [dailyData, i18n.language]);
 
   // Get endpoint names from chart data
   const categories = useMemo(() => {
@@ -75,7 +77,7 @@ export function EndpointUsageLineChart({ dailyData }: EndpointUsageLineChartProp
   return (
     <Card className="mb-6">
       <CardHeader>
-        <CardTitle className="text-base font-semibold">Endpoint Usage Trends</CardTitle>
+        <CardTitle className="text-base font-semibold">{t("usage:endpoint.usageTrends")}</CardTitle>
       </CardHeader>
       <CardContent>
         <LineChart

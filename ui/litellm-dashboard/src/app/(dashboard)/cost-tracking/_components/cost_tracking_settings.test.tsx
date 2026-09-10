@@ -34,7 +34,7 @@ vi.mock("./use_margin_config", () => ({
 }));
 
 vi.mock("./pricing_calculator/index", () => ({
-  default: () => <div data-testid="pricing-calculator">Pricing Calculator</div>,
+  default: () => <div data-testid="pricing-calculator" />,
 }));
 
 vi.mock("@/components/llm_calls/fetch_models", () => ({
@@ -46,7 +46,7 @@ vi.mock("@/components/HelpLink", () => ({
 }));
 
 vi.mock("./how_it_works", () => ({
-  default: () => <div data-testid="how-it-works">How It Works</div>,
+  default: () => <div data-testid="how-it-works" />,
 }));
 
 vi.mock("@/components/provider_info_helpers", () => ({
@@ -91,10 +91,10 @@ describe("CostTrackingSettings", () => {
     expect(screen.getByText("Fee/Price Margin")).toBeInTheDocument();
   });
 
-  it("should always show the Pricing Calculator section", () => {
+  it("should always show the pricing calculator section", () => {
     renderWithProviders(<CostTrackingSettings {...ADMIN_PROPS} />);
     // The accordion header text appears in the DOM; getAllByText tolerates duplicates
-    expect(screen.getAllByText("Pricing Calculator").length).toBeGreaterThan(0);
+    expect(screen.getAllByTestId("pricing-calculator").length).toBeGreaterThan(0);
   });
 
   it("should show the pricing calculator component", async () => {
